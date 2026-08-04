@@ -1,0 +1,35 @@
+[project]
+name = "agent-regression-harness"
+version = "0.1.0"
+description = "Statistically sound regression detector for multi-agent system safety, validated against a toy Agno target."
+requires-python = ">=3.11"
+dependencies = [
+    "agno==2.6.17",
+    "anthropic==0.109.2",
+    "pydantic==2.13.4",
+    "pyyaml==6.0.2",
+    "python-dotenv==1.1.1",
+    # Part 3 (stats) and Part 5 (dashboard, streamlit run dashboard/app.py).
+    "numpy==2.3.4",
+    "pandas==2.3.3",
+    "scipy==1.16.3",
+    "statsmodels==0.14.5",
+    "streamlit==1.51.0",
+    "plotly==6.3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.4.2",
+    "pytest-cov==7.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["target_system", "attacker", "stats", "experiments", "dashboard"]
