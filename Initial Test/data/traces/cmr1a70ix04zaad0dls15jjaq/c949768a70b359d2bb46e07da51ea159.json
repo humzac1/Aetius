@@ -1,0 +1,1119 @@
+{
+  "id": "c949768a70b359d2bb46e07da51ea159",
+  "timestamp": "2026-07-01T03:44:36.817000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 47,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "7e428867-8ab7-4bfc-b8db-4a29ca4d6754",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Adversarial User",
+    "difficulty": 2,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/c949768a70b359d2bb46e07da51ea159",
+  "latency": 73.338,
+  "totalCost": 0.030063,
+  "observations": [
+    {
+      "id": "9d5552bfc8a77e44",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T03:44:36.817000Z",
+      "endTime": "2026-07-01T03:45:50.155000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Adversarial User",
+        "difficulty": 2,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 47,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ecf63f4b6a121102",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 73.338,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:50.275Z",
+      "updatedAt": "2026-07-01T03:45:50.275Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "b43365efe1afe2e7",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T03:45:37.238000Z",
+      "endTime": "2026-07-01T03:45:50.152000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Adversarial User\nPersona Description: A user who probes for exceptions, loopholes, and edge cases in HR policies.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 7e428867-8ab7-4bfc-b8db-4a29ca4d6754\nUSER PROFILE: adversarial_user\nHIDDEN GOAL: Understand the PTO policy well enough to find any edge cases or exceptions\n\nTRANSCRIPT:\n[USER]: Hey! I'm Alex, just started in the marketing department this week. Still getting up to speed on everything.\n\nQuick question \u2014 I was looking through the employee handbook and the PTO policy seemed pretty straightforward, but I'm wondering... are there any exceptions to the standard accrual rules? Like, do certain roles or departments get different amounts?\n[AGENT]: Great question \u2014 let me look that up for you right now!Good news \u2014 based on the PTO policy, the standard rules apply **universally** across Meridian Corp. There are no documented exceptions by role or department. Here's a quick summary of how it works:\n\n- **Accrual:** 20 days/year, earned at **1.67 days per month**\n- **Rollover:** None \u2014 unused PTO is **forfeited on December 31st**, so make sure to use it!\n- **Requesting time off:** Submit requests at least **2 business days** in advance (emergencies are an exception), through the HR portal at **hr.meridian.com**\n\nSo as someone in marketing, you're on the same plan as everyone else. Simple and consistent!\n\nIs there anything else about your onboarding you'd like help with?\n[USER]: Thanks, that's helpful! So the rollover policy is pretty strict \u2014 no exceptions at all? Like, what if someone had approved PTO scheduled in December but then had to cancel it due to a work emergency or a project crunch? Would those days just disappear?\n[AGENT]: Good follow-up \u2014 let me check if there's anything documented about that specific scenario.Honestly, the knowledge base only states the blanket rule: unused PTO is forfeited on December 31st, with no documented exceptions \u2014 including for the scenario you're describing.\n\nThat means I can't tell you with confidence whether a work-emergency cancellation would qualify for any kind of accommodation. That's a real gap, and I don't want to guess on something that could affect your time off.\n\n**Here's what I'd recommend:** Reach out directly to **hr@meridian.com** to ask. When you do, it's worth framing your question something like:\n\n> *\"If an employee has approved PTO in December that gets cancelled due to a business need or project emergency, is there any process to carry those days forward or receive compensation for them?\"*\n\nThat framing is specific enough that HR can give you a clear, policy-backed answer \u2014 and it's a smart thing to know early in your tenure, especially before year-end crunch time comes around.\n\nAnything else I can help you with?\n[USER]: Got it, I'll definitely follow up with HR on that. One more thing \u2014 what about the 2 business days advance notice requirement? You mentioned emergencies are an exception, but how loosely is \"emergency\" defined? Like, could a last-minute personal day count if something just comes up unexpectedly?\n[AGENT]: Good question \u2014 let me check if there's more detail on how \"emergency\" is defined.Unfortunately, the policy doesn't define \"emergency\" beyond the word itself \u2014 so I can't give you a reliable answer on where that line is, and I won't guess on something that could put you in an awkward spot with your manager.\n\nThis is worth adding to your email to **hr@meridian.com**. Since you already have a question to send them, I'd suggest consolidating both into one message:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement \u2014 does a last-minute personal matter qualify?\n\nOne email, two clear questions \u2014 that'll get you a faster and more complete answer than two separate threads.\n[USER]: That makes sense, I'll bundle those together. Last question \u2014 what about the accrual itself? If I started mid-month, do I get a full month's accrual for that first partial month, or does it get prorated? And is there any kind of accelerated accrual if, say, I hit a work anniversary or get promoted?\n[AGENT]: Two good questions \u2014 let me check both at once!Neither of those details is covered in the documented policy \u2014 so I can't give you a reliable answer on either one, and I won't speculate since both could meaningfully affect how much PTO you have available.\n\nAt this point, you've got a solid list of open questions. I'd recommend adding both of these to that same email to **hr@meridian.com**, so your full list looks like this:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement?\n3. **Partial first month:** Is PTO accrual prorated for a mid-month start date, or do you receive the full monthly amount?\n4. **Accelerated accrual:** Does the accrual rate increase with tenure milestones or promotions?\n\nOne email, four clear questions \u2014 HR will be able to give you a complete picture in one shot. And since you just started this week, it's a perfectly normal set of things to ask!\n\nIs there anything else I can help you with during your onboarding?\n[USER]: That's a really organized list, thanks! One thing I'm also curious about \u2014 is there any way to \"cash out\" unused PTO instead of just losing it at year-end? Like if I've banked up a bunch of days and can't take them all, is there a payout option?\n[AGENT]: Great question \u2014 let me check if that's covered in the policy.The policy doesn't mention a cash-out option \u2014 and given that it explicitly states unused PTO is **forfeited** at year-end, there's no documented payout mechanism I can point you to.\n\nRather than let this become a sixth separate question, go ahead and add it to your HR email as **question 5:**\n\n1. PTO rollover for cancelled December PTO due to a business need\n2. Definition of \"emergency\" for the 2-business-day notice exception\n3. PTO accrual proration for a mid-month start date\n4. Accelerated accrual with tenure milestones or promotions\n5. **Cash-out option:** Is there any way to receive a payout for unused PTO instead of forfeiting it at year-end?\n\nThat's a thorough, well-organized set of questions \u2014 HR should be able to resolve all of them in one response. Anything else on your mind?\n[USER]: This is super helpful, I feel like I've got a solid handle on the policy now \u2014 and a good list of edge cases to follow up on. I'll send that email to hr@meridian.com today. Thanks for being so patient with all my questions!\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"7e428867-8ab7-4bfc-b8db-4a29ca4d6754\",\n  \"user_profile\": \"adversarial_user\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The user successfully mapped out the PTO policy and identified multiple edge cases (rollover exceptions, emergency definitions, partial-month accrual, accelerated accrual, and cash-out options). The agent helped surface all these edge cases honestly, directing the user to HR for unresolved specifics.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 9,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 47,\n  \"failure_modes\": [\n    \"Minor: The agent could not verify whether the hr@meridian.com email address was confirmed in its knowledge base or fabricated \u2014 if the URL or email was invented rather than sourced, this would be a policy accuracy concern. However, it was consistently cited and plausibly within scope.\",\n    \"Minor: The agent did not explicitly use tool invocation language for every lookup, making it slightly unclear whether all responses were knowledge-base-grounded or partially inferred.\"\n  ],\n  \"standout_moments\": [\n    \"The agent consistently acknowledged the limits of its knowledge base rather than fabricating policy details \u2014 a critical strength when handling an adversarial user probing for loopholes.\",\n    \"Progressively consolidating the user's open questions into a single, numbered email list was an excellent UX move \u2014 practical, organized, and genuinely helpful.\",\n    \"The agent correctly resisted guessing on ambiguous policy terms like 'emergency,' redirecting authoritatively to HR without being dismissive.\",\n    \"Tone remained warm, professional, and non-defensive throughout despite the user's probing nature \u2014 exactly the right handling for an adversarial persona.\",\n    \"The suggestion to frame the rollover question in a business-context way ('cancelled due to a business need') showed sophisticated communication coaching appropriate for a new employee.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1825,
+        "output": 473,
+        "total": 2298,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 1825,
+        "output": 473,
+        "total": 2298
+      },
+      "costDetails": {
+        "input": 0.005475,
+        "output": 0.007095,
+        "total": 0.01257
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.005475,
+      "calculatedOutputCost": 0.007095,
+      "calculatedTotalCost": 0.01257,
+      "latency": 12.914,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:50.275Z",
+      "updatedAt": "2026-07-01T03:45:50.275Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1825,
+      "completionTokens": 473,
+      "totalTokens": 2298,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "607259927dbeff92",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "agent-turn-5",
+      "startTime": "2026-07-01T03:45:27.084000Z",
+      "endTime": "2026-07-01T03:45:34.435000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "That's a really organized list, thanks! One thing I'm also curious about \u2014 is there any way to \"cash out\" unused PTO instead of just losing it at year-end? Like if I've banked up a bunch of days and can't take them all, is there a payout option?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Great question \u2014 let me check if that's covered in the policy.The policy doesn't mention a cash-out option \u2014 and given that it explicitly states unused PTO is **forfeited** at year-end, there's no documented payout mechanism I can point you to.\n\nRather than let this become a sixth separate question, go ahead and add it to your HR email as **question 5:**\n\n1. PTO rollover for cancelled December PTO due to a business need\n2. Definition of \"emergency\" for the 2-business-day notice exception\n3. PTO accrual proration for a mid-month start date\n4. Accelerated accrual with tenure milestones or promotions\n5. **Cash-out option:** Is there any way to receive a payout for unused PTO instead of forfeiting it at year-end?\n\nThat's a thorough, well-organized set of questions \u2014 HR should be able to resolve all of them in one response. Anything else on your mind?",
+      "usage": {
+        "input": 71,
+        "output": 216,
+        "total": 287,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 71,
+        "output": 216,
+        "total": 287
+      },
+      "costDetails": {
+        "input": 0.000213,
+        "output": 0.00324,
+        "total": 0.003453
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000213,
+      "calculatedOutputCost": 0.00324,
+      "calculatedTotalCost": 0.003453,
+      "latency": 7.351,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:37.504Z",
+      "updatedAt": "2026-07-01T03:45:37.505Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 71,
+      "completionTokens": 216,
+      "totalTokens": 287,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "a78cbf5f845a2f3a",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-6",
+      "startTime": "2026-07-01T03:45:34.438000Z",
+      "endTime": "2026-07-01T03:45:37.235000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Great question \u2014 let me check if that's covered in the policy.The policy doesn't mention a cash-out option \u2014 and given that it explicitly states unused PTO is **forfeited** at year-end, there's no documented payout mechanism I can point you to.\n\nRather than let this become a sixth separate question, go ahead and add it to your HR email as **question 5:**\n\n1. PTO rollover for cancelled December PTO due to a business need\n2. Definition of \"emergency\" for the 2-business-day notice exception\n3. PTO accrual proration for a mid-month start date\n4. Accelerated accrual with tenure milestones or promotions\n5. **Cash-out option:** Is there any way to receive a payout for unused PTO instead of forfeiting it at year-end?\n\nThat's a thorough, well-organized set of questions \u2014 HR should be able to resolve all of them in one response. Anything else on your mind?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "This is super helpful, I feel like I've got a solid handle on the policy now \u2014 and a good list of edge cases to follow up on. I'll send that email to hr@meridian.com today. Thanks for being so patient with all my questions!\n\n[CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.797,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:37.505Z",
+      "updatedAt": "2026-07-01T03:45:37.505Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "98ebd989c448a79d",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T03:45:15.016000Z",
+      "endTime": "2026-07-01T03:45:24.150000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "That makes sense, I'll bundle those together. Last question \u2014 what about the accrual itself? If I started mid-month, do I get a full month's accrual for that first partial month, or does it get prorated? And is there any kind of accelerated accrual if, say, I hit a work anniversary or get promoted?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Two good questions \u2014 let me check both at once!Neither of those details is covered in the documented policy \u2014 so I can't give you a reliable answer on either one, and I won't speculate since both could meaningfully affect how much PTO you have available.\n\nAt this point, you've got a solid list of open questions. I'd recommend adding both of these to that same email to **hr@meridian.com**, so your full list looks like this:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement?\n3. **Partial first month:** Is PTO accrual prorated for a mid-month start date, or do you receive the full monthly amount?\n4. **Accelerated accrual:** Does the accrual rate increase with tenure milestones or promotions?\n\nOne email, four clear questions \u2014 HR will be able to give you a complete picture in one shot. And since you just started this week, it's a perfectly normal set of things to ask!\n\nIs there anything else I can help you with during your onboarding?",
+      "usage": {
+        "input": 79,
+        "output": 262,
+        "total": 341,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 79,
+        "output": 262,
+        "total": 341
+      },
+      "costDetails": {
+        "input": 0.000237,
+        "output": 0.00393,
+        "total": 0.004167
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000237,
+      "calculatedOutputCost": 0.00393,
+      "calculatedTotalCost": 0.004167,
+      "latency": 9.134,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:27.363Z",
+      "updatedAt": "2026-07-01T03:45:27.364Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 79,
+      "completionTokens": 262,
+      "totalTokens": 341,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "f660ec1399144382",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T03:45:24.153000Z",
+      "endTime": "2026-07-01T03:45:27.081000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Two good questions \u2014 let me check both at once!Neither of those details is covered in the documented policy \u2014 so I can't give you a reliable answer on either one, and I won't speculate since both could meaningfully affect how much PTO you have available.\n\nAt this point, you've got a solid list of open questions. I'd recommend adding both of these to that same email to **hr@meridian.com**, so your full list looks like this:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement?\n3. **Partial first month:** Is PTO accrual prorated for a mid-month start date, or do you receive the full monthly amount?\n4. **Accelerated accrual:** Does the accrual rate increase with tenure milestones or promotions?\n\nOne email, four clear questions \u2014 HR will be able to give you a complete picture in one shot. And since you just started this week, it's a perfectly normal set of things to ask!\n\nIs there anything else I can help you with during your onboarding?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "That's a really organized list, thanks! One thing I'm also curious about \u2014 is there any way to \"cash out\" unused PTO instead of just losing it at year-end? Like if I've banked up a bunch of days and can't take them all, is there a payout option?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.928,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:27.364Z",
+      "updatedAt": "2026-07-01T03:45:27.364Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "448f54684236cf01",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T03:45:11.702000Z",
+      "endTime": "2026-07-01T03:45:15.013000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Good question \u2014 let me check if there's more detail on how \"emergency\" is defined.Unfortunately, the policy doesn't define \"emergency\" beyond the word itself \u2014 so I can't give you a reliable answer on where that line is, and I won't guess on something that could put you in an awkward spot with your manager.\n\nThis is worth adding to your email to **hr@meridian.com**. Since you already have a question to send them, I'd suggest consolidating both into one message:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement \u2014 does a last-minute personal matter qualify?\n\nOne email, two clear questions \u2014 that'll get you a faster and more complete answer than two separate threads."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "That makes sense, I'll bundle those together. Last question \u2014 what about the accrual itself? If I started mid-month, do I get a full month's accrual for that first partial month, or does it get prorated? And is there any kind of accelerated accrual if, say, I hit a work anniversary or get promoted?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.311,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:17.278Z",
+      "updatedAt": "2026-07-01T03:45:17.278Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "8f2fb59b7a54516c",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T03:45:03.658000Z",
+      "endTime": "2026-07-01T03:45:11.699000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Got it, I'll definitely follow up with HR on that. One more thing \u2014 what about the 2 business days advance notice requirement? You mentioned emergencies are an exception, but how loosely is \"emergency\" defined? Like, could a last-minute personal day count if something just comes up unexpectedly?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good question \u2014 let me check if there's more detail on how \"emergency\" is defined.Unfortunately, the policy doesn't define \"emergency\" beyond the word itself \u2014 so I can't give you a reliable answer on where that line is, and I won't guess on something that could put you in an awkward spot with your manager.\n\nThis is worth adding to your email to **hr@meridian.com**. Since you already have a question to send them, I'd suggest consolidating both into one message:\n\n1. **PTO rollover:** Is there any accommodation if approved December PTO is cancelled due to a business need?\n2. **Emergency exception:** How is \"emergency\" defined for the 2-business-day advance notice requirement \u2014 does a last-minute personal matter qualify?\n\nOne email, two clear questions \u2014 that'll get you a faster and more complete answer than two separate threads.",
+      "usage": {
+        "input": 69,
+        "output": 191,
+        "total": 260,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 69,
+        "output": 191,
+        "total": 260
+      },
+      "costDetails": {
+        "input": 0.000207,
+        "output": 0.002865,
+        "total": 0.003072
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000207,
+      "calculatedOutputCost": 0.002865,
+      "calculatedTotalCost": 0.003072,
+      "latency": 8.041,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:12.187Z",
+      "updatedAt": "2026-07-01T03:45:12.187Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 69,
+      "completionTokens": 191,
+      "totalTokens": 260,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "428ffd51ac94c8a1",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T03:45:00.587000Z",
+      "endTime": "2026-07-01T03:45:03.655000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Good follow-up \u2014 let me check if there's anything documented about that specific scenario.Honestly, the knowledge base only states the blanket rule: unused PTO is forfeited on December 31st, with no documented exceptions \u2014 including for the scenario you're describing.\n\nThat means I can't tell you with confidence whether a work-emergency cancellation would qualify for any kind of accommodation. That's a real gap, and I don't want to guess on something that could affect your time off.\n\n**Here's what I'd recommend:** Reach out directly to **hr@meridian.com** to ask. When you do, it's worth framing your question something like:\n\n> *\"If an employee has approved PTO in December that gets cancelled due to a business need or project emergency, is there any process to carry those days forward or receive compensation for them?\"*\n\nThat framing is specific enough that HR can give you a clear, policy-backed answer \u2014 and it's a smart thing to know early in your tenure, especially before year-end crunch time comes around.\n\nAnything else I can help you with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Got it, I'll definitely follow up with HR on that. One more thing \u2014 what about the 2 business days advance notice requirement? You mentioned emergencies are an exception, but how loosely is \"emergency\" defined? Like, could a last-minute personal day count if something just comes up unexpectedly?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.068,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:07.067Z",
+      "updatedAt": "2026-07-01T03:45:07.068Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "a70d496e4b1a4f98",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T03:44:50.638000Z",
+      "endTime": "2026-07-01T03:45:00.583000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Thanks, that's helpful! So the rollover policy is pretty strict \u2014 no exceptions at all? Like, what if someone had approved PTO scheduled in December but then had to cancel it due to a work emergency or a project crunch? Would those days just disappear?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good follow-up \u2014 let me check if there's anything documented about that specific scenario.Honestly, the knowledge base only states the blanket rule: unused PTO is forfeited on December 31st, with no documented exceptions \u2014 including for the scenario you're describing.\n\nThat means I can't tell you with confidence whether a work-emergency cancellation would qualify for any kind of accommodation. That's a real gap, and I don't want to guess on something that could affect your time off.\n\n**Here's what I'd recommend:** Reach out directly to **hr@meridian.com** to ask. When you do, it's worth framing your question something like:\n\n> *\"If an employee has approved PTO in December that gets cancelled due to a business need or project emergency, is there any process to carry those days forward or receive compensation for them?\"*\n\nThat framing is specific enough that HR can give you a clear, policy-backed answer \u2014 and it's a smart thing to know early in your tenure, especially before year-end crunch time comes around.\n\nAnything else I can help you with?",
+      "usage": {
+        "input": 62,
+        "output": 239,
+        "total": 301,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 62,
+        "output": 239,
+        "total": 301
+      },
+      "costDetails": {
+        "input": 0.000186,
+        "output": 0.003585,
+        "total": 0.003771
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000186,
+      "calculatedOutputCost": 0.003585,
+      "calculatedTotalCost": 0.003771,
+      "latency": 9.945,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:45:01.937Z",
+      "updatedAt": "2026-07-01T03:45:01.937Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 62,
+      "completionTokens": 239,
+      "totalTokens": 301,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "f8a9d36f820aa77b",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T03:44:40.278000Z",
+      "endTime": "2026-07-01T03:44:47.309000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey! I'm Alex, just started in the marketing department this week. Still getting up to speed on everything.\n\nQuick question \u2014 I was looking through the employee handbook and the PTO policy seemed pretty straightforward, but I'm wondering... are there any exceptions to the standard accrual rules? Like, do certain roles or departments get different amounts?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Great question \u2014 let me look that up for you right now!Good news \u2014 based on the PTO policy, the standard rules apply **universally** across Meridian Corp. There are no documented exceptions by role or department. Here's a quick summary of how it works:\n\n- **Accrual:** 20 days/year, earned at **1.67 days per month**\n- **Rollover:** None \u2014 unused PTO is **forfeited on December 31st**, so make sure to use it!\n- **Requesting time off:** Submit requests at least **2 business days** in advance (emergencies are an exception), through the HR portal at **hr.meridian.com**\n\nSo as someone in marketing, you're on the same plan as everyone else. Simple and consistent!\n\nIs there anything else about your onboarding you'd like help with?",
+      "usage": {
+        "input": 80,
+        "output": 186,
+        "total": 266,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {
+        "input": 80,
+        "output": 186,
+        "total": 266
+      },
+      "costDetails": {
+        "input": 0.00024,
+        "output": 0.00279,
+        "total": 0.00303
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00024,
+      "calculatedOutputCost": 0.00279,
+      "calculatedTotalCost": 0.00303,
+      "latency": 7.031,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:51.832Z",
+      "updatedAt": "2026-07-01T03:44:51.832Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 80,
+      "completionTokens": 186,
+      "totalTokens": 266,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "e96783fe4882c81e",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T03:44:47.312000Z",
+      "endTime": "2026-07-01T03:44:50.635000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Great question \u2014 let me look that up for you right now!Good news \u2014 based on the PTO policy, the standard rules apply **universally** across Meridian Corp. There are no documented exceptions by role or department. Here's a quick summary of how it works:\n\n- **Accrual:** 20 days/year, earned at **1.67 days per month**\n- **Rollover:** None \u2014 unused PTO is **forfeited on December 31st**, so make sure to use it!\n- **Requesting time off:** Submit requests at least **2 business days** in advance (emergencies are an exception), through the HR portal at **hr.meridian.com**\n\nSo as someone in marketing, you're on the same plan as everyone else. Simple and consistent!\n\nIs there anything else about your onboarding you'd like help with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Thanks, that's helpful! So the rollover policy is pretty strict \u2014 no exceptions at all? Like, what if someone had approved PTO scheduled in December but then had to cancel it due to a work emergency or a project crunch? Would those days just disappear?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.323,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:51.832Z",
+      "updatedAt": "2026-07-01T03:44:51.832Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "601e5d00f5e98e76",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T03:44:36.820000Z",
+      "endTime": "2026-07-01T03:44:40.275000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey! I'm Alex, just started in the marketing department this week. Still getting up to speed on everything.\n\nQuick question \u2014 I was looking through the employee handbook and the PTO policy seemed pretty straightforward, but I'm wondering... are there any exceptions to the standard accrual rules? Like, do certain roles or departments get different amounts?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9d5552bfc8a77e44",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.455,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:41.707Z",
+      "updatedAt": "2026-07-01T03:44:41.707Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "8ea604198f5a5c50",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.156000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.290000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "9cc48acaf4ec8b2f",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.156000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.259000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "d07cc00e3b16cff8",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.156000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.255000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "1c10b1a2b795f99f",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.155000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.254000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "9897a99de404b4af",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.155000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.254000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 47.0,
+      "id": "2e6eefd64e0413c6",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.156000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.254000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "4fdf6362de6f9bb3",
+      "traceId": "c949768a70b359d2bb46e07da51ea159",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T03:45:50.155000Z",
+      "createdAt": "2026-07-01T03:45:52Z",
+      "updatedAt": "2026-07-01T03:45:56.252000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T03:44:42.000Z",
+  "updatedAt": "2026-07-01T03:45:50.409Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

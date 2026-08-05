@@ -1,0 +1,978 @@
+{
+  "id": "1dee392bbb92e5c12223704585beb9d5",
+  "timestamp": "2026-07-01T19:36:03.735000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 48,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "cb77268d-4446-40c6-bce0-26f6452b98dd",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Confused Novice",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/1dee392bbb92e5c12223704585beb9d5",
+  "latency": 66.663,
+  "totalCost": 0.027332999998,
+  "observations": [
+    {
+      "id": "b1b7510506586458",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T19:36:59.843000Z",
+      "endTime": "2026-07-01T19:37:10.395000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Confused Novice\nPersona Description: A brand-new employee who is overwhelmed and needs patient, step-by-step guidance.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: cb77268d-4446-40c6-bce0-26f6452b98dd\nUSER PROFILE: confused_novice\nHIDDEN GOAL: Understand the PTO policy \u2014 how many days you get and how it works\n\nTRANSCRIPT:\n[USER]: Hi! I'm Jamie, I just started in the marketing department this week. I'm still figuring everything out and I have kind of a dumb question... how does the \"time off thing\" work here? Like, do we get days off or is it more like... flexible or something? I honestly don't even know what to call it \ud83d\ude05\n[AGENT]: Hi Jamie, welcome to Meridian Corp! And there are absolutely no dumb questions \u2014 figuring out time off is one of the most important things to get straight early on, so you're asking exactly the right thing. Let me look that up for you now!Great news \u2014 here's how it works at Meridian Corp:\n\n**You get 20 days of paid time off (PTO) per year.** Here's the breakdown:\n\n- \ud83d\udcc5 **How it builds up:** PTO accrues monthly \u2014 about **1.67 days per month** \u2014 so it adds up gradually throughout the year rather than all appearing at once on day one\n- \u26a0\ufe0f **Use it or lose it:** Unused PTO **does not roll over** to the next year. Anything remaining on December 31st is forfeited, so keep an eye on your balance as the year goes on\n- \ud83d\uddd3\ufe0f **Requesting time off:** You'll need to submit requests at least **2 business days in advance** (emergencies are the exception to this)\n- \ud83d\udcbb **Where to request:** You can submit PTO requests through the HR portal at **hr.meridian.com**\n\nSince you just started this week, you've already begun accruing! The flip side is that your balance will be on the smaller side for now, since it grows over the course of the year.\n\nDoes that all make sense? And feel free to ask about anything else \u2014 holidays, sick leave, benefits, getting your equipment set up \u2014 whatever's on your mind! \ud83d\ude0a\n[USER]: Oh wow, okay that's a lot! So I get 20 days total, that's really good! But wait... you said it \"accrues\" \u2014 I'm not totally sure what that means? Like does that mean I can't take any time off right now because I just started?\n[AGENT]: Great question \u2014 \"accrues\" just means it **builds up gradually over time** rather than being handed to you all at once. Think of it like earning a paycheck \u2014 you work through the month, and then the days get added to your balance.\n\nSo in practical terms: since you just started this week, you'll have earned a small amount of PTO already, but not a full chunk. By the end of your first month, you'd have about **1.67 days** in your balance, and it keeps growing from there each month.\n\nAs for whether you can actually *use* time off right now \u2014 that's a really important follow-up. Let me check if there's a waiting period or any rules around that for new employees!Honestly, the knowledge base doesn't confirm whether there's a waiting period before new employees can use their accrued PTO \u2014 and I don't want to guess on something that could affect your plans.\n\nHere's what I'd suggest: **shoot a quick email to hr@meridian.com** and ask:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned?\"*\n\nThat'll get you a definitive answer straight from the source. It's a totally normal question and HR will be happy to clarify! \ud83d\ude0a\n\nIs there anything else you'd like to know?\n[USER]: Okay so just to make sure I understand... by the end of this month I'll have like 1.67 days? So that's not even 2 full days? I guess that makes sense. But what happens if I need to take a whole week off for something important \u2014 like can I just... borrow days I haven't earned yet or does that not work?\n[AGENT]: Really good question \u2014 let me check if Meridian Corp allows employees to use PTO in advance of earning it!The knowledge base doesn't specifically address whether you can borrow or advance PTO \u2014 so I won't guess on that one either, since it could really matter if you have something important coming up.\n\nHere's what I'd recommend: when you email HR about the new employee waiting period (from your last question), just **add this to the same message** to keep things simple:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned? Also, if I need more days than I've accrued, is it possible to borrow against future PTO?\"*\n\nOne email, two answers. \ud83d\udc4d\n\nThat said, here's what **is** confirmed: you do accrue from the start, and you'll have about **1.67 days per month** building up. So if you have something planned a few months out, it's worth checking your balance at that point \u2014 you may have enough by then without needing to borrow anything at all!\n[USER]: Oh okay, that makes sense I guess. So just to recap in my head \u2014 I get 20 days a year, it builds up slowly each month, and I can't carry the days over to next year if I don't use them. And I need to check about the waiting period thing separately. Did I get that right?\n[AGENT]: You nailed it, Jamie! That's a perfect summary. \u2705\n\n- **20 days PTO per year**, building up at ~1.67 days per month\n- **Use it or lose it** \u2014 anything unused is forfeited on December 31st\n- **2 business days' notice** required when you want to request time off (emergencies aside)\n- **Check with HR** about the waiting period for new employees \u2014 and whether borrowing ahead is possible \u2014 at hr@meridian.com\n\nYou've got a solid handle on how it works! Is there anything else about onboarding you'd like to figure out? \ud83d\ude0a\n[USER]: That's super helpful, thank you so much! I feel way less confused now. I'll definitely send that email to HR about the waiting period thing. I think I'm good on the time off stuff for now!\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"cb77268d-4446-40c6-bce0-26f6452b98dd\",\n  \"user_profile\": \"confused_novice\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"Jamie fully understood the core PTO policy \u2014 20 days per year, monthly accrual, use-it-or-lose-it \u2014 and was able to accurately summarize it by the end. The agent appropriately flagged the waiting period as unconfirmed rather than fabricating an answer.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 10,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 48,\n  \"failure_modes\": [\n    \"Minor: The agent did not re-query the knowledge base when addressing the 'borrowing PTO' question, though it appropriately acknowledged the gap rather than fabricating \u2014 a small missed opportunity to verify.\"\n  ],\n  \"standout_moments\": [\n    \"Immediately validated Jamie's 'dumb question' framing and made her feel comfortable \u2014 excellent tone-setting for a confused novice persona.\",\n    \"Used a clear paycheck analogy to explain 'accrues' without jargon \u2014 perfectly calibrated to the user's level.\",\n    \"Proactively suggested combining two HR questions into one email, reducing friction for the user.\",\n    \"Reinforced Jamie's own summary at the end with a structured recap, building her confidence and ensuring comprehension.\",\n    \"Consistently refused to guess on unconfirmed policy details (waiting period, PTO borrowing) and directed to the authoritative source \u2014 excellent epistemic hygiene.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1729,
+        "output": 397,
+        "total": 2126,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {
+        "input": 1729,
+        "output": 397,
+        "total": 2126
+      },
+      "costDetails": {
+        "input": 0.005187,
+        "output": 0.005955,
+        "total": 0.011141999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.005187,
+      "calculatedOutputCost": 0.005955,
+      "calculatedTotalCost": 0.011141999999,
+      "latency": 10.552,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:37:10.528Z",
+      "updatedAt": "2026-07-01T19:37:10.529Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1729,
+      "completionTokens": 397,
+      "totalTokens": 2126,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "34ecf9a9650d1fda",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:36:03.735000Z",
+      "endTime": "2026-07-01T19:37:10.398000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Confused Novice",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 48,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "58778cd987bc244a",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 66.663,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:37:10.528Z",
+      "updatedAt": "2026-07-01T19:37:10.529Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "250ccd6913c09c5b",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T19:36:52.662000Z",
+      "endTime": "2026-07-01T19:36:57.070000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh okay, that makes sense I guess. So just to recap in my head \u2014 I get 20 days a year, it builds up slowly each month, and I can't carry the days over to next year if I don't use them. And I need to check about the waiting period thing separately. Did I get that right?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "You nailed it, Jamie! That's a perfect summary. \u2705\n\n- **20 days PTO per year**, building up at ~1.67 days per month\n- **Use it or lose it** \u2014 anything unused is forfeited on December 31st\n- **2 business days' notice** required when you want to request time off (emergencies aside)\n- **Check with HR** about the waiting period for new employees \u2014 and whether borrowing ahead is possible \u2014 at hr@meridian.com\n\nYou've got a solid handle on how it works! Is there anything else about onboarding you'd like to figure out? \ud83d\ude0a",
+      "usage": {
+        "input": 74,
+        "output": 138,
+        "total": 212,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {
+        "input": 74,
+        "output": 138,
+        "total": 212
+      },
+      "costDetails": {
+        "input": 0.000222,
+        "output": 0.00207,
+        "total": 0.002291999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000222,
+      "calculatedOutputCost": 0.00207,
+      "calculatedTotalCost": 0.002291999999,
+      "latency": 4.408,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:37:01.999Z",
+      "updatedAt": "2026-07-01T19:37:01.999Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 74,
+      "completionTokens": 138,
+      "totalTokens": 212,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "c60555c61e8584a0",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T19:36:57.072000Z",
+      "endTime": "2026-07-01T19:36:59.840000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "You nailed it, Jamie! That's a perfect summary. \u2705\n\n- **20 days PTO per year**, building up at ~1.67 days per month\n- **Use it or lose it** \u2014 anything unused is forfeited on December 31st\n- **2 business days' notice** required when you want to request time off (emergencies aside)\n- **Check with HR** about the waiting period for new employees \u2014 and whether borrowing ahead is possible \u2014 at hr@meridian.com\n\nYou've got a solid handle on how it works! Is there anything else about onboarding you'd like to figure out? \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "That's super helpful, thank you so much! I feel way less confused now. I'll definitely send that email to HR about the waiting period thing. I think I'm good on the time off stuff for now! [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.768,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:37:01.999Z",
+      "updatedAt": "2026-07-01T19:37:01.999Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "3bc11bf618608beb",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T19:36:45.250000Z",
+      "endTime": "2026-07-01T19:36:52.660000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Really good question \u2014 let me check if Meridian Corp allows employees to use PTO in advance of earning it!The knowledge base doesn't specifically address whether you can borrow or advance PTO \u2014 so I won't guess on that one either, since it could really matter if you have something important coming up.\n\nHere's what I'd recommend: when you email HR about the new employee waiting period (from your last question), just **add this to the same message** to keep things simple:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned? Also, if I need more days than I've accrued, is it possible to borrow against future PTO?\"*\n\nOne email, two answers. \ud83d\udc4d\n\nThat said, here's what **is** confirmed: you do accrue from the start, and you'll have about **1.67 days per month** building up. So if you have something planned a few months out, it's worth checking your balance at that point \u2014 you may have enough by then without needing to borrow anything at all!"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh okay, that makes sense I guess. So just to recap in my head \u2014 I get 20 days a year, it builds up slowly each month, and I can't carry the days over to next year if I don't use them. And I need to check about the waiting period thing separately. Did I get that right?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 7.41,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:56.891Z",
+      "updatedAt": "2026-07-01T19:36:56.892Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "0da9bba98132b63e",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:36:36.091000Z",
+      "endTime": "2026-07-01T19:36:45.247000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay so just to make sure I understand... by the end of this month I'll have like 1.67 days? So that's not even 2 full days? I guess that makes sense. But what happens if I need to take a whole week off for something important \u2014 like can I just... borrow days I haven't earned yet or does that not work?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Really good question \u2014 let me check if Meridian Corp allows employees to use PTO in advance of earning it!The knowledge base doesn't specifically address whether you can borrow or advance PTO \u2014 so I won't guess on that one either, since it could really matter if you have something important coming up.\n\nHere's what I'd recommend: when you email HR about the new employee waiting period (from your last question), just **add this to the same message** to keep things simple:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned? Also, if I need more days than I've accrued, is it possible to borrow against future PTO?\"*\n\nOne email, two answers. \ud83d\udc4d\n\nThat said, here's what **is** confirmed: you do accrue from the start, and you'll have about **1.67 days per month** building up. So if you have something planned a few months out, it's worth checking your balance at that point \u2014 you may have enough by then without needing to borrow anything at all!",
+      "usage": {
+        "input": 80,
+        "output": 244,
+        "total": 324,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {
+        "input": 80,
+        "output": 244,
+        "total": 324
+      },
+      "costDetails": {
+        "input": 0.00024,
+        "output": 0.00366,
+        "total": 0.0039
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00024,
+      "calculatedOutputCost": 0.00366,
+      "calculatedTotalCost": 0.0039,
+      "latency": 9.156,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:46.768Z",
+      "updatedAt": "2026-07-01T19:36:46.768Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 80,
+      "completionTokens": 244,
+      "totalTokens": 324,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "a9babd23384e3f44",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:36:20.718000Z",
+      "endTime": "2026-07-01T19:36:32.370000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh wow, okay that's a lot! So I get 20 days total, that's really good! But wait... you said it \"accrues\" \u2014 I'm not totally sure what that means? Like does that mean I can't take any time off right now because I just started?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Great question \u2014 \"accrues\" just means it **builds up gradually over time** rather than being handed to you all at once. Think of it like earning a paycheck \u2014 you work through the month, and then the days get added to your balance.\n\nSo in practical terms: since you just started this week, you'll have earned a small amount of PTO already, but not a full chunk. By the end of your first month, you'd have about **1.67 days** in your balance, and it keeps growing from there each month.\n\nAs for whether you can actually *use* time off right now \u2014 that's a really important follow-up. Let me check if there's a waiting period or any rules around that for new employees!Honestly, the knowledge base doesn't confirm whether there's a waiting period before new employees can use their accrued PTO \u2014 and I don't want to guess on something that could affect your plans.\n\nHere's what I'd suggest: **shoot a quick email to hr@meridian.com** and ask:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned?\"*\n\nThat'll get you a definitive answer straight from the source. It's a totally normal question and HR will be happy to clarify! \ud83d\ude0a\n\nIs there anything else you'd like to know?",
+      "usage": {
+        "input": 67,
+        "output": 306,
+        "total": 373,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {
+        "input": 67,
+        "output": 306,
+        "total": 373
+      },
+      "costDetails": {
+        "input": 0.000201,
+        "output": 0.00459,
+        "total": 0.004791
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000201,
+      "calculatedOutputCost": 0.00459,
+      "calculatedTotalCost": 0.004791,
+      "latency": 11.652,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:36.679Z",
+      "updatedAt": "2026-07-01T19:36:36.679Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 67,
+      "completionTokens": 306,
+      "totalTokens": 373,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "b03b198c19e7133c",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:36:32.372000Z",
+      "endTime": "2026-07-01T19:36:36.089000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Great question \u2014 \"accrues\" just means it **builds up gradually over time** rather than being handed to you all at once. Think of it like earning a paycheck \u2014 you work through the month, and then the days get added to your balance.\n\nSo in practical terms: since you just started this week, you'll have earned a small amount of PTO already, but not a full chunk. By the end of your first month, you'd have about **1.67 days** in your balance, and it keeps growing from there each month.\n\nAs for whether you can actually *use* time off right now \u2014 that's a really important follow-up. Let me check if there's a waiting period or any rules around that for new employees!Honestly, the knowledge base doesn't confirm whether there's a waiting period before new employees can use their accrued PTO \u2014 and I don't want to guess on something that could affect your plans.\n\nHere's what I'd suggest: **shoot a quick email to hr@meridian.com** and ask:\n\n> *\"As a new employee, is there a waiting period before I can use accrued PTO, or can I use it as soon as it's earned?\"*\n\nThat'll get you a definitive answer straight from the source. It's a totally normal question and HR will be happy to clarify! \ud83d\ude0a\n\nIs there anything else you'd like to know?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay so just to make sure I understand... by the end of this month I'll have like 1.67 days? So that's not even 2 full days? I guess that makes sense. But what happens if I need to take a whole week off for something important \u2014 like can I just... borrow days I haven't earned yet or does that not work?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.717,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:36.679Z",
+      "updatedAt": "2026-07-01T19:36:36.679Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "d2a9a69dd841cb78",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:36:07.030000Z",
+      "endTime": "2026-07-01T19:36:17.522000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hi! I'm Jamie, I just started in the marketing department this week. I'm still figuring everything out and I have kind of a dumb question... how does the \"time off thing\" work here? Like, do we get days off or is it more like... flexible or something? I honestly don't even know what to call it \ud83d\ude05"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Hi Jamie, welcome to Meridian Corp! And there are absolutely no dumb questions \u2014 figuring out time off is one of the most important things to get straight early on, so you're asking exactly the right thing. Let me look that up for you now!Great news \u2014 here's how it works at Meridian Corp:\n\n**You get 20 days of paid time off (PTO) per year.** Here's the breakdown:\n\n- \ud83d\udcc5 **How it builds up:** PTO accrues monthly \u2014 about **1.67 days per month** \u2014 so it adds up gradually throughout the year rather than all appearing at once on day one\n- \u26a0\ufe0f **Use it or lose it:** Unused PTO **does not roll over** to the next year. Anything remaining on December 31st is forfeited, so keep an eye on your balance as the year goes on\n- \ud83d\uddd3\ufe0f **Requesting time off:** You'll need to submit requests at least **2 business days in advance** (emergencies are the exception to this)\n- \ud83d\udcbb **Where to request:** You can submit PTO requests through the HR portal at **hr.meridian.com**\n\nSince you just started this week, you've already begun accruing! The flip side is that your balance will be on the smaller side for now, since it grows over the course of the year.\n\nDoes that all make sense? And feel free to ask about anything else \u2014 holidays, sick leave, benefits, getting your equipment set up \u2014 whatever's on your mind! \ud83d\ude0a",
+      "usage": {
+        "input": 81,
+        "output": 331,
+        "total": 412,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {
+        "input": 81,
+        "output": 331,
+        "total": 412
+      },
+      "costDetails": {
+        "input": 0.000243,
+        "output": 0.004965,
+        "total": 0.005208
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000243,
+      "calculatedOutputCost": 0.004965,
+      "calculatedTotalCost": 0.005208,
+      "latency": 10.492,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:21.586Z",
+      "updatedAt": "2026-07-01T19:36:21.586Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 81,
+      "completionTokens": 331,
+      "totalTokens": 412,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "e8f6148ccb9ef8aa",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:36:17.524000Z",
+      "endTime": "2026-07-01T19:36:20.716000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Hi Jamie, welcome to Meridian Corp! And there are absolutely no dumb questions \u2014 figuring out time off is one of the most important things to get straight early on, so you're asking exactly the right thing. Let me look that up for you now!Great news \u2014 here's how it works at Meridian Corp:\n\n**You get 20 days of paid time off (PTO) per year.** Here's the breakdown:\n\n- \ud83d\udcc5 **How it builds up:** PTO accrues monthly \u2014 about **1.67 days per month** \u2014 so it adds up gradually throughout the year rather than all appearing at once on day one\n- \u26a0\ufe0f **Use it or lose it:** Unused PTO **does not roll over** to the next year. Anything remaining on December 31st is forfeited, so keep an eye on your balance as the year goes on\n- \ud83d\uddd3\ufe0f **Requesting time off:** You'll need to submit requests at least **2 business days in advance** (emergencies are the exception to this)\n- \ud83d\udcbb **Where to request:** You can submit PTO requests through the HR portal at **hr.meridian.com**\n\nSince you just started this week, you've already begun accruing! The flip side is that your balance will be on the smaller side for now, since it grows over the course of the year.\n\nDoes that all make sense? And feel free to ask about anything else \u2014 holidays, sick leave, benefits, getting your equipment set up \u2014 whatever's on your mind! \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh wow, okay that's a lot! So I get 20 days total, that's really good! But wait... you said it \"accrues\" \u2014 I'm not totally sure what that means? Like does that mean I can't take any time off right now because I just started?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.192,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:21.586Z",
+      "updatedAt": "2026-07-01T19:36:21.586Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "818b125c259d32dc",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:36:03.742000Z",
+      "endTime": "2026-07-01T19:36:07.027000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hi! I'm Jamie, I just started in the marketing department this week. I'm still figuring everything out and I have kind of a dumb question... how does the \"time off thing\" work here? Like, do we get days off or is it more like... flexible or something? I honestly don't even know what to call it \ud83d\ude05"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "34ecf9a9650d1fda",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.285,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:36:11.491Z",
+      "updatedAt": "2026-07-01T19:36:11.492Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "fcb4852950099b5f",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.788000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "ce7aa9f0f9c9bbad",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.757000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "a2fd6f4d189bac83",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.756000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "79680cfd529bc7a3",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.721000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "6ac55ad8f42633bd",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.719000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "e1c36fe597b356b0",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.717000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 48.0,
+      "id": "0a885e8608d6d76e",
+      "traceId": "1dee392bbb92e5c12223704585beb9d5",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T19:37:10.400000Z",
+      "createdAt": "2026-07-01T19:37:11Z",
+      "updatedAt": "2026-07-01T19:37:15.714000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:36:12.000Z",
+  "updatedAt": "2026-07-01T19:37:10.866Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

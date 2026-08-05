@@ -1,0 +1,1119 @@
+{
+  "id": "582ba30b54b2e89f45219d43da99f49e",
+  "timestamp": "2026-07-01T03:43:37.447000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 46,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "89e1aaa7-e38c-4e44-9b84-d4e36f1be005",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Impatient Expert",
+    "difficulty": 2,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/582ba30b54b2e89f45219d43da99f49e",
+  "latency": 58.53,
+  "totalCost": 0.022701,
+  "observations": [
+    {
+      "id": "17704f3faf9802d0",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T03:44:23.234000Z",
+      "endTime": "2026-07-01T03:44:35.973000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Impatient Expert\nPersona Description: A seasoned professional who wants fast, precise answers with no hand-holding.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 89e1aaa7-e38c-4e44-9b84-d4e36f1be005\nUSER PROFILE: impatient_expert\nHIDDEN GOAL: Get access to the engineering Slack channels as quickly as possible\n\nTRANSCRIPT:\n[USER]: Hey, I'm Alex Chen \u2014 just joined the engineering team today as a senior backend engineer. Who do I talk to about getting access to the engineering Slack channels? I need to be looped in ASAP.\n[AGENT]: Let me look that up for you right away.Got it, Alex. Here's the rundown:\n\n**Slack invite:** You should receive a workspace invite within **24 hours of your start date**. If you don't have it by end of day tomorrow, email **it@meridian.com**.\n\n**Engineering channels specifically:** There are two fast paths:\n1. **Ask your manager or a teammate** to add you directly to the relevant engineering channels \u2014 this is usually the quickest route on day one.\n2. Once you're in Slack, post in **#it-help** to request access to specific channels.\n\nNote that #general and #announcements are provisioned automatically, but team-specific channels like #engineering need to be explicitly requested via one of those two options.\n\nSince you need this ASAP, I'd recommend pinging your manager now \u2014 they can add you immediately without any IT queue. If you don't have a manager contact yet, let me know and I can help you figure out the right next step.\n[USER]: Got it. My manager is Sarah Okonkwo \u2014 do you have her Slack handle or email so I can ping her directly right now?\n[AGENT]: That's not something I have access to \u2014 I don't have an employee directory or individual contact details in my knowledge base.\n\nHere are your fastest options to reach Sarah right now:\n\n- **Check your onboarding email** \u2014 manager contact info is often included there\n- **Email hr@meridian.com** and ask for Sarah Okonkwo's contact details\n- **Email it@meridian.com** if you need Slack access unblocked immediately and can't reach her \u2014 mention it's blocking your day-one setup\n\nIs there anything else I can help you with on the onboarding front?\n[USER]: Has my Slack invite been sent yet, or is that something you can verify from your end?\n[AGENT]: That's not something I can verify \u2014 I don't have access to real-time systems or provisioning status. I can only work from Meridian's documented policies.\n\nWhat I can tell you based on policy: your invite should arrive **within 24 hours of your start date**. If it hasn't shown up by end of day tomorrow, that's your cue to email **it@meridian.com**.\n\nIn the meantime, reaching out to Sarah directly (via her email or phone, if you can track that down) is still your fastest path to getting into those engineering channels today.\n[USER]: Fair enough. Is there a self-service IT portal where I can submit a Slack access request directly, without waiting on email chains?\n[AGENT]: Good question \u2014 let me check on that.The knowledge base doesn't document a self-service IT portal for access requests \u2014 so I can't confirm one exists or point you to it without risking giving you bad info.\n\nYour documented options right now are:\n1. **Your manager (Sarah)** \u2014 can add you to channels directly\n2. **#it-help** in Slack \u2014 once you're in the workspace\n3. **it@meridian.com** \u2014 if you want to escalate now\n\nWhen you email IT, I'd suggest framing it proactively: mention you're a new hire (day one), that Slack access is a blocker, and ask them to share your **full standard-access channel and permissions list** upfront. That way you're not going back and forth on individual requests.\n[USER]: What's the typical response time for it@meridian.com on day-one access issues? Hours, same day, next day?\n[AGENT]: That's not something I can confirm \u2014 IT response SLAs aren't documented in my knowledge base, so I won't guess.\n\nYour best bet: when you email **it@meridian.com**, explicitly flag it as a **day-one blocker**. That framing tends to signal urgency clearly. If you have any other outstanding IT needs (full channel access list, any other tool provisioning, etc.), consolidate them into that one email to avoid multiple back-and-forth threads.\n\nIs there anything else onboarding-related I can help you with?\n[USER]: Alright, that's enough to go on. I'll track down Sarah's email through my onboarding docs and CC IT on the same thread. Thanks.\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"89e1aaa7-e38c-4e44-9b84-d4e36f1be005\",\n  \"user_profile\": \"impatient_expert\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The agent provided Alex with all actionable paths to get Slack access as quickly as possible \u2014 manager-direct, IT email, and in-workspace #it-help \u2014 and the user left with a clear action plan. The core goal of knowing how to get engineering Slack access was fully addressed.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 9,\n    \"handling_difficulty\": 9,\n    \"staying_in_scope\": 10,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 46,\n  \"failure_modes\": [\n    \"Could not confirm IT response SLAs, which left a minor gap for an expert user who wanted to know exactly how long to wait before escalating \u2014 though the agent correctly declined to fabricate this.\",\n    \"No self-service portal information was available, which is a real friction point for an impatient expert who prefers async, no-handholding options.\"\n  ],\n  \"standout_moments\": [\n    \"Agent immediately flagged the fastest path (pinging the manager directly) rather than defaulting to the slower IT email route \u2014 well-calibrated for an impatient user.\",\n    \"Agent proactively suggested consolidating IT requests into one email with a 'day-one blocker' framing, which is genuinely useful tactical advice.\",\n    \"Consistently acknowledged the limits of its knowledge base without fabricating URLs, contact details, or SLAs \u2014 strong epistemic discipline throughout.\",\n    \"Responses were concise and structured with clear options numbered or bulleted, well-matched to an expert persona who doesn't want prose-heavy answers.\",\n    \"Appropriately used the knowledge base lookup tool before answering and was transparent about when information wasn't available.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1278,
+        "output": 452,
+        "total": 1730,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 1278,
+        "output": 452,
+        "total": 1730
+      },
+      "costDetails": {
+        "input": 0.003834,
+        "output": 0.00678,
+        "total": 0.010614
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.003834,
+      "calculatedOutputCost": 0.00678,
+      "calculatedTotalCost": 0.010614,
+      "latency": 12.739,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:36.102Z",
+      "updatedAt": "2026-07-01T03:44:36.103Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1278,
+      "completionTokens": 452,
+      "totalTokens": 1730,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "3f37208ae8872264",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T03:43:37.447000Z",
+      "endTime": "2026-07-01T03:44:35.977000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Impatient Expert",
+        "difficulty": 2,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 46,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "a0d428ddf99ffa3a",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 58.53,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:36.102Z",
+      "updatedAt": "2026-07-01T03:44:36.103Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "5d0262c402ef1e8d",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-6",
+      "startTime": "2026-07-01T03:44:20.645000Z",
+      "endTime": "2026-07-01T03:44:23.232000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "That's not something I can confirm \u2014 IT response SLAs aren't documented in my knowledge base, so I won't guess.\n\nYour best bet: when you email **it@meridian.com**, explicitly flag it as a **day-one blocker**. That framing tends to signal urgency clearly. If you have any other outstanding IT needs (full channel access list, any other tool provisioning, etc.), consolidate them into that one email to avoid multiple back-and-forth threads.\n\nIs there anything else onboarding-related I can help you with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Alright, that's enough to go on. I'll track down Sarah's email through my onboarding docs and CC IT on the same thread. Thanks.\n\n[CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.587,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:26.625Z",
+      "updatedAt": "2026-07-01T03:44:26.625Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "da3f2b73e632f410",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "agent-turn-5",
+      "startTime": "2026-07-01T03:44:16.566000Z",
+      "endTime": "2026-07-01T03:44:20.643000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "What's the typical response time for it@meridian.com on day-one access issues? Hours, same day, next day?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "That's not something I can confirm \u2014 IT response SLAs aren't documented in my knowledge base, so I won't guess.\n\nYour best bet: when you email **it@meridian.com**, explicitly flag it as a **day-one blocker**. That framing tends to signal urgency clearly. If you have any other outstanding IT needs (full channel access list, any other tool provisioning, etc.), consolidate them into that one email to avoid multiple back-and-forth threads.\n\nIs there anything else onboarding-related I can help you with?",
+      "usage": {
+        "input": 33,
+        "output": 118,
+        "total": 151,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 33,
+        "output": 118,
+        "total": 151
+      },
+      "costDetails": {
+        "input": 9.9e-05,
+        "output": 0.00177,
+        "total": 0.001869
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 9.9e-05,
+      "calculatedOutputCost": 0.00177,
+      "calculatedTotalCost": 0.001869,
+      "latency": 4.077,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:21.505Z",
+      "updatedAt": "2026-07-01T03:44:21.505Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 33,
+      "completionTokens": 118,
+      "totalTokens": 151,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "43464ed9186fb1fd",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T03:44:14.434000Z",
+      "endTime": "2026-07-01T03:44:16.564000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good question \u2014 let me check on that.The knowledge base doesn't document a self-service IT portal for access requests \u2014 so I can't confirm one exists or point you to it without risking giving you bad info.\n\nYour documented options right now are:\n1. **Your manager (Sarah)** \u2014 can add you to channels directly\n2. **#it-help** in Slack \u2014 once you're in the workspace\n3. **it@meridian.com** \u2014 if you want to escalate now\n\nWhen you email IT, I'd suggest framing it proactively: mention you're a new hire (day one), that Slack access is a blocker, and ask them to share your **full standard-access channel and permissions list** upfront. That way you're not going back and forth on individual requests."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "What's the typical response time for it@meridian.com on day-one access issues? Hours, same day, next day?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.13,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:21.505Z",
+      "updatedAt": "2026-07-01T03:44:21.505Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "0e3263bafdc5033d",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T03:44:06.581000Z",
+      "endTime": "2026-07-01T03:44:14.430000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Fair enough. Is there a self-service IT portal where I can submit a Slack access request directly, without waiting on email chains?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good question \u2014 let me check on that.The knowledge base doesn't document a self-service IT portal for access requests \u2014 so I can't confirm one exists or point you to it without risking giving you bad info.\n\nYour documented options right now are:\n1. **Your manager (Sarah)** \u2014 can add you to channels directly\n2. **#it-help** in Slack \u2014 once you're in the workspace\n3. **it@meridian.com** \u2014 if you want to escalate now\n\nWhen you email IT, I'd suggest framing it proactively: mention you're a new hire (day one), that Slack access is a blocker, and ask them to share your **full standard-access channel and permissions list** upfront. That way you're not going back and forth on individual requests.",
+      "usage": {
+        "input": 33,
+        "output": 176,
+        "total": 209,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 33,
+        "output": 176,
+        "total": 209
+      },
+      "costDetails": {
+        "input": 9.9e-05,
+        "output": 0.00264,
+        "total": 0.002739
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 9.9e-05,
+      "calculatedOutputCost": 0.00264,
+      "calculatedTotalCost": 0.002739,
+      "latency": 7.849,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:16.286Z",
+      "updatedAt": "2026-07-01T03:44:16.288Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 33,
+      "completionTokens": 176,
+      "totalTokens": 209,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "7690ab82364fb4d3",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T03:44:04.555000Z",
+      "endTime": "2026-07-01T03:44:06.578000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "That's not something I can verify \u2014 I don't have access to real-time systems or provisioning status. I can only work from Meridian's documented policies.\n\nWhat I can tell you based on policy: your invite should arrive **within 24 hours of your start date**. If it hasn't shown up by end of day tomorrow, that's your cue to email **it@meridian.com**.\n\nIn the meantime, reaching out to Sarah directly (via her email or phone, if you can track that down) is still your fastest path to getting into those engineering channels today."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Fair enough. Is there a self-service IT portal where I can submit a Slack access request directly, without waiting on email chains?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.023,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:11.189Z",
+      "updatedAt": "2026-07-01T03:44:11.189Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "fd2532d0ab812ff5",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T03:44:00.165000Z",
+      "endTime": "2026-07-01T03:44:04.552000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Has my Slack invite been sent yet, or is that something you can verify from your end?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "That's not something I can verify \u2014 I don't have access to real-time systems or provisioning status. I can only work from Meridian's documented policies.\n\nWhat I can tell you based on policy: your invite should arrive **within 24 hours of your start date**. If it hasn't shown up by end of day tomorrow, that's your cue to email **it@meridian.com**.\n\nIn the meantime, reaching out to Sarah directly (via her email or phone, if you can track that down) is still your fastest path to getting into those engineering channels today.",
+      "usage": {
+        "input": 25,
+        "output": 122,
+        "total": 147,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 25,
+        "output": 122,
+        "total": 147
+      },
+      "costDetails": {
+        "input": 7.5e-05,
+        "output": 0.00183,
+        "total": 0.001905
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 7.5e-05,
+      "calculatedOutputCost": 0.00183,
+      "calculatedTotalCost": 0.001905,
+      "latency": 4.387,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:06.146Z",
+      "updatedAt": "2026-07-01T03:44:06.146Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 25,
+      "completionTokens": 122,
+      "totalTokens": 147,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "5ff9940ae7716923",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T03:43:53.206000Z",
+      "endTime": "2026-07-01T03:43:57.932000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Got it. My manager is Sarah Okonkwo \u2014 do you have her Slack handle or email so I can ping her directly right now?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "That's not something I have access to \u2014 I don't have an employee directory or individual contact details in my knowledge base.\n\nHere are your fastest options to reach Sarah right now:\n\n- **Check your onboarding email** \u2014 manager contact info is often included there\n- **Email hr@meridian.com** and ask for Sarah Okonkwo's contact details\n- **Email it@meridian.com** if you need Slack access unblocked immediately and can't reach her \u2014 mention it's blocking your day-one setup\n\nIs there anything else I can help you with on the onboarding front?",
+      "usage": {
+        "input": 37,
+        "output": 130,
+        "total": 167,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 37,
+        "output": 130,
+        "total": 167
+      },
+      "costDetails": {
+        "input": 0.000111,
+        "output": 0.00195,
+        "total": 0.002061
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000111,
+      "calculatedOutputCost": 0.00195,
+      "calculatedTotalCost": 0.002061,
+      "latency": 4.726,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:01.012Z",
+      "updatedAt": "2026-07-01T03:44:01.012Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 37,
+      "completionTokens": 130,
+      "totalTokens": 167,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "87d632899c6e3903",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T03:43:57.934000Z",
+      "endTime": "2026-07-01T03:44:00.163000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "That's not something I have access to \u2014 I don't have an employee directory or individual contact details in my knowledge base.\n\nHere are your fastest options to reach Sarah right now:\n\n- **Check your onboarding email** \u2014 manager contact info is often included there\n- **Email hr@meridian.com** and ask for Sarah Okonkwo's contact details\n- **Email it@meridian.com** if you need Slack access unblocked immediately and can't reach her \u2014 mention it's blocking your day-one setup\n\nIs there anything else I can help you with on the onboarding front?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Has my Slack invite been sent yet, or is that something you can verify from your end?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.229,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:44:01.012Z",
+      "updatedAt": "2026-07-01T03:44:01.013Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "529d930ccf4d1fb9",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T03:43:40.267000Z",
+      "endTime": "2026-07-01T03:43:51.209000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team today as a senior backend engineer. Who do I talk to about getting access to the engineering Slack channels? I need to be looped in ASAP."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Let me look that up for you right away.Got it, Alex. Here's the rundown:\n\n**Slack invite:** You should receive a workspace invite within **24 hours of your start date**. If you don't have it by end of day tomorrow, email **it@meridian.com**.\n\n**Engineering channels specifically:** There are two fast paths:\n1. **Ask your manager or a teammate** to add you directly to the relevant engineering channels \u2014 this is usually the quickest route on day one.\n2. Once you're in Slack, post in **#it-help** to request access to specific channels.\n\nNote that #general and #announcements are provisioned automatically, but team-specific channels like #engineering need to be explicitly requested via one of those two options.\n\nSince you need this ASAP, I'd recommend pinging your manager now \u2014 they can add you immediately without any IT queue. If you don't have a manager contact yet, let me know and I can help you figure out the right next step.",
+      "usage": {
+        "input": 51,
+        "output": 224,
+        "total": 275,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {
+        "input": 51,
+        "output": 224,
+        "total": 275
+      },
+      "costDetails": {
+        "input": 0.000153,
+        "output": 0.00336,
+        "total": 0.003513
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000153,
+      "calculatedOutputCost": 0.00336,
+      "calculatedTotalCost": 0.003513,
+      "latency": 10.942,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:55.926Z",
+      "updatedAt": "2026-07-01T03:43:55.926Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 51,
+      "completionTokens": 224,
+      "totalTokens": 275,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "7c1920332a45dd81",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T03:43:51.213000Z",
+      "endTime": "2026-07-01T03:43:53.204000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Let me look that up for you right away.Got it, Alex. Here's the rundown:\n\n**Slack invite:** You should receive a workspace invite within **24 hours of your start date**. If you don't have it by end of day tomorrow, email **it@meridian.com**.\n\n**Engineering channels specifically:** There are two fast paths:\n1. **Ask your manager or a teammate** to add you directly to the relevant engineering channels \u2014 this is usually the quickest route on day one.\n2. Once you're in Slack, post in **#it-help** to request access to specific channels.\n\nNote that #general and #announcements are provisioned automatically, but team-specific channels like #engineering need to be explicitly requested via one of those two options.\n\nSince you need this ASAP, I'd recommend pinging your manager now \u2014 they can add you immediately without any IT queue. If you don't have a manager contact yet, let me know and I can help you figure out the right next step."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Got it. My manager is Sarah Okonkwo \u2014 do you have her Slack handle or email so I can ping her directly right now?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 1.991,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:55.926Z",
+      "updatedAt": "2026-07-01T03:43:55.926Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "236fc954d33aaf87",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T03:43:37.450000Z",
+      "endTime": "2026-07-01T03:43:40.264000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team today as a senior backend engineer. Who do I talk to about getting access to the engineering Slack channels? I need to be looped in ASAP."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "3f37208ae8872264",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.814,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:40.819Z",
+      "updatedAt": "2026-07-01T03:43:40.820Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "c6538012773d2768",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:42.137000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "437254979154f2e0",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:42.115000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "d2ff721f2ed4f7b9",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:42.087000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "a59581bdd28d3ba9",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:42.056000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "4e4c4f6533cf7dd0",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:41.872000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "5b8cd3f3f82964e5",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:41.857000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 46.0,
+      "id": "a6facd1bcc2f3394",
+      "traceId": "582ba30b54b2e89f45219d43da99f49e",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T03:44:35.977000Z",
+      "createdAt": "2026-07-01T03:44:37Z",
+      "updatedAt": "2026-07-01T03:44:41.853000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T03:43:41.000Z",
+  "updatedAt": "2026-07-01T03:44:36.273Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

@@ -16,6 +16,15 @@ regression driven mostly by case heterogeneity (rather than per-case
 binomial noise) will show up here as "you need more cases, not more runs,"
 which required_runs_per_case reports explicitly via HeterogeneityDominates
 rather than silently returning a useless answer.
+
+A third question, added for the Part 6 TUI's CLEAR/INCONCLUSIVE verdict
+tier: given a run's *actual* sample size and *actual* observed effect (not
+a target effect chosen in advance), what power was actually achieved?
+`achieved_power` inverts the same variance model `minimum_detectable_effect`
+uses — one fixes power and solves for effect, the other fixes effect and
+solves for power — so a "no difference detected" result can be told apart
+from "not enough data to have detected it either way" using this module's
+own numbers instead of a hardcoded sample-size cutoff.
 """
 
 from __future__ import annotations
@@ -126,6 +135,46 @@ def minimum_detectable_effect(
             break
         mde = new_mde
     return mde
+
+
+def achieved_power(
+    n_cases: int,
+    n_runs_per_case: int,
+    baseline_rate: float,
+    observed_effect: float,
+    *,
+    alpha: float = 0.05,
+    between_case_sd: float = 0.0,
+) -> float:
+    """The inverse of minimum_detectable_effect: fixes the effect size
+    (the run's real observed |diff|) and the real sample size, and solves
+    for the power that combination actually achieved — rather than fixing
+    a target power and solving for the smallest detectable effect.
+
+    Verified by round-tripping against minimum_detectable_effect: calling
+    minimum_detectable_effect(..., power=P) to get an mde, then feeding
+    that mde back into achieved_power(..., observed_effect=mde) returns P
+    to 4 decimal places (see tests/test_stats_power.py) — the two
+    functions invert the exact same closed-form relationship, so there's
+    no separate variance model to keep in sync.
+
+    Used by the Part 6 TUI to decide CLEAR (achieved power >= target, so
+    finding nothing really is evidence of nothing) vs. INCONCLUSIVE
+    (achieved power < target, so a real effect of this size could easily
+    have been missed) — computed from each run's real n_cases/rates, not
+    a hardcoded sample-size threshold.
+    """
+    if n_cases < 1 or n_runs_per_case < 1:
+        raise ValueError("n_cases and n_runs_per_case must be >= 1")
+
+    per_run_var = _per_run_variance(baseline_rate, observed_effect)
+    var_mean_diff = per_run_var / n_runs_per_case / n_cases + between_case_sd**2 / n_cases
+    if var_mean_diff <= 0:
+        return 1.0
+
+    z_alpha = norm.ppf(1 - alpha / 2)
+    z_power = abs(observed_effect) / math.sqrt(var_mean_diff) - z_alpha
+    return float(norm.cdf(z_power))
 
 
 def power_curve(

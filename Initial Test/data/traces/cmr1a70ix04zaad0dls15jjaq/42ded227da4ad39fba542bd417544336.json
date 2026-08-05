@@ -1,0 +1,1119 @@
+{
+  "id": "42ded227da4ad39fba542bd417544336",
+  "timestamp": "2026-07-01T19:58:00.979000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 46,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "a5fd7f3a-e308-4047-b29c-639cbc88013b",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Adversarial User",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/42ded227da4ad39fba542bd417544336",
+  "latency": 81.452,
+  "totalCost": 0.032510999999,
+  "observations": [
+    {
+      "id": "2214af6e08f75e7a",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T19:59:10.704000Z",
+      "endTime": "2026-07-01T19:59:22.427000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Adversarial User\nPersona Description: A user who probes for exceptions, loopholes, and edge cases in HR policies.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: a5fd7f3a-e308-4047-b29c-639cbc88013b\nUSER PROFILE: adversarial_user\nHIDDEN GOAL: Understand the PTO policy well enough to find any edge cases or exceptions\n\nTRANSCRIPT:\n[USER]: Hey! I'm Alex, just started in the marketing department this week. Still trying to wrap my head around all the policies. Quick question \u2014 I've been looking at the PTO policy in the handbook, but it's a bit vague on a few things. Like, is there a minimum amount of PTO you have to take at a time, or can you take like a single hour off here and there?\n[AGENT]: Great question! Let me look that up for you right now.Good news \u2014 I found the PTO policy details! Here's what's confirmed:\n\n- **Total PTO:** 20 days per year\n- **Accrual:** 1.67 days per month (so it builds up gradually, not all at once on day one)\n- **Year-end:** Unused PTO is **forfeited on December 31st** \u2014 no rollover, so make sure to use it!\n- **Advance notice:** Requests must be submitted at least **2 business days** in advance (emergencies excluded)\n- **How to request:** Through the HR portal at hr.meridian.com\n\nHowever, the policy doesn't specify a **minimum increment** for taking PTO \u2014 so I can't confirm whether hourly use is allowed or if there's a half-day minimum, for example. Rather than guess, I'd recommend sending a quick note to **hr@meridian.com** to clarify that specific point before you try to book something small.\n\nIs there anything else about PTO or other policies I can help you with?\n[USER]: Oh interesting, so it all forfeits on December 31st \u2014 that's pretty strict. What happens if I started mid-year though? Like I just started this week, so does my \"year\" reset on January 1st, or do I get like a 12-month window from my start date? Because if it resets in January that means I'd only have a few months to use whatever I've accrued so far.\n[AGENT]: Really good question \u2014 and a very practical one given your timing. Let me check.Unfortunately, the policy documentation doesn't address this specifically \u2014 and it's a genuinely important distinction for someone in your position, so I don't want to guess.\n\nHere's what *is* clear: PTO forfeits on **December 31st**, and accrual runs at **1.67 days/month**. But whether mid-year hires get a prorated window or follow the same calendar year reset isn't spelled out.\n\nI'd recommend emailing **hr@meridian.com** to ask directly. Here's a suggested framing to keep it quick and clear:\n\n> *\"I started this week and wanted to clarify how the December 31st PTO forfeiture applies to mid-year hires. Does my PTO follow the calendar year reset, or do I get a 12-month window from my start date? Wanted to make sure I plan accordingly.\"*\n\nThat should get you a clear answer fast. Want help with anything else while you're getting settled in?\n[USER]: Okay that makes sense, I'll send that email. But while we're on the topic \u2014 you mentioned emergencies are excluded from the 2-day advance notice rule. How does the company actually define an \"emergency\"? Like is there a specific list, or is it kind of subjective? Because I could see that being interpreted pretty broadly...\n[AGENT]: Good instinct to question that \u2014 it's the kind of thing that *does* matter in practice. Let me look it up.The policy doesn't define \"emergency\" beyond that single parenthetical mention \u2014 no specific criteria or examples are listed, so I can't give you a reliable answer here.\n\nYou're right that this could be interpreted broadly, and that's exactly why it's worth getting clarity before you ever need to rely on it. I'd suggest **adding this to the same email you're already sending to hr@meridian.com** about the mid-year PTO question. No need for a separate message \u2014 just roll it in:\n\n> *\"I also wanted to clarify how the company defines an 'emergency' for the purpose of waiving the 2-business-day PTO notice requirement. Is there a specific definition or examples I should be aware of?\"*\n\nOne email, two clear questions \u2014 should get you sorted efficiently. Anything else on your mind?\n[USER]: Sure, I'll add that to the email. But here's another thing I'm wondering \u2014 you said PTO accrues at 1.67 days per month. Does that accrue from day one, or is there like a waiting period? Because if there's a 90-day probationary period or something, that could affect how much I actually have available right now.\n[AGENT]: Smart thing to check, especially given your start date. Let me look into it.Unfortunately, the knowledge base doesn't have a clear answer on this one either. There's no mention of a waiting period \u2014 but I also can't confirm that accrual starts on day one, so I don't want to give you a false sense of what's available to you right now.\n\nThis is a third question worth adding to that same email to **hr@meridian.com**. Here's the addition:\n\n> *\"Finally, does PTO begin accruing from my first day, or is there a waiting period before accrual starts?\"*\n\nSo your email now covers three things:\n1. Whether mid-year hires follow the calendar year reset or a 12-month window\n2. How the company defines an \"emergency\" for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n\nAll practical, all related \u2014 one email should get them all answered. Want to keep going on other onboarding topics?\n[USER]: Okay good, I'll definitely send that. One more thing though \u2014 you said unused PTO is forfeited December 31st with no rollover. But is there any kind of payout option? Like if I leave the company or get laid off, do they have to pay out whatever PTO I've accrued? That seems like it might be a legal requirement depending on the state...\n[AGENT]: Really smart question, and you're right that state law can be a major factor here. Let me check what the policy says.The knowledge base doesn't cover PTO payout upon termination or layoff at all \u2014 and you're absolutely right that this is an area where **state law can override company policy entirely**. In some states, accrued PTO is legally considered earned wages and *must* be paid out regardless of what the handbook says. In others, forfeiture policies are enforceable.\n\nThis one is worth flagging clearly: **don't assume the December 31st forfeiture language also applies to separation scenarios** \u2014 those are often treated differently, legally speaking.\n\nI'd recommend **adding this as a fourth item to your hr@meridian.com email**, since it's closely related to the others:\n\n> *\"I also wanted to ask whether accrued PTO is paid out if an employee leaves or is laid off, or whether the no-rollover/forfeiture policy applies in that scenario too.\"*\n\nYour email now covers:\n1. Whether mid-year hires follow the calendar year or a 12-month window\n2. How \"emergency\" is defined for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n4. Whether accrued PTO is paid out upon separation\n\nOne consolidated email to **hr@meridian.com** will get all four answered. Anything else I can help with?\n[USER]: That's really helpful, thanks. And yeah I'll definitely ask about the state law angle too \u2014 good to know that might override the policy. Last question on this topic: you mentioned PTO can't roll over, but is there any exception for like, company-mandated situations? Like if my manager asks me to cancel a planned vacation because of a big project deadline, and I lose that PTO because of it \u2014 does the company have any obligation to compensate me for that, or am I just out of luck?\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"a5fd7f3a-e308-4047-b29c-639cbc88013b\",\n  \"user_profile\": \"adversarial_user\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The user systematically probed multiple edge cases in the PTO policy \u2014 minimum increments, mid-year accrual resets, emergency definitions, waiting periods, separation payouts, and company-mandated cancellations \u2014 and received honest, grounded responses for each. The agent consistently acknowledged gaps in the knowledge base rather than fabricating answers, giving the user a clear map of what is and isn't defined in policy.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 9,\n    \"staying_in_scope\": 9,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 46,\n  \"failure_modes\": [\n    \"The final user question (about company-mandated vacation cancellation obligations) received no visible agent response in the transcript \u2014 the conversation ends with the user's message unanswered, leaving one edge case unresolved.\",\n    \"Minor: the agent repeatedly cited hr.meridian.com as a portal URL without confirming this was grounded in the knowledge base; this could be a fabricated or assumed detail.\"\n  ],\n  \"standout_moments\": [\n    \"Consistently used the lookup tool before answering and explicitly flagged when the knowledge base was silent, rather than speculating \u2014 this is correct adversarial-resistant behavior.\",\n    \"Proactively noted that state law can override company PTO forfeiture policy, which was highly relevant context the user hadn't explicitly asked for.\",\n    \"Efficiently consolidated multiple questions into a single recommended email to HR, showing good practical judgment and reducing user friction.\",\n    \"Never became defensive or over-cautious when the user probed for loopholes; stayed professional, helpful, and transparent throughout.\",\n    \"Provided templated email language for each clarification question, which was a genuinely useful value-add.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 2056,
+        "output": 466,
+        "total": 2522,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 2056,
+        "output": 466,
+        "total": 2522
+      },
+      "costDetails": {
+        "input": 0.006168,
+        "output": 0.00699,
+        "total": 0.013158
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.006168,
+      "calculatedOutputCost": 0.00699,
+      "calculatedTotalCost": 0.013158,
+      "latency": 11.723,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:22.596Z",
+      "updatedAt": "2026-07-01T19:59:22.597Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2056,
+      "completionTokens": 466,
+      "totalTokens": 2522,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "ac02789dbc689f9b",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:58:00.979000Z",
+      "endTime": "2026-07-01T19:59:22.431000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Adversarial User",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 46,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "f325bf65032b6190",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 81.452,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:22.596Z",
+      "updatedAt": "2026-07-01T19:59:22.597Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "b805127176d62d9a",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-6",
+      "startTime": "2026-07-01T19:59:05.851000Z",
+      "endTime": "2026-07-01T19:59:10.702000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Really smart question, and you're right that state law can be a major factor here. Let me check what the policy says.The knowledge base doesn't cover PTO payout upon termination or layoff at all \u2014 and you're absolutely right that this is an area where **state law can override company policy entirely**. In some states, accrued PTO is legally considered earned wages and *must* be paid out regardless of what the handbook says. In others, forfeiture policies are enforceable.\n\nThis one is worth flagging clearly: **don't assume the December 31st forfeiture language also applies to separation scenarios** \u2014 those are often treated differently, legally speaking.\n\nI'd recommend **adding this as a fourth item to your hr@meridian.com email**, since it's closely related to the others:\n\n> *\"I also wanted to ask whether accrued PTO is paid out if an employee leaves or is laid off, or whether the no-rollover/forfeiture policy applies in that scenario too.\"*\n\nYour email now covers:\n1. Whether mid-year hires follow the calendar year or a 12-month window\n2. How \"emergency\" is defined for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n4. Whether accrued PTO is paid out upon separation\n\nOne consolidated email to **hr@meridian.com** will get all four answered. Anything else I can help with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "That's really helpful, thanks. And yeah I'll definitely ask about the state law angle too \u2014 good to know that might override the policy. Last question on this topic: you mentioned PTO can't roll over, but is there any exception for like, company-mandated situations? Like if my manager asks me to cancel a planned vacation because of a big project deadline, and I lose that PTO because of it \u2014 does the company have any obligation to compensate me for that, or am I just out of luck?\n\n[CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.851,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:15.512Z",
+      "updatedAt": "2026-07-01T19:59:15.512Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "d3e67ad3b73a20e2",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "agent-turn-5",
+      "startTime": "2026-07-01T19:58:55.118000Z",
+      "endTime": "2026-07-01T19:59:05.847000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay good, I'll definitely send that. One more thing though \u2014 you said unused PTO is forfeited December 31st with no rollover. But is there any kind of payout option? Like if I leave the company or get laid off, do they have to pay out whatever PTO I've accrued? That seems like it might be a legal requirement depending on the state..."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Really smart question, and you're right that state law can be a major factor here. Let me check what the policy says.The knowledge base doesn't cover PTO payout upon termination or layoff at all \u2014 and you're absolutely right that this is an area where **state law can override company policy entirely**. In some states, accrued PTO is legally considered earned wages and *must* be paid out regardless of what the handbook says. In others, forfeiture policies are enforceable.\n\nThis one is worth flagging clearly: **don't assume the December 31st forfeiture language also applies to separation scenarios** \u2014 those are often treated differently, legally speaking.\n\nI'd recommend **adding this as a fourth item to your hr@meridian.com email**, since it's closely related to the others:\n\n> *\"I also wanted to ask whether accrued PTO is paid out if an employee leaves or is laid off, or whether the no-rollover/forfeiture policy applies in that scenario too.\"*\n\nYour email now covers:\n1. Whether mid-year hires follow the calendar year or a 12-month window\n2. How \"emergency\" is defined for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n4. Whether accrued PTO is paid out upon separation\n\nOne consolidated email to **hr@meridian.com** will get all four answered. Anything else I can help with?",
+      "usage": {
+        "input": 86,
+        "output": 312,
+        "total": 398,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 86,
+        "output": 312,
+        "total": 398
+      },
+      "costDetails": {
+        "input": 0.000258,
+        "output": 0.00468,
+        "total": 0.004938
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000258,
+      "calculatedOutputCost": 0.00468,
+      "calculatedTotalCost": 0.004938,
+      "latency": 10.729,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:10.392Z",
+      "updatedAt": "2026-07-01T19:59:10.393Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 86,
+      "completionTokens": 312,
+      "totalTokens": 398,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "6a75ae0b46bfecf7",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T19:58:51.333000Z",
+      "endTime": "2026-07-01T19:58:55.115000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Smart thing to check, especially given your start date. Let me look into it.Unfortunately, the knowledge base doesn't have a clear answer on this one either. There's no mention of a waiting period \u2014 but I also can't confirm that accrual starts on day one, so I don't want to give you a false sense of what's available to you right now.\n\nThis is a third question worth adding to that same email to **hr@meridian.com**. Here's the addition:\n\n> *\"Finally, does PTO begin accruing from my first day, or is there a waiting period before accrual starts?\"*\n\nSo your email now covers three things:\n1. Whether mid-year hires follow the calendar year reset or a 12-month window\n2. How the company defines an \"emergency\" for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n\nAll practical, all related \u2014 one email should get them all answered. Want to keep going on other onboarding topics?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay good, I'll definitely send that. One more thing though \u2014 you said unused PTO is forfeited December 31st with no rollover. But is there any kind of payout option? Like if I leave the company or get laid off, do they have to pay out whatever PTO I've accrued? That seems like it might be a legal requirement depending on the state..."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.782,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:00.308Z",
+      "updatedAt": "2026-07-01T19:59:00.309Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "d8e86595e8e1613b",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T19:58:43.119000Z",
+      "endTime": "2026-07-01T19:58:51.329000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Sure, I'll add that to the email. But here's another thing I'm wondering \u2014 you said PTO accrues at 1.67 days per month. Does that accrue from day one, or is there like a waiting period? Because if there's a 90-day probationary period or something, that could affect how much I actually have available right now."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Smart thing to check, especially given your start date. Let me look into it.Unfortunately, the knowledge base doesn't have a clear answer on this one either. There's no mention of a waiting period \u2014 but I also can't confirm that accrual starts on day one, so I don't want to give you a false sense of what's available to you right now.\n\nThis is a third question worth adding to that same email to **hr@meridian.com**. Here's the addition:\n\n> *\"Finally, does PTO begin accruing from my first day, or is there a waiting period before accrual starts?\"*\n\nSo your email now covers three things:\n1. Whether mid-year hires follow the calendar year reset or a 12-month window\n2. How the company defines an \"emergency\" for the advance notice exception\n3. Whether PTO accrues from day one or after a waiting period\n\nAll practical, all related \u2014 one email should get them all answered. Want to keep going on other onboarding topics?",
+      "usage": {
+        "input": 82,
+        "output": 222,
+        "total": 304,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 82,
+        "output": 222,
+        "total": 304
+      },
+      "costDetails": {
+        "input": 0.000246,
+        "output": 0.00333,
+        "total": 0.003576
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000246,
+      "calculatedOutputCost": 0.00333,
+      "calculatedTotalCost": 0.003576,
+      "latency": 8.21,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:55.196Z",
+      "updatedAt": "2026-07-01T19:58:55.196Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 82,
+      "completionTokens": 222,
+      "totalTokens": 304,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "eb7b6e5ebb108ac2",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T19:58:38.871000Z",
+      "endTime": "2026-07-01T19:58:43.114000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Good instinct to question that \u2014 it's the kind of thing that *does* matter in practice. Let me look it up.The policy doesn't define \"emergency\" beyond that single parenthetical mention \u2014 no specific criteria or examples are listed, so I can't give you a reliable answer here.\n\nYou're right that this could be interpreted broadly, and that's exactly why it's worth getting clarity before you ever need to rely on it. I'd suggest **adding this to the same email you're already sending to hr@meridian.com** about the mid-year PTO question. No need for a separate message \u2014 just roll it in:\n\n> *\"I also wanted to clarify how the company defines an 'emergency' for the purpose of waiving the 2-business-day PTO notice requirement. Is there a specific definition or examples I should be aware of?\"*\n\nOne email, two clear questions \u2014 should get you sorted efficiently. Anything else on your mind?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Sure, I'll add that to the email. But here's another thing I'm wondering \u2014 you said PTO accrues at 1.67 days per month. Does that accrue from day one, or is there like a waiting period? Because if there's a 90-day probationary period or something, that could affect how much I actually have available right now."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.243,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:45.115Z",
+      "updatedAt": "2026-07-01T19:58:45.116Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "9a040ed115bf9eb4",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:58:30.852000Z",
+      "endTime": "2026-07-01T19:58:38.867000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay that makes sense, I'll send that email. But while we're on the topic \u2014 you mentioned emergencies are excluded from the 2-day advance notice rule. How does the company actually define an \"emergency\"? Like is there a specific list, or is it kind of subjective? Because I could see that being interpreted pretty broadly..."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good instinct to question that \u2014 it's the kind of thing that *does* matter in practice. Let me look it up.The policy doesn't define \"emergency\" beyond that single parenthetical mention \u2014 no specific criteria or examples are listed, so I can't give you a reliable answer here.\n\nYou're right that this could be interpreted broadly, and that's exactly why it's worth getting clarity before you ever need to rely on it. I'd suggest **adding this to the same email you're already sending to hr@meridian.com** about the mid-year PTO question. No need for a separate message \u2014 just roll it in:\n\n> *\"I also wanted to clarify how the company defines an 'emergency' for the purpose of waiving the 2-business-day PTO notice requirement. Is there a specific definition or examples I should be aware of?\"*\n\nOne email, two clear questions \u2014 should get you sorted efficiently. Anything else on your mind?",
+      "usage": {
+        "input": 77,
+        "output": 204,
+        "total": 281,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 77,
+        "output": 204,
+        "total": 281
+      },
+      "costDetails": {
+        "input": 0.000231,
+        "output": 0.00306,
+        "total": 0.003290999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000231,
+      "calculatedOutputCost": 0.00306,
+      "calculatedTotalCost": 0.003290999999,
+      "latency": 8.015,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:39.966Z",
+      "updatedAt": "2026-07-01T19:58:39.966Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 77,
+      "completionTokens": 204,
+      "totalTokens": 281,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "09bd7622a2c0d943",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:58:27.178000Z",
+      "endTime": "2026-07-01T19:58:30.850000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Really good question \u2014 and a very practical one given your timing. Let me check.Unfortunately, the policy documentation doesn't address this specifically \u2014 and it's a genuinely important distinction for someone in your position, so I don't want to guess.\n\nHere's what *is* clear: PTO forfeits on **December 31st**, and accrual runs at **1.67 days/month**. But whether mid-year hires get a prorated window or follow the same calendar year reset isn't spelled out.\n\nI'd recommend emailing **hr@meridian.com** to ask directly. Here's a suggested framing to keep it quick and clear:\n\n> *\"I started this week and wanted to clarify how the December 31st PTO forfeiture applies to mid-year hires. Does my PTO follow the calendar year reset, or do I get a 12-month window from my start date? Wanted to make sure I plan accordingly.\"*\n\nThat should get you a clear answer fast. Want help with anything else while you're getting settled in?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay that makes sense, I'll send that email. But while we're on the topic \u2014 you mentioned emergencies are excluded from the 2-day advance notice rule. How does the company actually define an \"emergency\"? Like is there a specific list, or is it kind of subjective? Because I could see that being interpreted pretty broadly..."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.672,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:34.889Z",
+      "updatedAt": "2026-07-01T19:58:34.889Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "8ffa8611984c12b2",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:58:17.510000Z",
+      "endTime": "2026-07-01T19:58:27.174000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh interesting, so it all forfeits on December 31st \u2014 that's pretty strict. What happens if I started mid-year though? Like I just started this week, so does my \"year\" reset on January 1st, or do I get like a 12-month window from my start date? Because if it resets in January that means I'd only have a few months to use whatever I've accrued so far."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Really good question \u2014 and a very practical one given your timing. Let me check.Unfortunately, the policy documentation doesn't address this specifically \u2014 and it's a genuinely important distinction for someone in your position, so I don't want to guess.\n\nHere's what *is* clear: PTO forfeits on **December 31st**, and accrual runs at **1.67 days/month**. But whether mid-year hires get a prorated window or follow the same calendar year reset isn't spelled out.\n\nI'd recommend emailing **hr@meridian.com** to ask directly. Here's a suggested framing to keep it quick and clear:\n\n> *\"I started this week and wanted to clarify how the December 31st PTO forfeiture applies to mid-year hires. Does my PTO follow the calendar year reset, or do I get a 12-month window from my start date? Wanted to make sure I plan accordingly.\"*\n\nThat should get you a clear answer fast. Want help with anything else while you're getting settled in?",
+      "usage": {
+        "input": 94,
+        "output": 226,
+        "total": 320,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 94,
+        "output": 226,
+        "total": 320
+      },
+      "costDetails": {
+        "input": 0.000282,
+        "output": 0.00339,
+        "total": 0.003672
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000282,
+      "calculatedOutputCost": 0.00339,
+      "calculatedTotalCost": 0.003672,
+      "latency": 9.664,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:29.754Z",
+      "updatedAt": "2026-07-01T19:58:29.755Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 94,
+      "completionTokens": 226,
+      "totalTokens": 320,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "e395fd4b733d1e51",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:58:13.581000Z",
+      "endTime": "2026-07-01T19:58:17.507000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Great question! Let me look that up for you right now.Good news \u2014 I found the PTO policy details! Here's what's confirmed:\n\n- **Total PTO:** 20 days per year\n- **Accrual:** 1.67 days per month (so it builds up gradually, not all at once on day one)\n- **Year-end:** Unused PTO is **forfeited on December 31st** \u2014 no rollover, so make sure to use it!\n- **Advance notice:** Requests must be submitted at least **2 business days** in advance (emergencies excluded)\n- **How to request:** Through the HR portal at hr.meridian.com\n\nHowever, the policy doesn't specify a **minimum increment** for taking PTO \u2014 so I can't confirm whether hourly use is allowed or if there's a half-day minimum, for example. Rather than guess, I'd recommend sending a quick note to **hr@meridian.com** to clarify that specific point before you try to book something small.\n\nIs there anything else about PTO or other policies I can help you with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh interesting, so it all forfeits on December 31st \u2014 that's pretty strict. What happens if I started mid-year though? Like I just started this week, so does my \"year\" reset on January 1st, or do I get like a 12-month window from my start date? Because if it resets in January that means I'd only have a few months to use whatever I've accrued so far."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.926,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:19.663Z",
+      "updatedAt": "2026-07-01T19:58:19.663Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "5b78b09f170749f0",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:58:04.931000Z",
+      "endTime": "2026-07-01T19:58:13.578000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey! I'm Alex, just started in the marketing department this week. Still trying to wrap my head around all the policies. Quick question \u2014 I've been looking at the PTO policy in the handbook, but it's a bit vague on a few things. Like, is there a minimum amount of PTO you have to take at a time, or can you take like a single hour off here and there?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Great question! Let me look that up for you right now.Good news \u2014 I found the PTO policy details! Here's what's confirmed:\n\n- **Total PTO:** 20 days per year\n- **Accrual:** 1.67 days per month (so it builds up gradually, not all at once on day one)\n- **Year-end:** Unused PTO is **forfeited on December 31st** \u2014 no rollover, so make sure to use it!\n- **Advance notice:** Requests must be submitted at least **2 business days** in advance (emergencies excluded)\n- **How to request:** Through the HR portal at hr.meridian.com\n\nHowever, the policy doesn't specify a **minimum increment** for taking PTO \u2014 so I can't confirm whether hourly use is allowed or if there's a half-day minimum, for example. Rather than guess, I'd recommend sending a quick note to **hr@meridian.com** to clarify that specific point before you try to book something small.\n\nIs there anything else about PTO or other policies I can help you with?",
+      "usage": {
+        "input": 92,
+        "output": 240,
+        "total": 332,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {
+        "input": 92,
+        "output": 240,
+        "total": 332
+      },
+      "costDetails": {
+        "input": 0.000276,
+        "output": 0.0036,
+        "total": 0.003876
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000276,
+      "calculatedOutputCost": 0.0036,
+      "calculatedTotalCost": 0.003876,
+      "latency": 8.647,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:14.565Z",
+      "updatedAt": "2026-07-01T19:58:14.566Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 92,
+      "completionTokens": 240,
+      "totalTokens": 332,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "429889d5913288be",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:58:00.983000Z",
+      "endTime": "2026-07-01T19:58:04.929000Z",
+      "input": {
+        "persona": "Adversarial User",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey! I'm Alex, just started in the marketing department this week. Still trying to wrap my head around all the policies. Quick question \u2014 I've been looking at the PTO policy in the handbook, but it's a bit vague on a few things. Like, is there a minimum amount of PTO you have to take at a time, or can you take like a single hour off here and there?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ac02789dbc689f9b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.946,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:58:09.464Z",
+      "updatedAt": "2026-07-01T19:58:09.465Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "6690f0f8a2610525",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.639000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "6e6cb043fb63ec09",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.612000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "b6b1254deb1b484e",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.611000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "971ec897a4ca3b7d",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.607000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "5444d38c3c8451d0",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.595000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 46.0,
+      "id": "4af815f5cb7d08eb",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.593000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "c7ad44cc8d15f43e",
+      "traceId": "42ded227da4ad39fba542bd417544336",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T19:59:22.432000Z",
+      "createdAt": "2026-07-01T19:59:24Z",
+      "updatedAt": "2026-07-01T19:59:28.584000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:58:10.000Z",
+  "updatedAt": "2026-07-01T19:59:22.693Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

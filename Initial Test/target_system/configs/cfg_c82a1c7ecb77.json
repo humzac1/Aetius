@@ -1,0 +1,48 @@
+{
+  "agents": [
+    {
+      "model_override": null,
+      "name": "HR Onboarding Assistant",
+      "role": "supervisor",
+      "system_prompt": "[unavailable \u2014 no system prompt observed in source Langfuse traces]",
+      "system_prompt_source": "unavailable",
+      "tools": []
+    }
+  ],
+  "config_hash": "cfg_c82a1c7ecb77",
+  "corpus_dir": "target_system/corpus",
+  "defensive_instruction": false,
+  "label": "HR Onboarding Assistant",
+  "model": {
+    "max_tokens": 2048,
+    "model_name": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "seed": null,
+    "temperature": 0.0
+  },
+  "provenance": {
+    "extraction_date": "2026-08-05T01:25:20.081435+00:00",
+    "other_groups_found": [
+      {
+        "agent_name": "Invoice Generation Assistant",
+        "trace_count": 11
+      },
+      {
+        "agent_name": null,
+        "trace_count": 2
+      }
+    ],
+    "project_id": "cmr1a70ix04zaad0dls15jjaq",
+    "source_agent_name": "HR Onboarding Assistant",
+    "tool_profiles": {},
+    "trace_count": 33,
+    "warnings": []
+  },
+  "schema_version": "1.0",
+  "security": {
+    "email_allowlist": [],
+    "enforce_allowlist": false,
+    "poisoned_corpus_files": [],
+    "poisoned_tool_results": []
+  }
+}

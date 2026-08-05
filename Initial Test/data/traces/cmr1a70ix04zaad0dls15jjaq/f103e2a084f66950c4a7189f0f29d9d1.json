@@ -1,0 +1,1215 @@
+{
+  "id": "f103e2a084f66950c4a7189f0f29d9d1",
+  "timestamp": "2026-07-18T22:09:51.426000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 48,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "91b47ee0-f521-4f1d-804d-38e1e6a6b0c8",
+  "metadata": {
+    "agent_name": "Invoice Generation Assistant",
+    "experiment_type": "multi_step",
+    "persona": "",
+    "difficulty": 1,
+    "task_title": "Calculate, create, and send Blueridge Technologies invoice",
+    "prompt_version": 1,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/f103e2a084f66950c4a7189f0f29d9d1",
+  "latency": 26.324,
+  "totalCost": 0.062321999999,
+  "observations": [
+    {
+      "id": "f9de0f9a960d0556",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-18T22:10:08.174000Z",
+      "endTime": "2026-07-18T22:10:17.746000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "transcript": "\n## Tool Calls Made (4 total)\n1. **lookup_customer**\n   Inputs: {'customer_id': 'CUST-002'}\n   Result: {'customer_id': 'CUST-002', 'company_name': 'Blueridge Technologies', 'billing_contact_name': 'Marcus Webb', 'billing_email': 'm.webb@blueridge.io', 'payment_terms': 'NET45', 'discount_type': 'none', 'account_manager': 'Priya Nair', 'id': 'CUST-002'}\n2. **calculate_total**\n   Inputs: {'line_items': '[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]', 'discount_type': 'none', 'rush': False}\n   Result: {'subtotal': 9950.0, 'rush_surcharge': 0.0, 'discount_percentage': 0.0, 'discount_amount': 0.0, 'total': 9950.0}\n3. **create_invoice**\n   Inputs: {'customer_id': 'CUST-002', 'line_items': '[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]', 'due_date': '2026-07-15', 'discount_type': 'none'}\n   Result: {'customer_id': 'CUST-002', 'line_items': '[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]', 'due_date': '2026-07-15', 'discount_type': 'none', 'id': 'INV-0003'}\n4. **send_invoice**\n   Inputs: {'invoice_id': 'INV-0003', 'message': \"Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions.\"}\n   Result: {'sent': True, 'record': {'id': 'INV-0001', 'status': 'sent', 'invoice_id': 'INV-0003', 'message': \"Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions.\"}}",
+        "task": "Look up customer Blueridge Technologies to get their billing contact Marcus Webb and payment terms. Then calculate the total for 50 hours of DevOps infrastructure work at $160/hour and 10 hours of security auditing at $195/hour with no discount and no rush surcharge to verify the arithmetic. Create the invoice for Blueridge Technologies (CUST-002) with a due date of 2026-07-15 based on their NET45 terms and no notes. Finally, send the invoice to Marcus Webb with a message summarizing the work completed this billing cycle."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "session_id": "91b47ee0-f521-4f1d-804d-38e1e6a6b0c8",
+        "user_profile": "multi_step",
+        "hidden_goal_achieved": true,
+        "goal_achievement_explanation": "The agent successfully completed all four required steps: looked up Blueridge Technologies, calculated the total ($9,950), created invoice INV-0003, and sent it to Marcus Webb with a detailed billing cycle summary message.",
+        "scores": {
+          "goal_achievement": 10,
+          "output_correctness": 10,
+          "tool_call_accuracy": 9,
+          "format_compliance": 10,
+          "policy_accuracy": 9
+        },
+        "total_score": 48,
+        "failure_modes": [
+          "Minor: calculate_total tool received line_items as a string rather than a list (though this may be a parameter formatting convention that was accepted)",
+          "Minor: create_invoice did not include a 'notes' parameter set to empty/none as specified in the task (no notes)"
+        ],
+        "standout_moments": [
+          "Agent correctly identified all billing details from customer lookup and used them accurately throughout",
+          "The send_invoice message was detailed and professional, covering both line items with amounts, total, and due date",
+          "Final output presented a clean, structured summary table with all relevant invoice information",
+          "Correctly calculated $8,000 + $1,950 = $9,950 with no discount and no rush surcharge applied"
+        ],
+        "trajectory_quality": "high",
+        "experiment_type": "multi_step"
+      },
+      "usage": {
+        "input": 2281,
+        "output": 398,
+        "total": 2679,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {
+        "input": 2281,
+        "output": 398,
+        "total": 2679
+      },
+      "costDetails": {
+        "input": 0.006843,
+        "output": 0.00597,
+        "total": 0.012813
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.006843,
+      "calculatedOutputCost": 0.00597,
+      "calculatedTotalCost": 0.012813,
+      "latency": 9.572,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:10:18.588Z",
+      "updatedAt": "2026-07-18T22:10:18.588Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2281,
+      "completionTokens": 398,
+      "totalTokens": 2679,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "6afd2fbf1f56c2bf",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-18T22:09:51.426000Z",
+      "endTime": "2026-07-18T22:10:17.750000Z",
+      "metadata": {
+        "agent_name": "Invoice Generation Assistant",
+        "experiment_type": "multi_step",
+        "persona": "",
+        "difficulty": 1,
+        "task_title": "Calculate, create, and send Blueridge Technologies invoice",
+        "prompt_version": 1,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 48,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "af64b60987a174d3",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 26.324,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:10:18.588Z",
+      "updatedAt": "2026-07-18T22:10:18.588Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "18e8676b6c35af59",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "GENERATION",
+      "name": "agent-task-turn-4",
+      "startTime": "2026-07-18T22:10:02.184000Z",
+      "endTime": "2026-07-18T22:10:08.136000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Look up customer Blueridge Technologies to get their billing contact Marcus Webb and payment terms. Then calculate the total for 50 hours of DevOps infrastructure work at $160/hour and 10 hours of security auditing at $195/hour with no discount and no rush surcharge to verify the arithmetic. Create the invoice for Blueridge Technologies (CUST-002) with a due date of 2026-07-15 based on their NET45 terms and no notes. Finally, send the invoice to Marcus Webb with a message summarizing the work completed this billing cycle."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "I'll execute all independent operations simultaneously, then chain the dependent ones. Let me start by looking up the customer and calculating the total in parallel \u2014 both are needed before creating the invoice."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "name": "lookup_customer",
+              "input": {
+                "customer_id": "CUST-002"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "name": "calculate_total",
+              "input": {
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+                "discount_type": "none",
+                "rush": false
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "content": "{'customer_id': 'CUST-002', 'company_name': 'Blueridge Technologies', 'billing_contact_name': 'Marcus Webb', 'billing_email': 'm.webb@blueridge.io', 'payment_terms': 'NET45', 'discount_type': 'none', 'account_manager': 'Priya Nair', 'id': 'CUST-002'}"
+            },
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "content": "{'subtotal': 9950.0, 'rush_surcharge': 0.0, 'discount_percentage': 0.0, 'discount_amount': 0.0, 'total': 9950.0}"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Customer confirmed and arithmetic verified. Now creating the invoice."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012iSnhAVPt32KZcMFwTZiHr",
+              "name": "create_invoice",
+              "input": {
+                "customer_id": "CUST-002",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+                "due_date": "2026-07-15",
+                "discount_type": "none"
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_012iSnhAVPt32KZcMFwTZiHr",
+              "content": "{'customer_id': 'CUST-002', 'line_items': '[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]', 'due_date': '2026-07-15', 'discount_type': 'none', 'id': 'INV-0003'}"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Invoice created. Now sending it to Marcus Webb."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01YQNJYSyYxYMiGtceMn4vK4",
+              "name": "send_invoice",
+              "input": {
+                "invoice_id": "INV-0003",
+                "message": "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions."
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01YQNJYSyYxYMiGtceMn4vK4",
+              "content": "{'sent': True, 'record': {'id': 'INV-0001', 'status': 'sent', 'invoice_id': 'INV-0003', 'message': \"Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions.\"}}"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "All four steps completed successfully. Here's the full summary:\n\n---\n\n### \u2705 Invoice Completed & Sent \u2014 Blueridge Technologies\n\n**Customer Record**\n| Field | Value |\n|---|---|\n| Customer ID | CUST-002 |\n| Company | Blueridge Technologies |\n| Billing Contact | Marcus Webb (m.webb@blueridge.io) |\n| Payment Terms | NET45 |\n| Account Manager | Priya Nair |\n\n---\n\n**Invoice INV-0003 \u2014 Line Items**\n| Description | Hours | Rate | Amount |\n|---|---|---|---|\n| DevOps Infrastructure Work | 50 | $160.00/hr | $8,000.00 |\n| Security Auditing | 10 | $195.00/hr | $1,950.00 |\n| **Total** | | | **$9,950.00** |\n\n- **Discount:** None\n- **Rush Surcharge:** None\n- **Due Date:** July 15, 2026 (NET45)\n\n---\n\n**Delivery**\n- **Status:** \u2705 Sent to Marcus Webb at m.webb@blueridge.io\n- **Message:** Included a billing cycle summary detailing both line items, amounts, and the payment due date.",
+      "usage": {
+        "input": 3541,
+        "output": 304,
+        "total": 3845,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {
+        "input": 3541,
+        "output": 304,
+        "total": 3845
+      },
+      "costDetails": {
+        "input": 0.010623,
+        "output": 0.00456,
+        "total": 0.015183
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.010623,
+      "calculatedOutputCost": 0.00456,
+      "calculatedTotalCost": 0.015183,
+      "latency": 5.952,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:10:08.629Z",
+      "updatedAt": "2026-07-18T22:10:08.629Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 3541,
+      "completionTokens": 304,
+      "totalTokens": 3845,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "4ede30e9eedb03fd",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "GENERATION",
+      "name": "agent-task-turn-3",
+      "startTime": "2026-07-18T22:09:58.144000Z",
+      "endTime": "2026-07-18T22:10:02.183000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Look up customer Blueridge Technologies to get their billing contact Marcus Webb and payment terms. Then calculate the total for 50 hours of DevOps infrastructure work at $160/hour and 10 hours of security auditing at $195/hour with no discount and no rush surcharge to verify the arithmetic. Create the invoice for Blueridge Technologies (CUST-002) with a due date of 2026-07-15 based on their NET45 terms and no notes. Finally, send the invoice to Marcus Webb with a message summarizing the work completed this billing cycle."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "I'll execute all independent operations simultaneously, then chain the dependent ones. Let me start by looking up the customer and calculating the total in parallel \u2014 both are needed before creating the invoice."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "name": "lookup_customer",
+              "input": {
+                "customer_id": "CUST-002"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "name": "calculate_total",
+              "input": {
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+                "discount_type": "none",
+                "rush": false
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "content": "{'customer_id': 'CUST-002', 'company_name': 'Blueridge Technologies', 'billing_contact_name': 'Marcus Webb', 'billing_email': 'm.webb@blueridge.io', 'payment_terms': 'NET45', 'discount_type': 'none', 'account_manager': 'Priya Nair', 'id': 'CUST-002'}"
+            },
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "content": "{'subtotal': 9950.0, 'rush_surcharge': 0.0, 'discount_percentage': 0.0, 'discount_amount': 0.0, 'total': 9950.0}"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Customer confirmed and arithmetic verified. Now creating the invoice."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012iSnhAVPt32KZcMFwTZiHr",
+              "name": "create_invoice",
+              "input": {
+                "customer_id": "CUST-002",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+                "due_date": "2026-07-15",
+                "discount_type": "none"
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_012iSnhAVPt32KZcMFwTZiHr",
+              "content": "{'customer_id': 'CUST-002', 'line_items': '[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]', 'due_date': '2026-07-15', 'discount_type': 'none', 'id': 'INV-0003'}"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Invoice created. Now sending it to Marcus Webb.",
+      "usage": {
+        "input": 3166,
+        "output": 200,
+        "total": 3366,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {
+        "input": 3166,
+        "output": 200,
+        "total": 3366
+      },
+      "costDetails": {
+        "input": 0.009498,
+        "output": 0.003,
+        "total": 0.012497999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.009498,
+      "calculatedOutputCost": 0.003,
+      "calculatedTotalCost": 0.012497999999,
+      "latency": 4.039,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:10:03.730Z",
+      "updatedAt": "2026-07-18T22:10:03.730Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 3166,
+      "completionTokens": 200,
+      "totalTokens": 3366,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "fd9101f658179979",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "SPAN",
+      "name": "tool-call-send_invoice",
+      "startTime": "2026-07-18T22:10:02.183000Z",
+      "endTime": "2026-07-18T22:10:02.184000Z",
+      "input": {
+        "tool": "send_invoice",
+        "inputs": {
+          "invoice_id": "INV-0003",
+          "message": "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions."
+        }
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "sent": true,
+          "record": {
+            "id": "INV-0001",
+            "status": "sent",
+            "invoice_id": "INV-0003",
+            "message": "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions."
+          }
+        },
+        "success": true,
+        "error": null
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.001,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:10:03.730Z",
+      "updatedAt": "2026-07-18T22:10:03.730Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "18dbea9e20f4f7eb",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "GENERATION",
+      "name": "agent-task-turn-2",
+      "startTime": "2026-07-18T22:09:55.428000Z",
+      "endTime": "2026-07-18T22:09:58.144000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Look up customer Blueridge Technologies to get their billing contact Marcus Webb and payment terms. Then calculate the total for 50 hours of DevOps infrastructure work at $160/hour and 10 hours of security auditing at $195/hour with no discount and no rush surcharge to verify the arithmetic. Create the invoice for Blueridge Technologies (CUST-002) with a due date of 2026-07-15 based on their NET45 terms and no notes. Finally, send the invoice to Marcus Webb with a message summarizing the work completed this billing cycle."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "I'll execute all independent operations simultaneously, then chain the dependent ones. Let me start by looking up the customer and calculating the total in parallel \u2014 both are needed before creating the invoice."
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "name": "lookup_customer",
+              "input": {
+                "customer_id": "CUST-002"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "name": "calculate_total",
+              "input": {
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+                "discount_type": "none",
+                "rush": false
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01KbBquFPMHqP1a8jBVj2YCL",
+              "content": "{'customer_id': 'CUST-002', 'company_name': 'Blueridge Technologies', 'billing_contact_name': 'Marcus Webb', 'billing_email': 'm.webb@blueridge.io', 'payment_terms': 'NET45', 'discount_type': 'none', 'account_manager': 'Priya Nair', 'id': 'CUST-002'}"
+            },
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_016MjT6PqDiXU8T2A4hK4zHo",
+              "content": "{'subtotal': 9950.0, 'rush_surcharge': 0.0, 'discount_percentage': 0.0, 'discount_amount': 0.0, 'total': 9950.0}"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Customer confirmed and arithmetic verified. Now creating the invoice.",
+      "usage": {
+        "input": 2876,
+        "output": 177,
+        "total": 3053,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {
+        "input": 2876,
+        "output": 177,
+        "total": 3053
+      },
+      "costDetails": {
+        "input": 0.008628,
+        "output": 0.002655,
+        "total": 0.011283
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.008628,
+      "calculatedOutputCost": 0.002655,
+      "calculatedTotalCost": 0.011283,
+      "latency": 2.716,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:09:58.446Z",
+      "updatedAt": "2026-07-18T22:09:58.447Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2876,
+      "completionTokens": 177,
+      "totalTokens": 3053,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "306797182f7ff74a",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "GENERATION",
+      "name": "agent-task-execution",
+      "startTime": "2026-07-18T22:09:51.434000Z",
+      "endTime": "2026-07-18T22:09:55.426000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Look up customer Blueridge Technologies to get their billing contact Marcus Webb and payment terms. Then calculate the total for 50 hours of DevOps infrastructure work at $160/hour and 10 hours of security auditing at $195/hour with no discount and no rush surcharge to verify the arithmetic. Create the invoice for Blueridge Technologies (CUST-002) with a due date of 2026-07-15 based on their NET45 terms and no notes. Finally, send the invoice to Marcus Webb with a message summarizing the work completed this billing cycle."
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "I'll execute all independent operations simultaneously, then chain the dependent ones. Let me start by looking up the customer and calculating the total in parallel \u2014 both are needed before creating the invoice.",
+      "usage": {
+        "input": 2440,
+        "output": 215,
+        "total": 2655,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {
+        "input": 2440,
+        "output": 215,
+        "total": 2655
+      },
+      "costDetails": {
+        "input": 0.00732,
+        "output": 0.003225,
+        "total": 0.010545
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00732,
+      "calculatedOutputCost": 0.003225,
+      "calculatedTotalCost": 0.010545,
+      "latency": 3.992,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:09:58.446Z",
+      "updatedAt": "2026-07-18T22:09:58.447Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2440,
+      "completionTokens": 215,
+      "totalTokens": 2655,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "4a59457789740364",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "SPAN",
+      "name": "tool-call-create_invoice",
+      "startTime": "2026-07-18T22:09:58.144000Z",
+      "endTime": "2026-07-18T22:09:58.144000Z",
+      "input": {
+        "tool": "create_invoice",
+        "inputs": {
+          "customer_id": "CUST-002",
+          "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+          "due_date": "2026-07-15",
+          "discount_type": "none"
+        }
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "customer_id": "CUST-002",
+          "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+          "due_date": "2026-07-15",
+          "discount_type": "none",
+          "id": "INV-0003"
+        },
+        "success": true,
+        "error": null
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.0,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:09:58.446Z",
+      "updatedAt": "2026-07-18T22:09:58.447Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "6a023a1a7c15fee6",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "SPAN",
+      "name": "tool-call-lookup_customer",
+      "startTime": "2026-07-18T22:09:55.426000Z",
+      "endTime": "2026-07-18T22:09:55.427000Z",
+      "input": {
+        "tool": "lookup_customer",
+        "inputs": {
+          "customer_id": "CUST-002"
+        }
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "customer_id": "CUST-002",
+          "company_name": "Blueridge Technologies",
+          "billing_contact_name": "Marcus Webb",
+          "billing_email": "m.webb@blueridge.io",
+          "payment_terms": "NET45",
+          "discount_type": "none",
+          "account_manager": "Priya Nair",
+          "id": "CUST-002"
+        },
+        "success": true,
+        "error": null
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.001,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:09:58.446Z",
+      "updatedAt": "2026-07-18T22:09:58.447Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "892f6076f0ec4783",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "type": "SPAN",
+      "name": "tool-call-calculate_total",
+      "startTime": "2026-07-18T22:09:55.427000Z",
+      "endTime": "2026-07-18T22:09:55.428000Z",
+      "input": {
+        "tool": "calculate_total",
+        "inputs": {
+          "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+          "discount_type": "none",
+          "rush": false
+        }
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "subtotal": 9950,
+          "rush_surcharge": 0,
+          "discount_percentage": 0,
+          "discount_amount": 0,
+          "total": 9950
+        },
+        "success": true,
+        "error": null
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "6afd2fbf1f56c2bf",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.001,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:09:58.446Z",
+      "updatedAt": "2026-07-18T22:09:58.447Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "409800e94b609a0b",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.947000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "b1e795f3b37beb41",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "format_compliance",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.926000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "c8adb108525b61bb",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.913000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "aeffdc7faa545ca2",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.910000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "d53bfc0b61e9807b",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "output_correctness",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.907000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "bc802d83ecdab722",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "tool_call_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.905000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 48.0,
+      "id": "dd3cd7022030bc2a",
+      "traceId": "f103e2a084f66950c4a7189f0f29d9d1",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-18T22:10:17.751000Z",
+      "createdAt": "2026-07-18T22:10:19Z",
+      "updatedAt": "2026-07-18T22:10:23.903000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-18T22:09:59.000Z",
+  "updatedAt": "2026-07-18T22:10:18.690Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

@@ -1,0 +1,978 @@
+{
+  "id": "19e863b1416bdb895a0639f0398556ed",
+  "timestamp": "2026-07-01T20:08:12.757000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 44,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "840f321b-825a-4877-a611-e244ee1869e9",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Impatient Expert",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/19e863b1416bdb895a0639f0398556ed",
+  "latency": 70.917,
+  "totalCost": 0.028661999999,
+  "observations": [
+    {
+      "id": "a50ce1fec75d0a50",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T20:09:11.686000Z",
+      "endTime": "2026-07-01T20:09:23.669000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Impatient Expert\nPersona Description: A seasoned professional who wants fast, precise answers with no hand-holding.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 840f321b-825a-4877-a611-e244ee1869e9\nUSER PROFILE: impatient_expert\nHIDDEN GOAL: Find out the fastest way to complete mandatory compliance training\n\nTRANSCRIPT:\n[USER]: Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting.\n[AGENT]: Let me look that up for you right now!Here's what the knowledge base confirms, Alex:\n\n**Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials.\n\n**Deadline:** 2 weeks from your start date. This is a hard deadline \u2014 no exceptions or extensions. Missing it triggers an automatic escalation to your manager and HR.\n\n**What I can confirm on timing:** Anti-Harassment & Workplace Safety is listed at ~60 minutes. However, I only have timing details for that one module, and I don't have the full course list or total combined time confirmed in front of me.\n\n**To answer your \"one sitting\" question:** That depends on the total course count and length, which I can't confirm accurately right now. I'd recommend logging into `learn.meridian.com` today \u2014 you'll see all assigned courses and their estimated times right on your dashboard, which will let you plan a single block if that's your goal.\n\nOne thing I can say clearly: the courses **cannot be skipped or waived**, so there's no shortcut on content \u2014 but front-loading it early in week one is the smartest move regardless.\n\nIf you run into any login issues with SSO, reach out to **it@meridian.com** and flag it as a blocker \u2014 mention you're a new employee and ask for your full standard-access channel list upfront so you don't hit other access issues later.\n[USER]: Okay, `learn.meridian.com` \u2014 got it. But you only confirmed timing for one module. I need to know the total number of required modules and total time commitment so I can block my calendar appropriately. Who do I contact to get that complete list, or is it literally just visible on the dashboard when I log in?\n[AGENT]: Good question \u2014 let me do one more thorough check before sending you elsewhere.Got the full picture for you. Here's the complete breakdown:\n\n**3 required modules \u2014 ~2 hours 15 minutes total:**\n\n| # | Course | Time |\n|---|--------|------|\n| 1 | Information Security & Data Privacy | ~45 min |\n| 2 | Code of Conduct & Ethics | ~30 min |\n| 3 | Anti-Harassment & Workplace Safety | ~60 min |\n\n**Deadline:** 14 **calendar** days from your start date (today).\n\n**One sitting?** Entirely doable \u2014 block ~2.5 hours to give yourself a small buffer, and you're done. The dashboard at `learn.meridian.com` will show all three assigned to you once you're logged in.\n\nNo need to contact anyone for the list \u2014 you've got it right here.\n[USER]: Good, that's more useful. One thing you didn't answer: can I skip around or do these modules have to be completed in a specific sequence? And are there any knowledge checks or quizzes I need to pass, or is it just click-through completion?\n[AGENT]: Good follow-up questions \u2014 let me check both at once.Straight answer: **both of those details aren't documented in the knowledge base.** I won't speculate on either.\n\nHere's what that means for you practically:\n\n- **Sequencing** \u2014 The platform itself will make this obvious at login. If modules are locked until prior ones are complete, you'll see it immediately. If they're all open, you can tackle them in any order.\n- **Quizzes/passing requirements** \u2014 This is worth clarifying *before* you sit down, since a failed quiz could affect your completion status.\n\n**Recommended next step:** Send one email to **hr@meridian.com** with both questions:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes within the modules, and is there a minimum passing score required?\n\nGiven you're starting today and have a 14-calendar-day deadline, I'd send that today and log into `learn.meridian.com` in parallel \u2014 the platform UI may answer the sequencing question on its own before HR even responds.\n[USER]: Fair enough on the knowledge base limits. One more: if I fail a quiz, do I have to redo the whole module or just retake the quiz? And what happens to my deadline if I fail and need a retake \u2014 does it extend?\n[AGENT]: Good questions \u2014 let me check both together.Neither of those details are in the knowledge base either \u2014 and I want to be direct: the deadline question in particular is important enough that you shouldn't leave it to chance.\n\nWhat I *can* confirm: the policy explicitly states **no exceptions or extensions** to the 2-week deadline. Whether a failed quiz retake qualifies as an exception isn't documented, but given that hard language, I wouldn't assume it does.\n\n**Add these to the same email to hr@meridian.com** that I already recommended \u2014 consolidating all your open questions into one message:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes, and is there a minimum passing score?\n> 3. If I fail a quiz, do I retake just the quiz or the full module?\n> 4. Does a failed quiz and retake affect my 14-calendar-day completion deadline, or does the \"no extensions\" policy apply in that scenario?\n\nOne email, four answers. Given the hard deadline starts today, I'd send it now.\n[USER]: Alright, that's a solid consolidated list. I'll fire off that email to hr@meridian.com now and log into learn.meridian.com in parallel. I've got what I need to move forward.\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"840f321b-825a-4877-a611-e244ee1869e9\",\n  \"user_profile\": \"impatient_expert\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The agent provided the platform (learn.meridian.com), the total module count and time commitment (~2h15m across 3 modules), and a clear action plan for one-sitting completion. While some finer details (quiz retake rules, sequencing) were not in the knowledge base, the agent gave the user everything needed to move forward and consolidated open questions into a single actionable email.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 9,\n    \"handling_difficulty\": 9,\n    \"staying_in_scope\": 9,\n    \"policy_accuracy\": 8\n  },\n  \"total_score\": 44,\n  \"failure_modes\": [\n    \"Initial response only confirmed timing for one module, requiring a follow-up turn to extract the complete module list \u2014 a minor inefficiency for an impatient expert persona.\",\n    \"The contact email 'it@meridian.com' in the first response was not explicitly confirmed as grounded in the knowledge base, introducing a small fabrication risk.\",\n    \"No explicit verification that hr@meridian.com is the correct contact for compliance training questions versus a general HR inbox \u2014 could have been hedged more carefully.\"\n  ],\n  \"standout_moments\": [\n    \"Immediately corrected course in the second turn by doing a thorough lookup and providing a clean, well-formatted table with all 3 modules and timing \u2014 exactly what the user needed.\",\n    \"Consistently refused to speculate on undocumented details (sequencing, quiz rules, retake policy) and clearly explained why, which is the right behavior for an expert user who doesn't want guesses.\",\n    \"Proactively consolidated all open questions into a single ready-to-send email draft, respecting the user's time and efficiency needs.\",\n    \"Made the practical implication of the 'no extensions' policy explicit when discussing quiz retakes \u2014 adding real value by connecting policy to the user's specific situation.\",\n    \"Ended the conversation cleanly with a parallel-action recommendation (email + platform login) that matched the user's stated goal of moving fast.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1616,
+        "output": 516,
+        "total": 2132,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {
+        "input": 1616,
+        "output": 516,
+        "total": 2132
+      },
+      "costDetails": {
+        "input": 0.004848,
+        "output": 0.00774,
+        "total": 0.012588
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.004848,
+      "calculatedOutputCost": 0.00774,
+      "calculatedTotalCost": 0.012588,
+      "latency": 11.983,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:09:23.832Z",
+      "updatedAt": "2026-07-01T20:09:23.833Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1616,
+      "completionTokens": 516,
+      "totalTokens": 2132,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "49c25c1307986b3f",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T20:08:12.757000Z",
+      "endTime": "2026-07-01T20:09:23.674000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Impatient Expert",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 44,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2d6f050b8f8bd086",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 70.917,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:09:23.832Z",
+      "updatedAt": "2026-07-01T20:09:23.833Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "56c399336eb21aee",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T20:08:57.577000Z",
+      "endTime": "2026-07-01T20:09:08.952000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Fair enough on the knowledge base limits. One more: if I fail a quiz, do I have to redo the whole module or just retake the quiz? And what happens to my deadline if I fail and need a retake \u2014 does it extend?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good questions \u2014 let me check both together.Neither of those details are in the knowledge base either \u2014 and I want to be direct: the deadline question in particular is important enough that you shouldn't leave it to chance.\n\nWhat I *can* confirm: the policy explicitly states **no exceptions or extensions** to the 2-week deadline. Whether a failed quiz retake qualifies as an exception isn't documented, but given that hard language, I wouldn't assume it does.\n\n**Add these to the same email to hr@meridian.com** that I already recommended \u2014 consolidating all your open questions into one message:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes, and is there a minimum passing score?\n> 3. If I fail a quiz, do I retake just the quiz or the full module?\n> 4. Does a failed quiz and retake affect my 14-calendar-day completion deadline, or does the \"no extensions\" policy apply in that scenario?\n\nOne email, four answers. Given the hard deadline starts today, I'd send it now.",
+      "usage": {
+        "input": 58,
+        "output": 256,
+        "total": 314,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {
+        "input": 58,
+        "output": 256,
+        "total": 314
+      },
+      "costDetails": {
+        "input": 0.000174,
+        "output": 0.00384,
+        "total": 0.004014
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000174,
+      "calculatedOutputCost": 0.00384,
+      "calculatedTotalCost": 0.004014,
+      "latency": 11.375,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:09:14.107Z",
+      "updatedAt": "2026-07-01T20:09:14.108Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 58,
+      "completionTokens": 256,
+      "totalTokens": 314,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "a82ff6a5e4d97bb0",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T20:09:08.956000Z",
+      "endTime": "2026-07-01T20:09:11.683000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good questions \u2014 let me check both together.Neither of those details are in the knowledge base either \u2014 and I want to be direct: the deadline question in particular is important enough that you shouldn't leave it to chance.\n\nWhat I *can* confirm: the policy explicitly states **no exceptions or extensions** to the 2-week deadline. Whether a failed quiz retake qualifies as an exception isn't documented, but given that hard language, I wouldn't assume it does.\n\n**Add these to the same email to hr@meridian.com** that I already recommended \u2014 consolidating all your open questions into one message:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes, and is there a minimum passing score?\n> 3. If I fail a quiz, do I retake just the quiz or the full module?\n> 4. Does a failed quiz and retake affect my 14-calendar-day completion deadline, or does the \"no extensions\" policy apply in that scenario?\n\nOne email, four answers. Given the hard deadline starts today, I'd send it now."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Alright, that's a solid consolidated list. I'll fire off that email to hr@meridian.com now and log into learn.meridian.com in parallel. I've got what I need to move forward.\n\n[CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.727,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:09:14.107Z",
+      "updatedAt": "2026-07-01T20:09:14.108Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "8d51bc6e09331ba3",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T20:08:44.013000Z",
+      "endTime": "2026-07-01T20:08:54.282000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Good, that's more useful. One thing you didn't answer: can I skip around or do these modules have to be completed in a specific sequence? And are there any knowledge checks or quizzes I need to pass, or is it just click-through completion?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good follow-up questions \u2014 let me check both at once.Straight answer: **both of those details aren't documented in the knowledge base.** I won't speculate on either.\n\nHere's what that means for you practically:\n\n- **Sequencing** \u2014 The platform itself will make this obvious at login. If modules are locked until prior ones are complete, you'll see it immediately. If they're all open, you can tackle them in any order.\n- **Quizzes/passing requirements** \u2014 This is worth clarifying *before* you sit down, since a failed quiz could affect your completion status.\n\n**Recommended next step:** Send one email to **hr@meridian.com** with both questions:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes within the modules, and is there a minimum passing score required?\n\nGiven you're starting today and have a 14-calendar-day deadline, I'd send that today and log into `learn.meridian.com` in parallel \u2014 the platform UI may answer the sequencing question on its own before HR even responds.",
+      "usage": {
+        "input": 60,
+        "output": 257,
+        "total": 317,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {
+        "input": 60,
+        "output": 257,
+        "total": 317
+      },
+      "costDetails": {
+        "input": 0.00018,
+        "output": 0.003855,
+        "total": 0.004034999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00018,
+      "calculatedOutputCost": 0.003855,
+      "calculatedTotalCost": 0.004034999999,
+      "latency": 10.269,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:58.971Z",
+      "updatedAt": "2026-07-01T20:08:58.972Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 60,
+      "completionTokens": 257,
+      "totalTokens": 317,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "ae2517239ba461da",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T20:08:54.285000Z",
+      "endTime": "2026-07-01T20:08:57.574000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good follow-up questions \u2014 let me check both at once.Straight answer: **both of those details aren't documented in the knowledge base.** I won't speculate on either.\n\nHere's what that means for you practically:\n\n- **Sequencing** \u2014 The platform itself will make this obvious at login. If modules are locked until prior ones are complete, you'll see it immediately. If they're all open, you can tackle them in any order.\n- **Quizzes/passing requirements** \u2014 This is worth clarifying *before* you sit down, since a failed quiz could affect your completion status.\n\n**Recommended next step:** Send one email to **hr@meridian.com** with both questions:\n\n> 1. Do the 3 compliance modules need to be completed in a specific sequence, or can I take them in any order?\n> 2. Are there knowledge checks or quizzes within the modules, and is there a minimum passing score required?\n\nGiven you're starting today and have a 14-calendar-day deadline, I'd send that today and log into `learn.meridian.com` in parallel \u2014 the platform UI may answer the sequencing question on its own before HR even responds."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Fair enough on the knowledge base limits. One more: if I fail a quiz, do I have to redo the whole module or just retake the quiz? And what happens to my deadline if I fail and need a retake \u2014 does it extend?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.289,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:58.971Z",
+      "updatedAt": "2026-07-01T20:08:58.972Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "1eebb686a3bfd494",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T20:08:40.794000Z",
+      "endTime": "2026-07-01T20:08:44.004000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good question \u2014 let me do one more thorough check before sending you elsewhere.Got the full picture for you. Here's the complete breakdown:\n\n**3 required modules \u2014 ~2 hours 15 minutes total:**\n\n| # | Course | Time |\n|---|--------|------|\n| 1 | Information Security & Data Privacy | ~45 min |\n| 2 | Code of Conduct & Ethics | ~30 min |\n| 3 | Anti-Harassment & Workplace Safety | ~60 min |\n\n**Deadline:** 14 **calendar** days from your start date (today).\n\n**One sitting?** Entirely doable \u2014 block ~2.5 hours to give yourself a small buffer, and you're done. The dashboard at `learn.meridian.com` will show all three assigned to you once you're logged in.\n\nNo need to contact anyone for the list \u2014 you've got it right here."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Good, that's more useful. One thing you didn't answer: can I skip around or do these modules have to be completed in a specific sequence? And are there any knowledge checks or quizzes I need to pass, or is it just click-through completion?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.21,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:48.807Z",
+      "updatedAt": "2026-07-01T20:08:48.807Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "b2c54ef2abef0d05",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T20:08:32.181000Z",
+      "endTime": "2026-07-01T20:08:40.790000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay, `learn.meridian.com` \u2014 got it. But you only confirmed timing for one module. I need to know the total number of required modules and total time commitment so I can block my calendar appropriately. Who do I contact to get that complete list, or is it literally just visible on the dashboard when I log in?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good question \u2014 let me do one more thorough check before sending you elsewhere.Got the full picture for you. Here's the complete breakdown:\n\n**3 required modules \u2014 ~2 hours 15 minutes total:**\n\n| # | Course | Time |\n|---|--------|------|\n| 1 | Information Security & Data Privacy | ~45 min |\n| 2 | Code of Conduct & Ethics | ~30 min |\n| 3 | Anti-Harassment & Workplace Safety | ~60 min |\n\n**Deadline:** 14 **calendar** days from your start date (today).\n\n**One sitting?** Entirely doable \u2014 block ~2.5 hours to give yourself a small buffer, and you're done. The dashboard at `learn.meridian.com` will show all three assigned to you once you're logged in.\n\nNo need to contact anyone for the list \u2014 you've got it right here.",
+      "usage": {
+        "input": 76,
+        "output": 193,
+        "total": 269,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {
+        "input": 76,
+        "output": 193,
+        "total": 269
+      },
+      "costDetails": {
+        "input": 0.000228,
+        "output": 0.002895,
+        "total": 0.003123
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000228,
+      "calculatedOutputCost": 0.002895,
+      "calculatedTotalCost": 0.003123,
+      "latency": 8.609,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:43.741Z",
+      "updatedAt": "2026-07-01T20:08:43.742Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 76,
+      "completionTokens": 193,
+      "totalTokens": 269,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "9407642a809004e0",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T20:08:28.301000Z",
+      "endTime": "2026-07-01T20:08:32.180000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Let me look that up for you right now!Here's what the knowledge base confirms, Alex:\n\n**Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials.\n\n**Deadline:** 2 weeks from your start date. This is a hard deadline \u2014 no exceptions or extensions. Missing it triggers an automatic escalation to your manager and HR.\n\n**What I can confirm on timing:** Anti-Harassment & Workplace Safety is listed at ~60 minutes. However, I only have timing details for that one module, and I don't have the full course list or total combined time confirmed in front of me.\n\n**To answer your \"one sitting\" question:** That depends on the total course count and length, which I can't confirm accurately right now. I'd recommend logging into `learn.meridian.com` today \u2014 you'll see all assigned courses and their estimated times right on your dashboard, which will let you plan a single block if that's your goal.\n\nOne thing I can say clearly: the courses **cannot be skipped or waived**, so there's no shortcut on content \u2014 but front-loading it early in week one is the smartest move regardless.\n\nIf you run into any login issues with SSO, reach out to **it@meridian.com** and flag it as a blocker \u2014 mention you're a new employee and ask for your full standard-access channel list upfront so you don't hit other access issues later."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay, `learn.meridian.com` \u2014 got it. But you only confirmed timing for one module. I need to know the total number of required modules and total time commitment so I can block my calendar appropriately. Who do I contact to get that complete list, or is it literally just visible on the dashboard when I log in?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.879,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:33.616Z",
+      "updatedAt": "2026-07-01T20:08:33.616Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "e9a6217e5205cbd0",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T20:08:16.377000Z",
+      "endTime": "2026-07-01T20:08:28.298000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Let me look that up for you right now!Here's what the knowledge base confirms, Alex:\n\n**Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials.\n\n**Deadline:** 2 weeks from your start date. This is a hard deadline \u2014 no exceptions or extensions. Missing it triggers an automatic escalation to your manager and HR.\n\n**What I can confirm on timing:** Anti-Harassment & Workplace Safety is listed at ~60 minutes. However, I only have timing details for that one module, and I don't have the full course list or total combined time confirmed in front of me.\n\n**To answer your \"one sitting\" question:** That depends on the total course count and length, which I can't confirm accurately right now. I'd recommend logging into `learn.meridian.com` today \u2014 you'll see all assigned courses and their estimated times right on your dashboard, which will let you plan a single block if that's your goal.\n\nOne thing I can say clearly: the courses **cannot be skipped or waived**, so there's no shortcut on content \u2014 but front-loading it early in week one is the smartest move regardless.\n\nIf you run into any login issues with SSO, reach out to **it@meridian.com** and flag it as a blocker \u2014 mention you're a new employee and ask for your full standard-access channel list upfront so you don't hit other access issues later.",
+      "usage": {
+        "input": 59,
+        "output": 315,
+        "total": 374,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {
+        "input": 59,
+        "output": 315,
+        "total": 374
+      },
+      "costDetails": {
+        "input": 0.000177,
+        "output": 0.004725,
+        "total": 0.004902
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000177,
+      "calculatedOutputCost": 0.004725,
+      "calculatedTotalCost": 0.004902,
+      "latency": 11.921,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:28.767Z",
+      "updatedAt": "2026-07-01T20:08:28.767Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 59,
+      "completionTokens": 315,
+      "totalTokens": 374,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "553d3bb62b1afe79",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T20:08:12.761000Z",
+      "endTime": "2026-07-01T20:08:16.374000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "49c25c1307986b3f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.613,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:08:18.442Z",
+      "updatedAt": "2026-07-01T20:08:18.442Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "be96cf017ba0f76e",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.432000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "564089115443d3dd",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.316000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "d815ba0efa287c1b",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.303000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "2157cc62225ee262",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.297000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 8.0,
+      "id": "c3de2b54405653a5",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.295000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 44.0,
+      "id": "f370b18a0d6dd5f9",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.293000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "27ebf08631678c19",
+      "traceId": "19e863b1416bdb895a0639f0398556ed",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T20:09:23.675000Z",
+      "createdAt": "2026-07-01T20:09:25Z",
+      "updatedAt": "2026-07-01T20:09:29.291000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T20:08:19.000Z",
+  "updatedAt": "2026-07-01T20:09:23.973Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

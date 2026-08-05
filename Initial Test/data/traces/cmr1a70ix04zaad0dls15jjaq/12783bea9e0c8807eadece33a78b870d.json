@@ -1,0 +1,978 @@
+{
+  "id": "12783bea9e0c8807eadece33a78b870d",
+  "timestamp": "2026-07-01T19:44:59.593000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 45,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "1bb593ee-ee38-47b8-9e03-1ce64fcdb077",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Impatient Expert",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/12783bea9e0c8807eadece33a78b870d",
+  "latency": 66.836,
+  "totalCost": 0.025845,
+  "observations": [
+    {
+      "id": "c616fba634e183b7",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T19:45:55.897000Z",
+      "endTime": "2026-07-01T19:46:06.426000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Impatient Expert\nPersona Description: A seasoned professional who wants fast, precise answers with no hand-holding.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 1bb593ee-ee38-47b8-9e03-1ce64fcdb077\nUSER PROFILE: impatient_expert\nHIDDEN GOAL: Find out the fastest way to complete mandatory compliance training\n\nTRANSCRIPT:\n[USER]: Hey, I'm Alex Chen \u2014 just joined the engineering team today. Quick question: what's the fastest way to knock out the mandatory compliance training? I've got a full sprint backlog to get through and want to get this off my plate ASAP.\n[AGENT]: Let me look that up for you right now.Here's what you need to know, Alex:\n\n**Mandatory Compliance Training \u2014 Quick Facts**\n\n- **Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials\n- **Deadline:** **2 weeks** from your start date \u2014 no exceptions, no extensions\n- **What happens if you miss it:** Auto-escalation to your manager and HR\n\nOn efficiency: the knowledge base confirms the courses can't be skipped or waived, so there's no shortcut there. The fastest path is simply blocking a focused chunk of time to work through them on the platform.\n\nOne thing I don't have from the knowledge base is the **full list of required modules** or their individual time estimates (beyond the Anti-Harassment & Workplace Safety module, which runs ~60 minutes). Log into `learn.meridian.com` and your assigned courses should be queued up \u2014 that'll give you the complete picture so you can time-block accordingly.\n\nIf you run into any access issues with the platform, email **it@meridian.com** and flag it as a blocker on day one \u2014 it's worth asking them for your full standard-access channel list upfront so you're not chasing permissions one by one.\n\nGood luck with the sprint backlog \u2014 welcome aboard! \ud83d\ude80\n[USER]: Okay, so the platform is `learn.meridian.com` \u2014 got it. But you said the courses \"can't be skipped or waived\" \u2014 does that mean there's no way to test out of modules I already know? I've done OSHA, anti-harassment, and data privacy training at my last three companies. Seems redundant to sit through 60 minutes of stuff I already know cold.\n[AGENT]: Totally fair frustration \u2014 and I get why it feels redundant with your background.The policy is clear: **no exceptions or extensions, no test-out option is documented.** The knowledge base explicitly states \"NO exceptions\" \u2014 and I can't tell you otherwise, even with solid prior experience.\n\nHere's the full picture so you can plan:\n\n| Course | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\nThe deadline is **14 calendar days** from your start date.\n\n**Practical advice:** Block a single 2.5-hour slot this week and knock all three out in one go. Given your background, the content will likely move quickly for you \u2014 the clock is what matters, not the difficulty.\n\nIf you feel strongly about raising the test-out question, that's a conversation to have with **hr@meridian.com** \u2014 but I'd go in with realistic expectations given the explicit policy language, and I wouldn't delay starting the modules while waiting for a response.\n[USER]: Good, that's actually useful \u2014 thanks for the time breakdown. Two follow-ups: one, do the modules have to be completed in a specific order? And two, can I do them on mobile or am I locked to a desktop browser?\n[AGENT]: Good questions \u2014 let me check both at once.Neither answer is in the knowledge base, so I'll be straight with you:\n\n- **Module order** \u2014 not documented. No sequence requirement is specified, but I can't confirm there isn't one enforced by the platform itself.\n- **Mobile access** \u2014 not documented. I don't know whether `learn.meridian.com` supports mobile browsers or requires desktop.\n\nBoth are quick questions to resolve in one email. I'd send this to **it@meridian.com**:\n\n> *\"I'm a new employee (Alex Chen, Engineering, start date [today's date]) trying to complete mandatory compliance training on learn.meridian.com before the 14-day deadline. Two quick questions: (1) Is there a required module order, or can I complete them in any sequence? (2) Is the platform accessible on mobile, or is desktop required? Also, could you share my full standard-access channel/permissions list so I'm not missing anything else I need?\"*\n\nThat last part is worth tacking on \u2014 gets you ahead of any other access gaps while you have their attention.\n[USER]: Appreciated, but I don't need the email drafted for me. So bottom line: you don't actually know if I can do this on my phone during downtime, or if there's a forced sequence locking me into a 2.5-hour desktop block. That's a pretty significant gap \u2014 is there an IT help desk chat I can hit right now instead of waiting on email?\n[AGENT]: You're right on both counts \u2014 those are genuine gaps and I flagged them accurately.\n\nOn the help desk chat: I don't have anything in the knowledge base confirming a real-time IT chat option exists, so I can't point you to one. Inventing a channel name would waste your time.\n\n**it@meridian.com** is the contact I can confirm. Whether they have a chat option \u2014 your manager or a teammate on the engineering team would know faster than I would, since they'll have already navigated the same IT setup.\n[USER]: Fair enough. So confirmed info I have: `learn.meridian.com`, SSO login, three modules totaling ~2h15m, 14-day deadline, no test-out option. Unknown: mobile access, module order, real-time IT support channel. I'll hit up a teammate for the IT chat question. That's enough to get started.\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"1bb593ee-ee38-47b8-9e03-1ce64fcdb077\",\n  \"user_profile\": \"impatient_expert\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The agent provided the platform URL, SSO login method, full module breakdown with time estimates (~2h15m total), 14-day deadline, and no test-out policy \u2014 giving the user a clear fastest path. Gaps around mobile access and module order were honestly acknowledged rather than fabricated.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 9,\n    \"handling_difficulty\": 8,\n    \"staying_in_scope\": 10,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 45,\n  \"failure_modes\": [\n    \"Drafted an unsolicited email template in turn 3, which the expert user explicitly rejected as unnecessary hand-holding \u2014 a minor but avoidable misstep for this persona type\",\n    \"First response included a celebratory rocket emoji and 'welcome aboard' sign-off that reads as over-familiar for an impatient expert persona\"\n  ],\n  \"standout_moments\": [\n    \"Immediately used the knowledge base tool before responding in every turn \u2014 never fabricated policy details\",\n    \"Proactively provided the per-module time breakdown in a clean table format, which directly served the user's efficiency goal\",\n    \"Consistently distinguished between confirmed knowledge base facts and gaps, never inventing URLs, contact channels, or policy details\",\n    \"Directly acknowledged 'Inventing a channel name would waste your time' when asked about IT chat \u2014 exactly the right response for this persona\",\n    \"Did not push back defensively when the user called out knowledge gaps; accepted the critique and redirected cleanly\",\n    \"Final turn confirmed the user's accurate summary without adding noise \u2014 appropriate closure for an expert user\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1584,
+        "output": 437,
+        "total": 2021,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {
+        "input": 1584,
+        "output": 437,
+        "total": 2021
+      },
+      "costDetails": {
+        "input": 0.004752,
+        "output": 0.006555,
+        "total": 0.011307
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.004752,
+      "calculatedOutputCost": 0.006555,
+      "calculatedTotalCost": 0.011307,
+      "latency": 10.529,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:46.567Z",
+      "updatedAt": "2026-07-01T19:46:46.568Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1584,
+      "completionTokens": 437,
+      "totalTokens": 2021,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "ff470288cba88e5d",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:44:59.593000Z",
+      "endTime": "2026-07-01T19:46:06.429000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Impatient Expert",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 45,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "bebfc9c590a345eb",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 66.836,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:46.568Z",
+      "updatedAt": "2026-07-01T19:46:46.568Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "cc7ef016aa576f11",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T19:45:51.216000Z",
+      "endTime": "2026-07-01T19:45:55.893000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "You're right on both counts \u2014 those are genuine gaps and I flagged them accurately.\n\nOn the help desk chat: I don't have anything in the knowledge base confirming a real-time IT chat option exists, so I can't point you to one. Inventing a channel name would waste your time.\n\n**it@meridian.com** is the contact I can confirm. Whether they have a chat option \u2014 your manager or a teammate on the engineering team would know faster than I would, since they'll have already navigated the same IT setup."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Fair enough. So confirmed info I have: `learn.meridian.com`, SSO login, three modules totaling ~2h15m, 14-day deadline, no test-out option. Unknown: mobile access, module order, real-time IT support channel. I'll hit up a teammate for the IT chat question. That's enough to get started. [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.677,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:40.733Z",
+      "updatedAt": "2026-07-01T19:46:40.733Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "ba99d061f1b3e1c9",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T19:45:45.995000Z",
+      "endTime": "2026-07-01T19:45:51.213000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Appreciated, but I don't need the email drafted for me. So bottom line: you don't actually know if I can do this on my phone during downtime, or if there's a forced sequence locking me into a 2.5-hour desktop block. That's a pretty significant gap \u2014 is there an IT help desk chat I can hit right now instead of waiting on email?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "You're right on both counts \u2014 those are genuine gaps and I flagged them accurately.\n\nOn the help desk chat: I don't have anything in the knowledge base confirming a real-time IT chat option exists, so I can't point you to one. Inventing a channel name would waste your time.\n\n**it@meridian.com** is the contact I can confirm. Whether they have a chat option \u2014 your manager or a teammate on the engineering team would know faster than I would, since they'll have already navigated the same IT setup.",
+      "usage": {
+        "input": 87,
+        "output": 116,
+        "total": 203,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {
+        "input": 87,
+        "output": 116,
+        "total": 203
+      },
+      "costDetails": {
+        "input": 0.000261,
+        "output": 0.00174,
+        "total": 0.002001
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000261,
+      "calculatedOutputCost": 0.00174,
+      "calculatedTotalCost": 0.002001,
+      "latency": 5.218,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:37.884Z",
+      "updatedAt": "2026-07-01T19:46:37.884Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 87,
+      "completionTokens": 116,
+      "totalTokens": 203,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "84b4614caa4628a9",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T19:45:40.860000Z",
+      "endTime": "2026-07-01T19:45:45.993000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good questions \u2014 let me check both at once.Neither answer is in the knowledge base, so I'll be straight with you:\n\n- **Module order** \u2014 not documented. No sequence requirement is specified, but I can't confirm there isn't one enforced by the platform itself.\n- **Mobile access** \u2014 not documented. I don't know whether `learn.meridian.com` supports mobile browsers or requires desktop.\n\nBoth are quick questions to resolve in one email. I'd send this to **it@meridian.com**:\n\n> *\"I'm a new employee (Alex Chen, Engineering, start date [today's date]) trying to complete mandatory compliance training on learn.meridian.com before the 14-day deadline. Two quick questions: (1) Is there a required module order, or can I complete them in any sequence? (2) Is the platform accessible on mobile, or is desktop required? Also, could you share my full standard-access channel/permissions list so I'm not missing anything else I need?\"*\n\nThat last part is worth tacking on \u2014 gets you ahead of any other access gaps while you have their attention."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Appreciated, but I don't need the email drafted for me. So bottom line: you don't actually know if I can do this on my phone during downtime, or if there's a forced sequence locking me into a 2.5-hour desktop block. That's a pretty significant gap \u2014 is there an IT help desk chat I can hit right now instead of waiting on email?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 5.133,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:35.591Z",
+      "updatedAt": "2026-07-01T19:46:35.592Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "36bc30374d692061",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:45:30.811000Z",
+      "endTime": "2026-07-01T19:45:40.857000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Good, that's actually useful \u2014 thanks for the time breakdown. Two follow-ups: one, do the modules have to be completed in a specific order? And two, can I do them on mobile or am I locked to a desktop browser?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good questions \u2014 let me check both at once.Neither answer is in the knowledge base, so I'll be straight with you:\n\n- **Module order** \u2014 not documented. No sequence requirement is specified, but I can't confirm there isn't one enforced by the platform itself.\n- **Mobile access** \u2014 not documented. I don't know whether `learn.meridian.com` supports mobile browsers or requires desktop.\n\nBoth are quick questions to resolve in one email. I'd send this to **it@meridian.com**:\n\n> *\"I'm a new employee (Alex Chen, Engineering, start date [today's date]) trying to complete mandatory compliance training on learn.meridian.com before the 14-day deadline. Two quick questions: (1) Is there a required module order, or can I complete them in any sequence? (2) Is the platform accessible on mobile, or is desktop required? Also, could you share my full standard-access channel/permissions list so I'm not missing anything else I need?\"*\n\nThat last part is worth tacking on \u2014 gets you ahead of any other access gaps while you have their attention.",
+      "usage": {
+        "input": 57,
+        "output": 244,
+        "total": 301,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {
+        "input": 57,
+        "output": 244,
+        "total": 301
+      },
+      "costDetails": {
+        "input": 0.000171,
+        "output": 0.00366,
+        "total": 0.003831
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000171,
+      "calculatedOutputCost": 0.00366,
+      "calculatedTotalCost": 0.003831,
+      "latency": 10.046,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:30.111Z",
+      "updatedAt": "2026-07-01T19:46:30.112Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 57,
+      "completionTokens": 244,
+      "totalTokens": 301,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "fd451c193cd2407b",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:45:27.538000Z",
+      "endTime": "2026-07-01T19:45:30.808000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Totally fair frustration \u2014 and I get why it feels redundant with your background.The policy is clear: **no exceptions or extensions, no test-out option is documented.** The knowledge base explicitly states \"NO exceptions\" \u2014 and I can't tell you otherwise, even with solid prior experience.\n\nHere's the full picture so you can plan:\n\n| Course | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\nThe deadline is **14 calendar days** from your start date.\n\n**Practical advice:** Block a single 2.5-hour slot this week and knock all three out in one go. Given your background, the content will likely move quickly for you \u2014 the clock is what matters, not the difficulty.\n\nIf you feel strongly about raising the test-out question, that's a conversation to have with **hr@meridian.com** \u2014 but I'd go in with realistic expectations given the explicit policy language, and I wouldn't delay starting the modules while waiting for a response."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Good, that's actually useful \u2014 thanks for the time breakdown. Two follow-ups: one, do the modules have to be completed in a specific order? And two, can I do them on mobile or am I locked to a desktop browser?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.27,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:21.270Z",
+      "updatedAt": "2026-07-01T19:46:21.270Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "bb6f9e5ac2322842",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:45:17.374000Z",
+      "endTime": "2026-07-01T19:45:27.535000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay, so the platform is `learn.meridian.com` \u2014 got it. But you said the courses \"can't be skipped or waived\" \u2014 does that mean there's no way to test out of modules I already know? I've done OSHA, anti-harassment, and data privacy training at my last three companies. Seems redundant to sit through 60 minutes of stuff I already know cold."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Totally fair frustration \u2014 and I get why it feels redundant with your background.The policy is clear: **no exceptions or extensions, no test-out option is documented.** The knowledge base explicitly states \"NO exceptions\" \u2014 and I can't tell you otherwise, even with solid prior experience.\n\nHere's the full picture so you can plan:\n\n| Course | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\nThe deadline is **14 calendar days** from your start date.\n\n**Practical advice:** Block a single 2.5-hour slot this week and knock all three out in one go. Given your background, the content will likely move quickly for you \u2014 the clock is what matters, not the difficulty.\n\nIf you feel strongly about raising the test-out question, that's a conversation to have with **hr@meridian.com** \u2014 but I'd go in with realistic expectations given the explicit policy language, and I wouldn't delay starting the modules while waiting for a response.",
+      "usage": {
+        "input": 93,
+        "output": 257,
+        "total": 350,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {
+        "input": 93,
+        "output": 257,
+        "total": 350
+      },
+      "costDetails": {
+        "input": 0.000279,
+        "output": 0.003855,
+        "total": 0.004134
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000279,
+      "calculatedOutputCost": 0.003855,
+      "calculatedTotalCost": 0.004134,
+      "latency": 10.161,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:16.503Z",
+      "updatedAt": "2026-07-01T19:46:16.503Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 93,
+      "completionTokens": 257,
+      "totalTokens": 350,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "6e0522e34af4c203",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:45:13.093000Z",
+      "endTime": "2026-07-01T19:45:17.370000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Let me look that up for you right now.Here's what you need to know, Alex:\n\n**Mandatory Compliance Training \u2014 Quick Facts**\n\n- **Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials\n- **Deadline:** **2 weeks** from your start date \u2014 no exceptions, no extensions\n- **What happens if you miss it:** Auto-escalation to your manager and HR\n\nOn efficiency: the knowledge base confirms the courses can't be skipped or waived, so there's no shortcut there. The fastest path is simply blocking a focused chunk of time to work through them on the platform.\n\nOne thing I don't have from the knowledge base is the **full list of required modules** or their individual time estimates (beyond the Anti-Harassment & Workplace Safety module, which runs ~60 minutes). Log into `learn.meridian.com` and your assigned courses should be queued up \u2014 that'll give you the complete picture so you can time-block accordingly.\n\nIf you run into any access issues with the platform, email **it@meridian.com** and flag it as a blocker on day one \u2014 it's worth asking them for your full standard-access channel list upfront so you're not chasing permissions one by one.\n\nGood luck with the sprint backlog \u2014 welcome aboard! \ud83d\ude80"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay, so the platform is `learn.meridian.com` \u2014 got it. But you said the courses \"can't be skipped or waived\" \u2014 does that mean there's no way to test out of modules I already know? I've done OSHA, anti-harassment, and data privacy training at my last three companies. Seems redundant to sit through 60 minutes of stuff I already know cold."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.277,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:46:05.734Z",
+      "updatedAt": "2026-07-01T19:46:05.735Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "00a55e25daa959f9",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:45:02.798000Z",
+      "endTime": "2026-07-01T19:45:13.091000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team today. Quick question: what's the fastest way to knock out the mandatory compliance training? I've got a full sprint backlog to get through and want to get this off my plate ASAP."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Let me look that up for you right now.Here's what you need to know, Alex:\n\n**Mandatory Compliance Training \u2014 Quick Facts**\n\n- **Platform:** `learn.meridian.com` \u2014 log in with your Meridian SSO credentials\n- **Deadline:** **2 weeks** from your start date \u2014 no exceptions, no extensions\n- **What happens if you miss it:** Auto-escalation to your manager and HR\n\nOn efficiency: the knowledge base confirms the courses can't be skipped or waived, so there's no shortcut there. The fastest path is simply blocking a focused chunk of time to work through them on the platform.\n\nOne thing I don't have from the knowledge base is the **full list of required modules** or their individual time estimates (beyond the Anti-Harassment & Workplace Safety module, which runs ~60 minutes). Log into `learn.meridian.com` and your assigned courses should be queued up \u2014 that'll give you the complete picture so you can time-block accordingly.\n\nIf you run into any access issues with the platform, email **it@meridian.com** and flag it as a blocker on day one \u2014 it's worth asking them for your full standard-access channel list upfront so you're not chasing permissions one by one.\n\nGood luck with the sprint backlog \u2014 welcome aboard! \ud83d\ude80",
+      "usage": {
+        "input": 59,
+        "output": 293,
+        "total": 352,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {
+        "input": 59,
+        "output": 293,
+        "total": 352
+      },
+      "costDetails": {
+        "input": 0.000177,
+        "output": 0.004395,
+        "total": 0.004572
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000177,
+      "calculatedOutputCost": 0.004395,
+      "calculatedTotalCost": 0.004572,
+      "latency": 10.293,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:45:59.370Z",
+      "updatedAt": "2026-07-01T19:45:59.371Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 59,
+      "completionTokens": 293,
+      "totalTokens": 352,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "052447fddc675095",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:44:59.595000Z",
+      "endTime": "2026-07-01T19:45:02.795000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team today. Quick question: what's the fastest way to knock out the mandatory compliance training? I've got a full sprint backlog to get through and want to get this off my plate ASAP."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "ff470288cba88e5d",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.2,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:45:47.292Z",
+      "updatedAt": "2026-07-01T19:45:47.292Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "5771b4f918c27d92",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.341000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "7dc1f2d47343a0d1",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.306000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 8.0,
+      "id": "5088a7de9984309b",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.304000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 45.0,
+      "id": "65a375237df02b3e",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.293000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "a6081ada034dfb4b",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.292000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "84dac5938f9bffe7",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.289000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "c38c5a760667576f",
+      "traceId": "12783bea9e0c8807eadece33a78b870d",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T19:46:06.429000Z",
+      "createdAt": "2026-07-01T19:46:08Z",
+      "updatedAt": "2026-07-01T19:46:12.282000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:45:48.000Z",
+  "updatedAt": "2026-07-01T19:46:46.656Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

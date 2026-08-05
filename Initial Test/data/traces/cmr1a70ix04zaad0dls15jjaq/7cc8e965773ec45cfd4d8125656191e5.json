@@ -1,0 +1,978 @@
+{
+  "id": "7cc8e965773ec45cfd4d8125656191e5",
+  "timestamp": "2026-07-01T19:59:23.518000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 44,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "db904e15-cade-47c0-a81d-82ab2c858b43",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Confused Novice",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/7cc8e965773ec45cfd4d8125656191e5",
+  "latency": 69.336,
+  "totalCost": 0.031092,
+  "observations": [
+    {
+      "id": "a36c7db02e92802d",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T20:00:19.307000Z",
+      "endTime": "2026-07-01T20:00:32.850000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Confused Novice\nPersona Description: A brand-new employee who is overwhelmed and needs patient, step-by-step guidance.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: db904e15-cade-47c0-a81d-82ab2c858b43\nUSER PROFILE: confused_novice\nHIDDEN GOAL: Find out how to set up direct deposit for your paycheck\n\nTRANSCRIPT:\n[USER]: Hi! I'm Jamie, I just started today in the marketing department. Everyone's been super nice but I'm kind of drowning in information right now \ud83d\ude05\n\nUm, so I had a quick question \u2014 I want to make sure I actually, like, *get paid* properly? I'm not sure who I'm supposed to talk to about that or where that even gets set up. Is that something you handle here?\n[AGENT]: Hi Jamie, welcome to Meridian Corp! Totally understandable \u2014 first days are a lot! Let's make sure you get paid properly, that's definitely priority one. \ud83d\ude04\n\nLet me look that up for you right now!Great news \u2014 this is absolutely something I can help you navigate! Here's what you need to know:\n\n**Payroll at Meridian Corp:**\n- **Pay schedule:** You'll be paid **bi-weekly, every other Friday**\n- **Direct deposit:** You can split deposits across multiple accounts if you'd like\n- **Changes** to your direct deposit info take effect within **1\u20132 pay cycles**\n\n**To get set up**, payroll is managed through **ADP**. If you run into any login issues getting into the system, reach out to **payroll@meridian.com** and they'll sort you out.\n\n**My suggestion for today:** Getting your direct deposit set up should be near the top of your to-do list so there are no delays on your first paycheck. If you haven't received your ADP login credentials yet, that's a great first question for payroll@meridian.com.\n\nIs there anything else you'd like help with \u2014 benefits, your equipment setup, or anything else from your onboarding checklist? I'm happy to keep going! \ud83d\ude0a\n[USER]: Oh okay, ADP! I've heard of that I think... maybe? So I need to log into something called ADP to set up my direct deposit? \n\nBut wait \u2014 how do I actually *get into* ADP? Like do I already have an account or do they make one for me? I don't think I got any emails about that yet, I've just been getting a lot of welcome messages and stuff.\n[AGENT]: Good question \u2014 let me check on how that account access works!Good news \u2014 the account is made for you! Here's how it works:\n\n**Getting into ADP:**\n1. Go to **meridian.adp.com**\n2. Log in with your **Meridian work email** and a **temporary password** that should have been emailed to you on Day 1\n\nSince you mentioned you've only been getting welcome messages \u2014 it's worth doing a quick search in your inbox for something from ADP or payroll. Sometimes it gets buried! Check your spam folder too, just in case.\n\n**If you still can't find it**, just email **payroll@meridian.com** and let them know you haven't received your ADP login credentials yet. They'll get you sorted out quickly.\n\nOnce you're in, setting up direct deposit is pretty straightforward:\n- Go to **Pay \u2192 Direct Deposit**\n- Click **Add Bank Account** and enter your routing and account numbers\n- You're done! (Just remember it takes 1\u20132 pay cycles to kick in)\n\nDoes that help clarify things? And feel free to ask about anything else \u2014 there's a lot to figure out on day one! \ud83d\ude0a\n[USER]: Okay so I go to meridian.adp.com... got it. But wait, what's a routing number? Is that the same as my account number? I feel like I've seen both of those on something before but I'm not totally sure which is which.\n[AGENT]: That's a really common question, don't worry! This is actually general banking info rather than something specific to Meridian's policies, so I'm happy to explain it:\n\n**Routing Number vs. Account Number:**\n\n- **Routing number** \u2014 This is a **9-digit number** that identifies your *bank*. Think of it like your bank's address. Every branch/bank has one.\n- **Account number** \u2014 This identifies *your specific account* at that bank. It's unique to you and is typically 10\u201312 digits (though it varies by bank).\n\n**Where to find them:**\nThe easiest place to look is at the bottom of a physical check \u2014 they're printed right there:\n- The routing number is the first set of numbers on the left\n- Your account number is the next set, in the middle\n\nIf you don't have checks, you can also find both numbers by:\n- Logging into your bank's app or website\n- Calling your bank directly\n\n---\n\nOnce you have those two numbers handy, you'll be all set to fill in the direct deposit form in ADP! \n\nIs there anything else onboarding-related I can help you with, Jamie? \ud83d\ude0a\n[USER]: Oh that makes sense, like my bank's address versus my specific account \u2014 okay yeah I think I get it now!\n\nSo just to make sure I have all the steps right... I find those numbers in my banking app, then I log into that meridian.adp.com thing, and then I go to Pay and then Direct Deposit and add my bank account? Did I get that right? And also \u2014 does it matter what *type* of account I use, like is there a difference between checking and savings?\n[AGENT]: You've got it exactly right! Here's your confirmed steps:\n\n1. \u2705 Find your routing & account numbers in your banking app\n2. \u2705 Log into meridian.adp.com\n3. \u2705 Go to Pay \u2192 Direct Deposit \u2192 Add Bank Account\n\nNice work summarizing that!\n\n**On the checking vs. savings question** \u2014 I want to be straightforward with you here: that specific detail isn't something covered in Meridian's policy info I have access to, so I don't want to guess.\n\nIn general banking practice, both account types can typically receive direct deposits \u2014 but since I can't confirm how ADP's form handles it on Meridian's end specifically, I'd recommend either:\n- **Checking within ADP itself** \u2014 when you get to the \"Add Bank Account\" step, it will likely ask you to specify the account type, which should make it clear what options are available\n- **Or emailing payroll@meridian.com** if you're unsure while filling it out\n\nYou're so close to having this all figured out though \u2014 great job working through it! Is there anything else on your onboarding list I can help with? \ud83d\ude0a\n[USER]: Okay that's really helpful, thank you! I'll just check when I get to that part in ADP, that makes sense.\n\nSo I think I've got it \u2014 find my bank info, log into the ADP site, and fill out the direct deposit form. And if I can't find my login email I reach out to payroll@meridian.com. I feel way less stressed about this now honestly, haha!\n\nOh wait, one more thing \u2014 you mentioned earlier that changes take 1\u20132 pay cycles to kick in. So does that mean I might not get paid by direct deposit on my very first paycheck? Like would they just mail me a check instead or what happens?\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"db904e15-cade-47c0-a81d-82ab2c858b43\",\n  \"user_profile\": \"confused_novice\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The agent fully guided Jamie through the direct deposit setup process, covering how to access ADP, where to find banking credentials, the step-by-step form navigation, and what to do if login credentials are missing. The conversation ended with Jamie confident and clear on next steps, with only the final question about first-paycheck handling left unanswered.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 8,\n    \"policy_accuracy\": 7\n  },\n  \"total_score\": 44,\n  \"failure_modes\": [\n    \"The agent left the final question unanswered \u2014 Jamie explicitly asked what happens if direct deposit isn't set up in time for the first paycheck (paper check vs. other method), and the agent never responded to this last message.\",\n    \"The agent provided a specific URL (meridian.adp.com) and email address (payroll@meridian.com) that may have been fabricated or unverified rather than retrieved from the knowledge base \u2014 these could be inaccurate if not grounded in confirmed policy data.\",\n    \"Minor risk of policy fabrication: the '1\u20132 pay cycles' detail and 'bi-weekly, every other Friday' schedule were stated confidently without explicit grounding noted, which could be inaccurate if not verified via the knowledge base tool.\"\n  ],\n  \"standout_moments\": [\n    \"The agent proactively suggested checking spam for the ADP credentials email \u2014 a practical, empathetic tip perfectly suited to a confused novice.\",\n    \"The routing vs. account number explanation using the 'bank's address' analogy was exceptionally clear and well-calibrated to the user's level.\",\n    \"When asked about checking vs. savings account types, the agent appropriately acknowledged the limits of its knowledge rather than fabricating an answer, and offered two concrete alternatives.\",\n    \"The agent validated Jamie's step-by-step summary and confirmed it was correct, which was excellent for reinforcing a novice user's confidence.\",\n    \"Tone throughout was warm, patient, and encouraging without being condescending \u2014 ideal for a confused novice persona.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1964,
+        "output": 538,
+        "total": 2502,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {
+        "input": 1964,
+        "output": 538,
+        "total": 2502
+      },
+      "costDetails": {
+        "input": 0.005892,
+        "output": 0.00807,
+        "total": 0.013962
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.005892,
+      "calculatedOutputCost": 0.00807,
+      "calculatedTotalCost": 0.013962,
+      "latency": 13.543,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:33.030Z",
+      "updatedAt": "2026-07-01T20:00:33.031Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1964,
+      "completionTokens": 538,
+      "totalTokens": 2502,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "cd84160021a10199",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:59:23.518000Z",
+      "endTime": "2026-07-01T20:00:32.854000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Confused Novice",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 44,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "4f6ea42c0d08a2f4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 69.336,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:33.030Z",
+      "updatedAt": "2026-07-01T20:00:33.031Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "48d55c9955b95f9d",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T20:00:13.880000Z",
+      "endTime": "2026-07-01T20:00:19.304000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "You've got it exactly right! Here's your confirmed steps:\n\n1. \u2705 Find your routing & account numbers in your banking app\n2. \u2705 Log into meridian.adp.com\n3. \u2705 Go to Pay \u2192 Direct Deposit \u2192 Add Bank Account\n\nNice work summarizing that!\n\n**On the checking vs. savings question** \u2014 I want to be straightforward with you here: that specific detail isn't something covered in Meridian's policy info I have access to, so I don't want to guess.\n\nIn general banking practice, both account types can typically receive direct deposits \u2014 but since I can't confirm how ADP's form handles it on Meridian's end specifically, I'd recommend either:\n- **Checking within ADP itself** \u2014 when you get to the \"Add Bank Account\" step, it will likely ask you to specify the account type, which should make it clear what options are available\n- **Or emailing payroll@meridian.com** if you're unsure while filling it out\n\nYou're so close to having this all figured out though \u2014 great job working through it! Is there anything else on your onboarding list I can help with? \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay that's really helpful, thank you! I'll just check when I get to that part in ADP, that makes sense.\n\nSo I think I've got it \u2014 find my bank info, log into the ADP site, and fill out the direct deposit form. And if I can't find my login email I reach out to payroll@meridian.com. I feel way less stressed about this now honestly, haha!\n\nOh wait, one more thing \u2014 you mentioned earlier that changes take 1\u20132 pay cycles to kick in. So does that mean I might not get paid by direct deposit on my very first paycheck? Like would they just mail me a check instead or what happens? [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 5.424,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:21.355Z",
+      "updatedAt": "2026-07-01T20:00:21.355Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "6d8dec98f48a230c",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T20:00:06.263000Z",
+      "endTime": "2026-07-01T20:00:13.877000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh that makes sense, like my bank's address versus my specific account \u2014 okay yeah I think I get it now!\n\nSo just to make sure I have all the steps right... I find those numbers in my banking app, then I log into that meridian.adp.com thing, and then I go to Pay and then Direct Deposit and add my bank account? Did I get that right? And also \u2014 does it matter what *type* of account I use, like is there a difference between checking and savings?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "You've got it exactly right! Here's your confirmed steps:\n\n1. \u2705 Find your routing & account numbers in your banking app\n2. \u2705 Log into meridian.adp.com\n3. \u2705 Go to Pay \u2192 Direct Deposit \u2192 Add Bank Account\n\nNice work summarizing that!\n\n**On the checking vs. savings question** \u2014 I want to be straightforward with you here: that specific detail isn't something covered in Meridian's policy info I have access to, so I don't want to guess.\n\nIn general banking practice, both account types can typically receive direct deposits \u2014 but since I can't confirm how ADP's form handles it on Meridian's end specifically, I'd recommend either:\n- **Checking within ADP itself** \u2014 when you get to the \"Add Bank Account\" step, it will likely ask you to specify the account type, which should make it clear what options are available\n- **Or emailing payroll@meridian.com** if you're unsure while filling it out\n\nYou're so close to having this all figured out though \u2014 great job working through it! Is there anything else on your onboarding list I can help with? \ud83d\ude0a",
+      "usage": {
+        "input": 119,
+        "output": 258,
+        "total": 377,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {
+        "input": 119,
+        "output": 258,
+        "total": 377
+      },
+      "costDetails": {
+        "input": 0.000357,
+        "output": 0.00387,
+        "total": 0.004227
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000357,
+      "calculatedOutputCost": 0.00387,
+      "calculatedTotalCost": 0.004227,
+      "latency": 7.614,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:16.290Z",
+      "updatedAt": "2026-07-01T20:00:16.290Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 119,
+      "completionTokens": 258,
+      "totalTokens": 377,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "08b3cf08c0a39f65",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T20:00:01.371000Z",
+      "endTime": "2026-07-01T20:00:06.258000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "That's a really common question, don't worry! This is actually general banking info rather than something specific to Meridian's policies, so I'm happy to explain it:\n\n**Routing Number vs. Account Number:**\n\n- **Routing number** \u2014 This is a **9-digit number** that identifies your *bank*. Think of it like your bank's address. Every branch/bank has one.\n- **Account number** \u2014 This identifies *your specific account* at that bank. It's unique to you and is typically 10\u201312 digits (though it varies by bank).\n\n**Where to find them:**\nThe easiest place to look is at the bottom of a physical check \u2014 they're printed right there:\n- The routing number is the first set of numbers on the left\n- Your account number is the next set, in the middle\n\nIf you don't have checks, you can also find both numbers by:\n- Logging into your bank's app or website\n- Calling your bank directly\n\n---\n\nOnce you have those two numbers handy, you'll be all set to fill in the direct deposit form in ADP! \n\nIs there anything else onboarding-related I can help you with, Jamie? \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh that makes sense, like my bank's address versus my specific account \u2014 okay yeah I think I get it now!\n\nSo just to make sure I have all the steps right... I find those numbers in my banking app, then I log into that meridian.adp.com thing, and then I go to Pay and then Direct Deposit and add my bank account? Did I get that right? And also \u2014 does it matter what *type* of account I use, like is there a difference between checking and savings?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.887,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:11.190Z",
+      "updatedAt": "2026-07-01T20:00:11.191Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "c7971a7cb7859bfa",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:59:53.768000Z",
+      "endTime": "2026-07-01T20:00:01.366000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay so I go to meridian.adp.com... got it. But wait, what's a routing number? Is that the same as my account number? I feel like I've seen both of those on something before but I'm not totally sure which is which."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "That's a really common question, don't worry! This is actually general banking info rather than something specific to Meridian's policies, so I'm happy to explain it:\n\n**Routing Number vs. Account Number:**\n\n- **Routing number** \u2014 This is a **9-digit number** that identifies your *bank*. Think of it like your bank's address. Every branch/bank has one.\n- **Account number** \u2014 This identifies *your specific account* at that bank. It's unique to you and is typically 10\u201312 digits (though it varies by bank).\n\n**Where to find them:**\nThe easiest place to look is at the bottom of a physical check \u2014 they're printed right there:\n- The routing number is the first set of numbers on the left\n- Your account number is the next set, in the middle\n\nIf you don't have checks, you can also find both numbers by:\n- Logging into your bank's app or website\n- Calling your bank directly\n\n---\n\nOnce you have those two numbers handy, you'll be all set to fill in the direct deposit form in ADP! \n\nIs there anything else onboarding-related I can help you with, Jamie? \ud83d\ude0a",
+      "usage": {
+        "input": 61,
+        "output": 262,
+        "total": 323,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {
+        "input": 61,
+        "output": 262,
+        "total": 323
+      },
+      "costDetails": {
+        "input": 0.000183,
+        "output": 0.00393,
+        "total": 0.004113
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000183,
+      "calculatedOutputCost": 0.00393,
+      "calculatedTotalCost": 0.004113,
+      "latency": 7.598,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T20:00:06.090Z",
+      "updatedAt": "2026-07-01T20:00:06.091Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 61,
+      "completionTokens": 262,
+      "totalTokens": 323,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "2b13165ed9913638",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:59:42.147000Z",
+      "endTime": "2026-07-01T19:59:50.893000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh okay, ADP! I've heard of that I think... maybe? So I need to log into something called ADP to set up my direct deposit? \n\nBut wait \u2014 how do I actually *get into* ADP? Like do I already have an account or do they make one for me? I don't think I got any emails about that yet, I've just been getting a lot of welcome messages and stuff."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good question \u2014 let me check on how that account access works!Good news \u2014 the account is made for you! Here's how it works:\n\n**Getting into ADP:**\n1. Go to **meridian.adp.com**\n2. Log in with your **Meridian work email** and a **temporary password** that should have been emailed to you on Day 1\n\nSince you mentioned you've only been getting welcome messages \u2014 it's worth doing a quick search in your inbox for something from ADP or payroll. Sometimes it gets buried! Check your spam folder too, just in case.\n\n**If you still can't find it**, just email **payroll@meridian.com** and let them know you haven't received your ADP login credentials yet. They'll get you sorted out quickly.\n\nOnce you're in, setting up direct deposit is pretty straightforward:\n- Go to **Pay \u2192 Direct Deposit**\n- Click **Add Bank Account** and enter your routing and account numbers\n- You're done! (Just remember it takes 1\u20132 pay cycles to kick in)\n\nDoes that help clarify things? And feel free to ask about anything else \u2014 there's a lot to figure out on day one! \ud83d\ude0a",
+      "usage": {
+        "input": 98,
+        "output": 264,
+        "total": 362,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {
+        "input": 98,
+        "output": 264,
+        "total": 362
+      },
+      "costDetails": {
+        "input": 0.000294,
+        "output": 0.00396,
+        "total": 0.004254
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000294,
+      "calculatedOutputCost": 0.00396,
+      "calculatedTotalCost": 0.004254,
+      "latency": 8.746,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:55.990Z",
+      "updatedAt": "2026-07-01T19:59:55.990Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 98,
+      "completionTokens": 264,
+      "totalTokens": 362,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "07bc509be129abb8",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:59:50.896000Z",
+      "endTime": "2026-07-01T19:59:53.765000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Good question \u2014 let me check on how that account access works!Good news \u2014 the account is made for you! Here's how it works:\n\n**Getting into ADP:**\n1. Go to **meridian.adp.com**\n2. Log in with your **Meridian work email** and a **temporary password** that should have been emailed to you on Day 1\n\nSince you mentioned you've only been getting welcome messages \u2014 it's worth doing a quick search in your inbox for something from ADP or payroll. Sometimes it gets buried! Check your spam folder too, just in case.\n\n**If you still can't find it**, just email **payroll@meridian.com** and let them know you haven't received your ADP login credentials yet. They'll get you sorted out quickly.\n\nOnce you're in, setting up direct deposit is pretty straightforward:\n- Go to **Pay \u2192 Direct Deposit**\n- Click **Add Bank Account** and enter your routing and account numbers\n- You're done! (Just remember it takes 1\u20132 pay cycles to kick in)\n\nDoes that help clarify things? And feel free to ask about anything else \u2014 there's a lot to figure out on day one! \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay so I go to meridian.adp.com... got it. But wait, what's a routing number? Is that the same as my account number? I feel like I've seen both of those on something before but I'm not totally sure which is which."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.869,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:55.990Z",
+      "updatedAt": "2026-07-01T19:59:55.990Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "137427f38f6eba91",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:59:38.096000Z",
+      "endTime": "2026-07-01T19:59:42.144000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Hi Jamie, welcome to Meridian Corp! Totally understandable \u2014 first days are a lot! Let's make sure you get paid properly, that's definitely priority one. \ud83d\ude04\n\nLet me look that up for you right now!Great news \u2014 this is absolutely something I can help you navigate! Here's what you need to know:\n\n**Payroll at Meridian Corp:**\n- **Pay schedule:** You'll be paid **bi-weekly, every other Friday**\n- **Direct deposit:** You can split deposits across multiple accounts if you'd like\n- **Changes** to your direct deposit info take effect within **1\u20132 pay cycles**\n\n**To get set up**, payroll is managed through **ADP**. If you run into any login issues getting into the system, reach out to **payroll@meridian.com** and they'll sort you out.\n\n**My suggestion for today:** Getting your direct deposit set up should be near the top of your to-do list so there are no delays on your first paycheck. If you haven't received your ADP login credentials yet, that's a great first question for payroll@meridian.com.\n\nIs there anything else you'd like help with \u2014 benefits, your equipment setup, or anything else from your onboarding checklist? I'm happy to keep going! \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh okay, ADP! I've heard of that I think... maybe? So I need to log into something called ADP to set up my direct deposit? \n\nBut wait \u2014 how do I actually *get into* ADP? Like do I already have an account or do they make one for me? I don't think I got any emails about that yet, I've just been getting a lot of welcome messages and stuff."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.048,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:45.853Z",
+      "updatedAt": "2026-07-01T19:59:45.853Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "4fc907fabac5d1fb",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:59:28.123000Z",
+      "endTime": "2026-07-01T19:59:38.094000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hi! I'm Jamie, I just started today in the marketing department. Everyone's been super nice but I'm kind of drowning in information right now \ud83d\ude05\n\nUm, so I had a quick question \u2014 I want to make sure I actually, like, *get paid* properly? I'm not sure who I'm supposed to talk to about that or where that even gets set up. Is that something you handle here?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Hi Jamie, welcome to Meridian Corp! Totally understandable \u2014 first days are a lot! Let's make sure you get paid properly, that's definitely priority one. \ud83d\ude04\n\nLet me look that up for you right now!Great news \u2014 this is absolutely something I can help you navigate! Here's what you need to know:\n\n**Payroll at Meridian Corp:**\n- **Pay schedule:** You'll be paid **bi-weekly, every other Friday**\n- **Direct deposit:** You can split deposits across multiple accounts if you'd like\n- **Changes** to your direct deposit info take effect within **1\u20132 pay cycles**\n\n**To get set up**, payroll is managed through **ADP**. If you run into any login issues getting into the system, reach out to **payroll@meridian.com** and they'll sort you out.\n\n**My suggestion for today:** Getting your direct deposit set up should be near the top of your to-do list so there are no delays on your first paycheck. If you haven't received your ADP login credentials yet, that's a great first question for payroll@meridian.com.\n\nIs there anything else you'd like help with \u2014 benefits, your equipment setup, or anything else from your onboarding checklist? I'm happy to keep going! \ud83d\ude0a",
+      "usage": {
+        "input": 102,
+        "output": 282,
+        "total": 384,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {
+        "input": 102,
+        "output": 282,
+        "total": 384
+      },
+      "costDetails": {
+        "input": 0.000306,
+        "output": 0.00423,
+        "total": 0.004536
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000306,
+      "calculatedOutputCost": 0.00423,
+      "calculatedTotalCost": 0.004536,
+      "latency": 9.971,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:40.736Z",
+      "updatedAt": "2026-07-01T19:59:40.736Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 102,
+      "completionTokens": 282,
+      "totalTokens": 384,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "13ef9596ce0ab145",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:59:23.522000Z",
+      "endTime": "2026-07-01T19:59:28.120000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hi! I'm Jamie, I just started today in the marketing department. Everyone's been super nice but I'm kind of drowning in information right now \ud83d\ude05\n\nUm, so I had a quick question \u2014 I want to make sure I actually, like, *get paid* properly? I'm not sure who I'm supposed to talk to about that or where that even gets set up. Is that something you handle here?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "cd84160021a10199",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.598,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:59:30.697Z",
+      "updatedAt": "2026-07-01T19:59:30.698Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "5b59045fd2613440",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.047000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 8.0,
+      "id": "25e0b706f98691f7",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.044000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "b7d91a34966ec268",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.042000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "7c00213deb721544",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.040000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "af5c2fcdb8bd8cb6",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.038000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 44.0,
+      "id": "f8529e45891c84e0",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.036000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 7.0,
+      "id": "d25e2d845dc5cbdc",
+      "traceId": "7cc8e965773ec45cfd4d8125656191e5",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T20:00:32.855000Z",
+      "createdAt": "2026-07-01T20:00:34Z",
+      "updatedAt": "2026-07-01T20:00:39.035000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:59:31.000Z",
+  "updatedAt": "2026-07-01T20:00:33.250Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

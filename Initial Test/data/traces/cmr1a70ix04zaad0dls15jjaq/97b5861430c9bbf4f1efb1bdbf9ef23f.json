@@ -1,0 +1,837 @@
+{
+  "id": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+  "timestamp": "2026-07-01T19:41:19.179000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 47,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "9f60819d-9580-43f0-bfd6-91ed23dcc4fa",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Impatient Expert",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/97b5861430c9bbf4f1efb1bdbf9ef23f",
+  "latency": 44.276,
+  "totalCost": 0.019097999999,
+  "observations": [
+    {
+      "id": "9940c1bcf7b1ea95",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T19:41:54.572000Z",
+      "endTime": "2026-07-01T19:42:03.452000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Impatient Expert\nPersona Description: A seasoned professional who wants fast, precise answers with no hand-holding.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 9f60819d-9580-43f0-bfd6-91ed23dcc4fa\nUSER PROFILE: impatient_expert\nHIDDEN GOAL: Understand exactly what equipment you're getting and how to request more\n\nTRANSCRIPT:\n[USER]: Hey, I'm Alex Chen \u2014 just joined the engineering team this week. Quick question: what's the standard equipment package for new hires? I need to know exactly what I'm getting and when.\n[AGENT]: Let me look that up for you right now.Here's what the knowledge base confirms for new hire equipment:\n\n**Standard Package:**\n- MacBook Pro 14\" + peripherals (automatically provisioned \u2014 no action needed on your end)\n\n**Timing:**\n- Should arrive by **Day 2 or 3** of your start date\n\n**If you need anything beyond the standard kit:**\n- Submit a request through the IT service catalog, specifying what you need and your justification\n- Additional equipment requests are reviewed within **3\u20135 business days**\n\n---\n\n**One thing I can't confirm from the knowledge base:** the exact peripherals included (monitor, keyboard, mouse, etc.). Since you're on the engineering team, you may have specific needs worth clarifying upfront.\n\nI'd recommend emailing **it@meridian.com** or calling the IT helpdesk at **ext. 5000**. When you reach out, I'd suggest framing it proactively \u2014 ask for the full standard-access and equipment list for engineering new hires in one go. That way you can flag any gaps before they become blockers rather than chasing individual items one at a time.\n[USER]: What's the URL for the IT service catalog? And what counts as valid \"justification\" for additional equipment \u2014 is there a specific format or template I need to follow?\n[AGENT]: Good questions \u2014 let me check both at once.Unfortunately, the knowledge base doesn't confirm either of those details \u2014 and I won't guess. Here's what I can tell you:\n\n**IT Service Catalog URL:** Not documented in the knowledge base. The catalog is accessed via your **Meridian SSO credentials**, but the specific URL isn't something I can confirm.\n\n**Justification format/template:** No specific format or template is documented \u2014 just that you need to \"specify the equipment needed and your justification.\"\n\n---\n\n**Both of these are worth one quick email to it@meridian.com or a call to ext. 5000.** I'd suggest consolidating into a single message along the lines of:\n\n> *\"I'm a new hire on the engineering team and need to submit an additional equipment request. Could you share (1) the direct URL to the IT service catalog, and (2) any required format or template for equipment justifications? I want to make sure my request doesn't get delayed.\"*\n\nThat framing makes it clear you're trying to do things right from the start, and it's efficient \u2014 one message, two answers.\n[USER]: Got it. So to summarize what I actually know: MacBook Pro 14\", peripherals TBD, arrives day 2-3, additional requests go through IT at ext. 5000 or it@meridian.com. Everything else I need to get directly from IT. That about right?\n[AGENT]: Yes, that's an accurate summary. To confirm exactly what you've got:\n\n**Confirmed:**\n- \u2705 MacBook Pro 14\" + peripherals (exact peripherals TBD from IT)\n- \u2705 Arrives by Day 2\u20133\n- \u2705 Additional equipment requests go through the IT service catalog (SSO login required), reviewed in 3\u20135 **business days**\n- \u2705 IT contact: **it@meridian.com** or **ext. 5000**\n\n**Still outstanding (get from IT):**\n- Exact peripherals in the standard kit\n- IT service catalog URL\n- Justification format/template for additional requests\n\nYou've got it right. One email to IT covers everything on the open list.\n[USER]: Works for me. Thanks for the straight answer.\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"9f60819d-9580-43f0-bfd6-91ed23dcc4fa\",\n  \"user_profile\": \"impatient_expert\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The agent clearly conveyed what equipment the user would receive (MacBook Pro 14\\\" + unspecified peripherals, arriving Day 2-3) and explained the process for requesting additional equipment via the IT service catalog. The user explicitly confirmed the summary was accurate and expressed satisfaction.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 9,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 47,\n  \"failure_modes\": [\n    \"Minor: The email address 'it@meridian.com' and extension 'ext. 5000' were provided as confident contact details but their grounding in the knowledge base is unclear \u2014 if fabricated, this would be a policy accuracy issue.\"\n  ],\n  \"standout_moments\": [\n    \"Agent explicitly flagged what it could NOT confirm rather than guessing (catalog URL, justification template, exact peripherals) \u2014 exactly the right behavior for accuracy.\",\n    \"Responses were tightly structured with no filler, perfectly matching the impatient expert persona.\",\n    \"The suggested email template in the second response was a genuinely useful, efficiency-focused addition that respected the user's time.\",\n    \"The confirmation summary in the final response clearly separated confirmed facts from open items, giving the user a clean mental model.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1113,
+        "output": 364,
+        "total": 1477,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {
+        "input": 1113,
+        "output": 364,
+        "total": 1477
+      },
+      "costDetails": {
+        "input": 0.003339,
+        "output": 0.00546,
+        "total": 0.008799
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.003339,
+      "calculatedOutputCost": 0.00546,
+      "calculatedTotalCost": 0.008799,
+      "latency": 8.88,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:42:08.025Z",
+      "updatedAt": "2026-07-01T19:42:08.026Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1113,
+      "completionTokens": 364,
+      "totalTokens": 1477,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "67b1ae5c4536a35c",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:41:19.179000Z",
+      "endTime": "2026-07-01T19:42:03.455000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Impatient Expert",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 47,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "94683225e7b5d136",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 44.276,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:42:08.025Z",
+      "updatedAt": "2026-07-01T19:42:08.026Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "9ce3845c3da080d4",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:41:47.616000Z",
+      "endTime": "2026-07-01T19:41:52.726000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Got it. So to summarize what I actually know: MacBook Pro 14\", peripherals TBD, arrives day 2-3, additional requests go through IT at ext. 5000 or it@meridian.com. Everything else I need to get directly from IT. That about right?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Yes, that's an accurate summary. To confirm exactly what you've got:\n\n**Confirmed:**\n- \u2705 MacBook Pro 14\" + peripherals (exact peripherals TBD from IT)\n- \u2705 Arrives by Day 2\u20133\n- \u2705 Additional equipment requests go through the IT service catalog (SSO login required), reviewed in 3\u20135 **business days**\n- \u2705 IT contact: **it@meridian.com** or **ext. 5000**\n\n**Still outstanding (get from IT):**\n- Exact peripherals in the standard kit\n- IT service catalog URL\n- Justification format/template for additional requests\n\nYou've got it right. One email to IT covers everything on the open list.",
+      "usage": {
+        "input": 63,
+        "output": 162,
+        "total": 225,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {
+        "input": 63,
+        "output": 162,
+        "total": 225
+      },
+      "costDetails": {
+        "input": 0.000189,
+        "output": 0.00243,
+        "total": 0.002619
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000189,
+      "calculatedOutputCost": 0.00243,
+      "calculatedTotalCost": 0.002619,
+      "latency": 5.11,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:42:00.126Z",
+      "updatedAt": "2026-07-01T19:42:00.126Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 63,
+      "completionTokens": 162,
+      "totalTokens": 225,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "8e9e40b3db569662",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T19:41:52.728000Z",
+      "endTime": "2026-07-01T19:41:54.570000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Yes, that's an accurate summary. To confirm exactly what you've got:\n\n**Confirmed:**\n- \u2705 MacBook Pro 14\" + peripherals (exact peripherals TBD from IT)\n- \u2705 Arrives by Day 2\u20133\n- \u2705 Additional equipment requests go through the IT service catalog (SSO login required), reviewed in 3\u20135 **business days**\n- \u2705 IT contact: **it@meridian.com** or **ext. 5000**\n\n**Still outstanding (get from IT):**\n- Exact peripherals in the standard kit\n- IT service catalog URL\n- Justification format/template for additional requests\n\nYou've got it right. One email to IT covers everything on the open list."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Works for me. Thanks for the straight answer. [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 1.842,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:42:00.126Z",
+      "updatedAt": "2026-07-01T19:42:00.126Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "891cf21d0e93e8aa",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:41:44.495000Z",
+      "endTime": "2026-07-01T19:41:47.615000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good questions \u2014 let me check both at once.Unfortunately, the knowledge base doesn't confirm either of those details \u2014 and I won't guess. Here's what I can tell you:\n\n**IT Service Catalog URL:** Not documented in the knowledge base. The catalog is accessed via your **Meridian SSO credentials**, but the specific URL isn't something I can confirm.\n\n**Justification format/template:** No specific format or template is documented \u2014 just that you need to \"specify the equipment needed and your justification.\"\n\n---\n\n**Both of these are worth one quick email to it@meridian.com or a call to ext. 5000.** I'd suggest consolidating into a single message along the lines of:\n\n> *\"I'm a new hire on the engineering team and need to submit an additional equipment request. Could you share (1) the direct URL to the IT service catalog, and (2) any required format or template for equipment justifications? I want to make sure my request doesn't get delayed.\"*\n\nThat framing makes it clear you're trying to do things right from the start, and it's efficient \u2014 one message, two answers."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Got it. So to summarize what I actually know: MacBook Pro 14\", peripherals TBD, arrives day 2-3, additional requests go through IT at ext. 5000 or it@meridian.com. Everything else I need to get directly from IT. That about right?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.12,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:41:56.369Z",
+      "updatedAt": "2026-07-01T19:41:56.370Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "11f40bc741e62a3d",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:41:34.902000Z",
+      "endTime": "2026-07-01T19:41:44.493000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "What's the URL for the IT service catalog? And what counts as valid \"justification\" for additional equipment \u2014 is there a specific format or template I need to follow?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good questions \u2014 let me check both at once.Unfortunately, the knowledge base doesn't confirm either of those details \u2014 and I won't guess. Here's what I can tell you:\n\n**IT Service Catalog URL:** Not documented in the knowledge base. The catalog is accessed via your **Meridian SSO credentials**, but the specific URL isn't something I can confirm.\n\n**Justification format/template:** No specific format or template is documented \u2014 just that you need to \"specify the equipment needed and your justification.\"\n\n---\n\n**Both of these are worth one quick email to it@meridian.com or a call to ext. 5000.** I'd suggest consolidating into a single message along the lines of:\n\n> *\"I'm a new hire on the engineering team and need to submit an additional equipment request. Could you share (1) the direct URL to the IT service catalog, and (2) any required format or template for equipment justifications? I want to make sure my request doesn't get delayed.\"*\n\nThat framing makes it clear you're trying to do things right from the start, and it's efficient \u2014 one message, two answers.",
+      "usage": {
+        "input": 42,
+        "output": 245,
+        "total": 287,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {
+        "input": 42,
+        "output": 245,
+        "total": 287
+      },
+      "costDetails": {
+        "input": 0.000126,
+        "output": 0.003675,
+        "total": 0.003800999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000126,
+      "calculatedOutputCost": 0.003675,
+      "calculatedTotalCost": 0.003800999999,
+      "latency": 9.591,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:41:49.195Z",
+      "updatedAt": "2026-07-01T19:41:49.195Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 42,
+      "completionTokens": 245,
+      "totalTokens": 287,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "7c38cffd25916642",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:41:21.680000Z",
+      "endTime": "2026-07-01T19:41:32.718000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team this week. Quick question: what's the standard equipment package for new hires? I need to know exactly what I'm getting and when."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Let me look that up for you right now.Here's what the knowledge base confirms for new hire equipment:\n\n**Standard Package:**\n- MacBook Pro 14\" + peripherals (automatically provisioned \u2014 no action needed on your end)\n\n**Timing:**\n- Should arrive by **Day 2 or 3** of your start date\n\n**If you need anything beyond the standard kit:**\n- Submit a request through the IT service catalog, specifying what you need and your justification\n- Additional equipment requests are reviewed within **3\u20135 business days**\n\n---\n\n**One thing I can't confirm from the knowledge base:** the exact peripherals included (monitor, keyboard, mouse, etc.). Since you're on the engineering team, you may have specific needs worth clarifying upfront.\n\nI'd recommend emailing **it@meridian.com** or calling the IT helpdesk at **ext. 5000**. When you reach out, I'd suggest framing it proactively \u2014 ask for the full standard-access and equipment list for engineering new hires in one go. That way you can flag any gaps before they become blockers rather than chasing individual items one at a time.",
+      "usage": {
+        "input": 48,
+        "output": 249,
+        "total": 297,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {
+        "input": 48,
+        "output": 249,
+        "total": 297
+      },
+      "costDetails": {
+        "input": 0.000144,
+        "output": 0.003735,
+        "total": 0.003879
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000144,
+      "calculatedOutputCost": 0.003735,
+      "calculatedTotalCost": 0.003879,
+      "latency": 11.038,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:41:39.489Z",
+      "updatedAt": "2026-07-01T19:41:39.490Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 48,
+      "completionTokens": 249,
+      "totalTokens": 297,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "f433c2dd4709c493",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:41:32.720000Z",
+      "endTime": "2026-07-01T19:41:34.900000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Let me look that up for you right now.Here's what the knowledge base confirms for new hire equipment:\n\n**Standard Package:**\n- MacBook Pro 14\" + peripherals (automatically provisioned \u2014 no action needed on your end)\n\n**Timing:**\n- Should arrive by **Day 2 or 3** of your start date\n\n**If you need anything beyond the standard kit:**\n- Submit a request through the IT service catalog, specifying what you need and your justification\n- Additional equipment requests are reviewed within **3\u20135 business days**\n\n---\n\n**One thing I can't confirm from the knowledge base:** the exact peripherals included (monitor, keyboard, mouse, etc.). Since you're on the engineering team, you may have specific needs worth clarifying upfront.\n\nI'd recommend emailing **it@meridian.com** or calling the IT helpdesk at **ext. 5000**. When you reach out, I'd suggest framing it proactively \u2014 ask for the full standard-access and equipment list for engineering new hires in one go. That way you can flag any gaps before they become blockers rather than chasing individual items one at a time."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "What's the URL for the IT service catalog? And what counts as valid \"justification\" for additional equipment \u2014 is there a specific format or template I need to follow?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.18,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:41:39.489Z",
+      "updatedAt": "2026-07-01T19:41:39.490Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "a9e00d36ed776e6f",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:41:19.184000Z",
+      "endTime": "2026-07-01T19:41:21.679000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey, I'm Alex Chen \u2014 just joined the engineering team this week. Quick question: what's the standard equipment package for new hires? I need to know exactly what I'm getting and when."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "67b1ae5c4536a35c",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.495,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:41:29.033Z",
+      "updatedAt": "2026-07-01T19:41:29.034Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "7a1b3acd7ebd1d30",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:09.285000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "6b4f4538765bc26d",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:09.254000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 47.0,
+      "id": "2e2db19466c5d041",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:08.883000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "e4bd6d52a0a0a35b",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:08.882000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "be03c19d20e1abc4",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:08.881000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "76cde9a7fc2cf611",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:08.872000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "86ae52618c5b700e",
+      "traceId": "97b5861430c9bbf4f1efb1bdbf9ef23f",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T19:42:03.455000Z",
+      "createdAt": "2026-07-01T19:42:04Z",
+      "updatedAt": "2026-07-01T19:42:08.871000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:41:30.000Z",
+  "updatedAt": "2026-07-01T19:42:08.239Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

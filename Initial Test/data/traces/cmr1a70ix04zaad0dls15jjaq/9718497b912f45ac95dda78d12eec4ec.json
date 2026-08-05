@@ -1,0 +1,253 @@
+{
+  "id": "9718497b912f45ac95dda78d12eec4ec",
+  "timestamp": "2026-06-30T23:48:36.956000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 42
+  },
+  "metadata": {
+    "agent_name": "test",
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "4bb84217-3dcc-4f3f-be51-4d393d63afd2",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/9718497b912f45ac95dda78d12eec4ec",
+  "latency": 0.001,
+  "totalCost": 0.00105,
+  "observations": [
+    {
+      "id": "017b0727a6d0884c",
+      "traceId": "9718497b912f45ac95dda78d12eec4ec",
+      "type": "GENERATION",
+      "name": "judge-eval",
+      "startTime": "2026-06-30T23:48:36.957000Z",
+      "endTime": "2026-06-30T23:48:36.957000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": "test",
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "4bb84217-3dcc-4f3f-be51-4d393d63afd2",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "test output",
+      "usage": {
+        "input": 100,
+        "output": 50,
+        "total": 150,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "1264404c1cf1235a",
+      "usageDetails": {
+        "input": 100,
+        "output": 50,
+        "total": 150
+      },
+      "costDetails": {
+        "input": 0.0003,
+        "output": 0.00075,
+        "total": 0.00105
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.0003,
+      "calculatedOutputCost": 0.00075,
+      "calculatedTotalCost": 0.00105,
+      "latency": 0.0,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-06-30T23:50:12.210Z",
+      "updatedAt": "2026-06-30T23:50:12.211Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 100,
+      "completionTokens": 50,
+      "totalTokens": 150,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "1264404c1cf1235a",
+      "traceId": "9718497b912f45ac95dda78d12eec4ec",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-06-30T23:48:36.956000Z",
+      "endTime": "2026-06-30T23:48:36.957000Z",
+      "metadata": {
+        "agent_name": "test",
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "4bb84217-3dcc-4f3f-be51-4d393d63afd2",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 42
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "aba68e24a4a2e8a6",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.001,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-06-30T23:50:12.210Z",
+      "updatedAt": "2026-06-30T23:50:12.211Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "08e29339a0077e0b",
+      "traceId": "9718497b912f45ac95dda78d12eec4ec",
+      "type": "SPAN",
+      "name": "tool-call-test",
+      "startTime": "2026-06-30T23:48:36.956000Z",
+      "endTime": "2026-06-30T23:48:36.956000Z",
+      "input": {
+        "tool": "test"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "4bb84217-3dcc-4f3f-be51-4d393d63afd2",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": "ok"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "1264404c1cf1235a",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.0,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-06-30T23:50:12.210Z",
+      "updatedAt": "2026-06-30T23:50:12.210Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-06-30T23:50:13.000Z",
+  "updatedAt": "2026-06-30T23:50:12.373Z",
+  "input": null,
+  "sessionId": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

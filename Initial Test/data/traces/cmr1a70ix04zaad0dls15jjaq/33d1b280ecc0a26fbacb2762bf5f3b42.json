@@ -1,0 +1,637 @@
+{
+  "id": "33d1b280ecc0a26fbacb2762bf5f3b42",
+  "timestamp": "2026-07-18T22:05:00.988000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 50,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "01f8eee1-f760-42dd-ad75-007ee2b3f9e6",
+  "metadata": {
+    "agent_name": "Invoice Generation Assistant",
+    "experiment_type": "single_output",
+    "persona": "",
+    "difficulty": 1,
+    "task_title": "List all overdue invoices",
+    "prompt_version": 1,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/33d1b280ecc0a26fbacb2762bf5f3b42",
+  "latency": 11.185,
+  "totalCost": 0.027804,
+  "observations": [
+    {
+      "id": "4707d97a74bd7faa",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-18T22:05:07.660000Z",
+      "endTime": "2026-07-18T22:05:12.170000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "transcript": "\n## Tool Calls Made (1 total)\n1. **list_invoices**\n   Inputs: {'status': 'overdue'}\n   Result: [{'invoice_id': 'INV-1041', 'customer_id': 'CUST-001', 'company_name': 'Acme Corp', 'line_items': [{'description': 'Software consulting', 'hours': 80, 'rate': 185}], 'subtotal': 14800, 'discount_amount': 1184, 'total': 13616, 'status': 'overdue', 'created_at': '2026-04-15', 'due_date': '2026-05-15', 'id': 'INV-1041'}]",
+        "task": "Retrieve all invoices that currently have a status of 'overdue' and return the full list of matching records."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "session_id": "01f8eee1-f760-42dd-ad75-007ee2b3f9e6",
+        "user_profile": "single_output",
+        "hidden_goal_achieved": true,
+        "goal_achievement_explanation": "The agent correctly called list_invoices with status='overdue' and returned the full details of INV-1041 for Acme Corp with $13,616 total and due date 2026-05-15, matching the expected final state.",
+        "scores": {
+          "goal_achievement": 10,
+          "output_correctness": 10,
+          "tool_call_accuracy": 10,
+          "format_compliance": 10,
+          "policy_accuracy": 10
+        },
+        "total_score": 50,
+        "failure_modes": [],
+        "standout_moments": [
+          "Agent used the correct tool with the correct status parameter 'overdue'",
+          "Final output presented all relevant invoice fields in a well-structured table",
+          "Agent provided a clear summary with actionable information about the overdue invoice"
+        ],
+        "trajectory_quality": "high",
+        "experiment_type": "single_output"
+      },
+      "usage": {
+        "input": 1450,
+        "output": 295,
+        "total": 1745,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "95ac734dd988994b",
+      "usageDetails": {
+        "input": 1450,
+        "output": 295,
+        "total": 1745
+      },
+      "costDetails": {
+        "input": 0.00435,
+        "output": 0.004425,
+        "total": 0.008775
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00435,
+      "calculatedOutputCost": 0.004425,
+      "calculatedTotalCost": 0.008775,
+      "latency": 4.51,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:05:12.415Z",
+      "updatedAt": "2026-07-18T22:05:12.415Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1450,
+      "completionTokens": 295,
+      "totalTokens": 1745,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "95ac734dd988994b",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-18T22:05:00.988000Z",
+      "endTime": "2026-07-18T22:05:12.173000Z",
+      "metadata": {
+        "agent_name": "Invoice Generation Assistant",
+        "experiment_type": "single_output",
+        "persona": "",
+        "difficulty": 1,
+        "task_title": "List all overdue invoices",
+        "prompt_version": 1,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 50,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "d50afb2ee9c5a63f",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 11.185,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:05:12.415Z",
+      "updatedAt": "2026-07-18T22:05:12.415Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "60966afcba9d2234",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "type": "GENERATION",
+      "name": "agent-task-turn-2",
+      "startTime": "2026-07-18T22:05:03.186000Z",
+      "endTime": "2026-07-18T22:05:07.635000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Retrieve all invoices that currently have a status of 'overdue' and return the full list of matching records."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "tool_use",
+              "id": "toolu_01PRsB8eguUiCx5zeZtxPaQk",
+              "name": "list_invoices",
+              "input": {
+                "status": "overdue"
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "tool_use_id": "toolu_01PRsB8eguUiCx5zeZtxPaQk",
+              "content": "[{'invoice_id': 'INV-1041', 'customer_id': 'CUST-001', 'company_name': 'Acme Corp', 'line_items': [{'description': 'Software consulting', 'hours': 80, 'rate': 185}], 'subtotal': 14800, 'discount_amount': 1184, 'total': 13616, 'status': 'overdue', 'created_at': '2026-04-15', 'due_date': '2026-05-15', 'id': 'INV-1041'}]"
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Here are all invoices currently marked as **overdue**:\n\n| Field | Details |\n|---|---|\n| **Invoice ID** | INV-1041 |\n| **Customer ID** | CUST-001 |\n| **Company** | Acme Corp |\n| **Line Items** | Software Consulting \u2014 80 hrs @ $185/hr |\n| **Subtotal** | $14,800.00 |\n| **Discount Applied** | -$1,184.00 |\n| **Total Due** | $13,616.00 |\n| **Status** | Overdue |\n| **Invoice Date** | 2026-04-15 |\n| **Due Date** | 2026-05-15 |\n\n**Summary:** 1 overdue invoice found.\n\n- **INV-1041** for Acme Corp (CUST-001) is past its due date of May 15, 2026, with **$13,616.00** outstanding.",
+      "usage": {
+        "input": 2554,
+        "output": 234,
+        "total": 2788,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "95ac734dd988994b",
+      "usageDetails": {
+        "input": 2554,
+        "output": 234,
+        "total": 2788
+      },
+      "costDetails": {
+        "input": 0.007662,
+        "output": 0.00351,
+        "total": 0.011172
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.007662,
+      "calculatedOutputCost": 0.00351,
+      "calculatedTotalCost": 0.011172,
+      "latency": 4.449,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:05:11.598Z",
+      "updatedAt": "2026-07-18T22:05:11.598Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2554,
+      "completionTokens": 234,
+      "totalTokens": 2788,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "9ca8fd8c896d2a3d",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "type": "GENERATION",
+      "name": "agent-task-execution",
+      "startTime": "2026-07-18T22:05:00.991000Z",
+      "endTime": "2026-07-18T22:05:03.185000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": [
+        {
+          "role": "user",
+          "content": "Retrieve all invoices that currently have a status of 'overdue' and return the full list of matching records."
+        }
+      ],
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "usage": {
+        "input": 2339,
+        "output": 56,
+        "total": 2395,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "95ac734dd988994b",
+      "usageDetails": {
+        "input": 2339,
+        "output": 56,
+        "total": 2395
+      },
+      "costDetails": {
+        "input": 0.007017,
+        "output": 0.00084,
+        "total": 0.007857
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.007017,
+      "calculatedOutputCost": 0.00084,
+      "calculatedTotalCost": 0.007857,
+      "latency": 2.194,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:05:06.451Z",
+      "updatedAt": "2026-07-18T22:05:06.451Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 2339,
+      "completionTokens": 56,
+      "totalTokens": 2395,
+      "completionStartTime": null,
+      "version": null,
+      "output": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "5c0aa49585c8197b",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "type": "SPAN",
+      "name": "tool-call-list_invoices",
+      "startTime": "2026-07-18T22:05:03.185000Z",
+      "endTime": "2026-07-18T22:05:03.186000Z",
+      "input": {
+        "tool": "list_invoices",
+        "inputs": {
+          "status": "overdue"
+        }
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "87a781e5-ac98-470b-930f-009152057638",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "result": [
+          {
+            "invoice_id": "INV-1041",
+            "customer_id": "CUST-001",
+            "company_name": "Acme Corp",
+            "line_items": [
+              {
+                "description": "Software consulting",
+                "hours": 80,
+                "rate": 185
+              }
+            ],
+            "subtotal": 14800,
+            "discount_amount": 1184,
+            "total": 13616,
+            "status": "overdue",
+            "created_at": "2026-04-15",
+            "due_date": "2026-05-15",
+            "id": "INV-1041"
+          }
+        ],
+        "success": true,
+        "error": null
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "95ac734dd988994b",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 0.001,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-18T22:05:06.451Z",
+      "updatedAt": "2026-07-18T22:05:06.451Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "d16f637663886879",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.173000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.434000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "ccf018adff027663",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "output_correctness",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.429000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "1791dafb551f3b83",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "format_compliance",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.425000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "4e911128db918131",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "tool_call_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.417000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "607718a9d2fa1ba6",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.416000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 50.0,
+      "id": "1fb636819e978b9d",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.414000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "164fca776e6599ff",
+      "traceId": "33d1b280ecc0a26fbacb2762bf5f3b42",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-18T22:05:12.174000Z",
+      "createdAt": "2026-07-18T22:05:14Z",
+      "updatedAt": "2026-07-18T22:05:18.413000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-18T22:05:07.000Z",
+  "updatedAt": "2026-07-18T22:05:12.498Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

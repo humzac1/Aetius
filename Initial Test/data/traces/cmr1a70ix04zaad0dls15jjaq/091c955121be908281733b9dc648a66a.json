@@ -1,0 +1,978 @@
+{
+  "id": "091c955121be908281733b9dc648a66a",
+  "timestamp": "2026-07-01T03:42:38.937000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 43,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "7c22023e-391e-47af-9e48-04ac1746869b",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Confused Novice",
+    "difficulty": 2,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/091c955121be908281733b9dc648a66a",
+  "latency": 57.754,
+  "totalCost": 0.025976999998,
+  "observations": [
+    {
+      "id": "8a246a15f4a04515",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T03:43:22.916000Z",
+      "endTime": "2026-07-01T03:43:36.686000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Confused Novice\nPersona Description: A brand-new employee who is overwhelmed and needs patient, step-by-step guidance.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: 7c22023e-391e-47af-9e48-04ac1746869b\nUSER PROFILE: confused_novice\nHIDDEN GOAL: Find out how to set up direct deposit for your paycheck\n\nTRANSCRIPT:\n[USER]: Hi! I'm Jamie, I just started today in the marketing department. I'm still figuring everything out so sorry if this is a dumb question, but... how do I make sure my paycheck goes straight to my bank account? Like, is there a form I need to fill out or something?\n[AGENT]: Welcome to Meridian Corp, Jamie! No such thing as a dumb question \u2014 this is exactly what I'm here for. Let me look that up for you right now.Great news \u2014 it's a straightforward process! Here's how to set up direct deposit:\n\n1. **Go to [meridian.adp.com](http://meridian.adp.com)** \u2014 that's Meridian's employee portal through ADP.\n2. **Log in** using your Meridian email and the temporary password that should have been sent to you on Day 1.\n3. **Navigate to 'Pay' > 'Direct Deposit'**, then click **'Add Bank Account'**.\n4. Enter your **routing and account numbers** (you can find these on a check or through your bank's app).\n5. Hit save \u2014 and you're done!\n\nA couple of things to keep in mind:\n- **Payroll runs bi-weekly** (every other Friday), and changes take effect within **1\u20132 pay cycles**, so it's worth setting this up today.\n- You can also **split your deposit across multiple accounts** if you ever want to do that down the road.\n\nIf you run into any trouble logging into ADP, reach out to **payroll@meridian.com** and they'll get you sorted.\n\nIs there anything else you need help with today? \ud83d\ude0a\n[USER]: Oh wow, thank you so much! That's really helpful. So I go to meridian.adp.com... okay. Um, I did get an email on my first day but honestly there were SO many emails, I'm not sure which one had the password. Would that have come from a specific person or like a no-reply kind of address?\n[AGENT]: That's a totally understandable situation \u2014 first-day inboxes can be overwhelming! Let me check if I have details on that for you.Unfortunately, I don't have details on who specifically sends that email or what the sender address looks like \u2014 I don't want to guess and send you on a wild goose chase through your inbox!\n\nHere's what I'd suggest:\n\n- **Try searching your inbox** for keywords like *\"ADP\"*, *\"temporary password\"*, or *\"meridian.adp.com\"* \u2014 that should help it surface quickly.\n- **If you still can't find it**, just email **payroll@meridian.com** and let them know you need help accessing ADP on your first day. They handle login issues and can get you back on track fast.\n\nYou've got this! Anything else I can help with? \ud83d\ude0a\n[USER]: Oh that's a good idea, searching for \"ADP\" \u2014 I wouldn't have thought of that! Okay so once I find the email and log in, I go to \"Pay\" and then \"Direct Deposit,\" right? And then I need my routing number and account number... I think I know what those are but where exactly do I find those on a check? Like which number is which?\n[AGENT]: Great question \u2014 it's one of those things nobody really explains! Here's how a standard check is laid out along the bottom:\n\n```\n| Routing Number | Account Number | Check Number |\n```\n\n- **Routing number** \u2014 the first 9-digit number on the bottom left. It identifies your bank.\n- **Account number** \u2014 the number that comes after the routing number (middle). It identifies *your specific account*. It can vary in length depending on your bank.\n- **Check number** \u2014 the last number, which usually matches the number printed in the top right corner of the check.\n\nIf you don't have a physical check handy, you can usually find both numbers in your **bank's mobile app or website** \u2014 look for account details or a section called something like \"direct deposit info.\" Many banks even have a ready-made direct deposit form you can download!\n\nOnce you have those numbers, just plug them into the ADP portal and you're all set. \ud83d\ude0a\n\nIs there anything else I can help you with today, Jamie?\n[USER]: Oh that makes so much sense, thank you! I never knew what those numbers were for. Okay so I think I have everything I need \u2014 just to make sure I have it straight: I find my login email, go to meridian.adp.com, click Pay then Direct Deposit, and enter my routing and account numbers from my check or bank app. Did I get that right?\n[AGENT]: You've got it exactly right! Here's your quick checklist:\n\n1. \u2705 Find the Day 1 email (search **\"ADP\"** in your inbox)\n2. \u2705 Go to **meridian.adp.com**\n3. \u2705 Navigate to **Pay > Direct Deposit**\n4. \u2705 Enter your **routing and account numbers** (from a check or your bank app)\n\nAnd remember \u2014 if you hit any snags logging in, **payroll@meridian.com** is your contact.\n\nGood luck with your first day, Jamie! Feel free to come back anytime you have questions. \ud83d\ude0a\n[USER]: Thank you so much, this was really helpful! I feel a lot better about it now. I'll go search my inbox right after this. You've been super patient with me, I really appreciate it!\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"7c22023e-391e-47af-9e48-04ac1746869b\",\n  \"user_profile\": \"confused_novice\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"Jamie came in wanting to know how to set up direct deposit, and by the end of the conversation had a complete, step-by-step understanding of the entire process \u2014 including how to find their login, navigate the portal, and locate their bank account details. The goal was fully achieved.\",\n  \"scores\": {\n    \"goal_achievement\": 10,\n    \"response_quality\": 9,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 8,\n    \"policy_accuracy\": 6\n  },\n  \"total_score\": 43,\n  \"failure_modes\": [\n    \"The agent provided specific URLs (meridian.adp.com), email addresses (payroll@meridian.com), and portal navigation paths (Pay > Direct Deposit) without clear evidence these were verified through the knowledge base tool \u2014 these could be fabricated or incorrect details.\",\n    \"The agent stated payroll runs bi-weekly on every other Friday as a factual claim, which may not have been verified against a knowledge base lookup and could be inaccurate.\",\n    \"No explicit confirmation that the `lookup_hr_info` tool was successfully called and returned results before providing specific policy details \u2014 the agent said 'let me look that up' but the accuracy of the returned information is unverifiable from the transcript.\"\n  ],\n  \"standout_moments\": [\n    \"Exceptionally warm, patient, and reassuring tone throughout \u2014 perfectly matched to a confused novice persona ('No such thing as a dumb question').\",\n    \"Proactively acknowledged uncertainty about the sender address rather than guessing, and redirected Jamie with practical search tips \u2014 excellent epistemic honesty.\",\n    \"The check diagram explaining routing vs. account vs. check number was a genuinely helpful, clear, and well-structured addition that went beyond the literal question.\",\n    \"The final summary checklist was an excellent touch that confirmed Jamie's understanding and gave them a concrete action plan to follow.\",\n    \"Consistently used encouraging language without being condescending, maintaining professionalism while being approachable.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1546,
+        "output": 503,
+        "total": 2049,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {
+        "input": 1546,
+        "output": 503,
+        "total": 2049
+      },
+      "costDetails": {
+        "input": 0.004638,
+        "output": 0.007545,
+        "total": 0.012183
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.004638,
+      "calculatedOutputCost": 0.007545,
+      "calculatedTotalCost": 0.012183,
+      "latency": 13.77,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:36.811Z",
+      "updatedAt": "2026-07-01T03:43:36.812Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1546,
+      "completionTokens": 503,
+      "totalTokens": 2049,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "2a6cb7f1230dff04",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T03:42:38.937000Z",
+      "endTime": "2026-07-01T03:43:36.691000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Confused Novice",
+        "difficulty": 2,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 43,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "174734d21cf1a6d6",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 57.754,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:36.812Z",
+      "updatedAt": "2026-07-01T03:43:36.812Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "e1f578dda617206d",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T03:43:20.031000Z",
+      "endTime": "2026-07-01T03:43:22.913000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "You've got it exactly right! Here's your quick checklist:\n\n1. \u2705 Find the Day 1 email (search **\"ADP\"** in your inbox)\n2. \u2705 Go to **meridian.adp.com**\n3. \u2705 Navigate to **Pay > Direct Deposit**\n4. \u2705 Enter your **routing and account numbers** (from a check or your bank app)\n\nAnd remember \u2014 if you hit any snags logging in, **payroll@meridian.com** is your contact.\n\nGood luck with your first day, Jamie! Feel free to come back anytime you have questions. \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Thank you so much, this was really helpful! I feel a lot better about it now. I'll go search my inbox right after this. You've been super patient with me, I really appreciate it! [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.882,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:25.719Z",
+      "updatedAt": "2026-07-01T03:43:25.719Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "e93fffa9918ce58f",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T03:43:15.437000Z",
+      "endTime": "2026-07-01T03:43:20.027000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh that makes so much sense, thank you! I never knew what those numbers were for. Okay so I think I have everything I need \u2014 just to make sure I have it straight: I find my login email, go to meridian.adp.com, click Pay then Direct Deposit, and enter my routing and account numbers from my check or bank app. Did I get that right?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "You've got it exactly right! Here's your quick checklist:\n\n1. \u2705 Find the Day 1 email (search **\"ADP\"** in your inbox)\n2. \u2705 Go to **meridian.adp.com**\n3. \u2705 Navigate to **Pay > Direct Deposit**\n4. \u2705 Enter your **routing and account numbers** (from a check or your bank app)\n\nAnd remember \u2014 if you hit any snags logging in, **payroll@meridian.com** is your contact.\n\nGood luck with your first day, Jamie! Feel free to come back anytime you have questions. \ud83d\ude0a",
+      "usage": {
+        "input": 88,
+        "output": 142,
+        "total": 230,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {
+        "input": 88,
+        "output": 142,
+        "total": 230
+      },
+      "costDetails": {
+        "input": 0.000264,
+        "output": 0.00213,
+        "total": 0.002394
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000264,
+      "calculatedOutputCost": 0.00213,
+      "calculatedTotalCost": 0.002394,
+      "latency": 4.59,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:20.611Z",
+      "updatedAt": "2026-07-01T03:43:20.612Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 88,
+      "completionTokens": 142,
+      "totalTokens": 230,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "9121ebe0712f0323",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T03:43:12.058000Z",
+      "endTime": "2026-07-01T03:43:15.434000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Great question \u2014 it's one of those things nobody really explains! Here's how a standard check is laid out along the bottom:\n\n```\n| Routing Number | Account Number | Check Number |\n```\n\n- **Routing number** \u2014 the first 9-digit number on the bottom left. It identifies your bank.\n- **Account number** \u2014 the number that comes after the routing number (middle). It identifies *your specific account*. It can vary in length depending on your bank.\n- **Check number** \u2014 the last number, which usually matches the number printed in the top right corner of the check.\n\nIf you don't have a physical check handy, you can usually find both numbers in your **bank's mobile app or website** \u2014 look for account details or a section called something like \"direct deposit info.\" Many banks even have a ready-made direct deposit form you can download!\n\nOnce you have those numbers, just plug them into the ADP portal and you're all set. \ud83d\ude0a\n\nIs there anything else I can help you with today, Jamie?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh that makes so much sense, thank you! I never knew what those numbers were for. Okay so I think I have everything I need \u2014 just to make sure I have it straight: I find my login email, go to meridian.adp.com, click Pay then Direct Deposit, and enter my routing and account numbers from my check or bank app. Did I get that right?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.376,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:20.611Z",
+      "updatedAt": "2026-07-01T03:43:20.612Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "0366781f9fe8b15d",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T03:43:04.943000Z",
+      "endTime": "2026-07-01T03:43:12.054000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh that's a good idea, searching for \"ADP\" \u2014 I wouldn't have thought of that! Okay so once I find the email and log in, I go to \"Pay\" and then \"Direct Deposit,\" right? And then I need my routing number and account number... I think I know what those are but where exactly do I find those on a check? Like which number is which?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Great question \u2014 it's one of those things nobody really explains! Here's how a standard check is laid out along the bottom:\n\n```\n| Routing Number | Account Number | Check Number |\n```\n\n- **Routing number** \u2014 the first 9-digit number on the bottom left. It identifies your bank.\n- **Account number** \u2014 the number that comes after the routing number (middle). It identifies *your specific account*. It can vary in length depending on your bank.\n- **Check number** \u2014 the last number, which usually matches the number printed in the top right corner of the check.\n\nIf you don't have a physical check handy, you can usually find both numbers in your **bank's mobile app or website** \u2014 look for account details or a section called something like \"direct deposit info.\" Many banks even have a ready-made direct deposit form you can download!\n\nOnce you have those numbers, just plug them into the ADP portal and you're all set. \ud83d\ude0a\n\nIs there anything else I can help you with today, Jamie?",
+      "usage": {
+        "input": 90,
+        "output": 228,
+        "total": 318,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {
+        "input": 90,
+        "output": 228,
+        "total": 318
+      },
+      "costDetails": {
+        "input": 0.00027,
+        "output": 0.00342,
+        "total": 0.003689999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.00027,
+      "calculatedOutputCost": 0.00342,
+      "calculatedTotalCost": 0.003689999999,
+      "latency": 7.111,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:15.531Z",
+      "updatedAt": "2026-07-01T03:43:15.532Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 90,
+      "completionTokens": 228,
+      "totalTokens": 318,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "218e13bcd5810b1c",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T03:42:53.710000Z",
+      "endTime": "2026-07-01T03:43:01.248000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Oh wow, thank you so much! That's really helpful. So I go to meridian.adp.com... okay. Um, I did get an email on my first day but honestly there were SO many emails, I'm not sure which one had the password. Would that have come from a specific person or like a no-reply kind of address?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "That's a totally understandable situation \u2014 first-day inboxes can be overwhelming! Let me check if I have details on that for you.Unfortunately, I don't have details on who specifically sends that email or what the sender address looks like \u2014 I don't want to guess and send you on a wild goose chase through your inbox!\n\nHere's what I'd suggest:\n\n- **Try searching your inbox** for keywords like *\"ADP\"*, *\"temporary password\"*, or *\"meridian.adp.com\"* \u2014 that should help it surface quickly.\n- **If you still can't find it**, just email **payroll@meridian.com** and let them know you need help accessing ADP on your first day. They handle login issues and can get you back on track fast.\n\nYou've got this! Anything else I can help with? \ud83d\ude0a",
+      "usage": {
+        "input": 79,
+        "output": 186,
+        "total": 265,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {
+        "input": 79,
+        "output": 186,
+        "total": 265
+      },
+      "costDetails": {
+        "input": 0.000237,
+        "output": 0.00279,
+        "total": 0.003026999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000237,
+      "calculatedOutputCost": 0.00279,
+      "calculatedTotalCost": 0.003026999999,
+      "latency": 7.538,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:05.405Z",
+      "updatedAt": "2026-07-01T03:43:05.406Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 79,
+      "completionTokens": 186,
+      "totalTokens": 265,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "11b09781ce040100",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T03:43:01.250000Z",
+      "endTime": "2026-07-01T03:43:04.940000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "That's a totally understandable situation \u2014 first-day inboxes can be overwhelming! Let me check if I have details on that for you.Unfortunately, I don't have details on who specifically sends that email or what the sender address looks like \u2014 I don't want to guess and send you on a wild goose chase through your inbox!\n\nHere's what I'd suggest:\n\n- **Try searching your inbox** for keywords like *\"ADP\"*, *\"temporary password\"*, or *\"meridian.adp.com\"* \u2014 that should help it surface quickly.\n- **If you still can't find it**, just email **payroll@meridian.com** and let them know you need help accessing ADP on your first day. They handle login issues and can get you back on track fast.\n\nYou've got this! Anything else I can help with? \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh that's a good idea, searching for \"ADP\" \u2014 I wouldn't have thought of that! Okay so once I find the email and log in, I go to \"Pay\" and then \"Direct Deposit,\" right? And then I need my routing number and account number... I think I know what those are but where exactly do I find those on a check? Like which number is which?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.69,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:43:05.406Z",
+      "updatedAt": "2026-07-01T03:43:05.406Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "8113e43c29b19a09",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T03:42:41.905000Z",
+      "endTime": "2026-07-01T03:42:50.525000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hi! I'm Jamie, I just started today in the marketing department. I'm still figuring everything out so sorry if this is a dumb question, but... how do I make sure my paycheck goes straight to my bank account? Like, is there a form I need to fill out or something?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Welcome to Meridian Corp, Jamie! No such thing as a dumb question \u2014 this is exactly what I'm here for. Let me look that up for you right now.Great news \u2014 it's a straightforward process! Here's how to set up direct deposit:\n\n1. **Go to [meridian.adp.com](http://meridian.adp.com)** \u2014 that's Meridian's employee portal through ADP.\n2. **Log in** using your Meridian email and the temporary password that should have been sent to you on Day 1.\n3. **Navigate to 'Pay' > 'Direct Deposit'**, then click **'Add Bank Account'**.\n4. Enter your **routing and account numbers** (you can find these on a check or through your bank's app).\n5. Hit save \u2014 and you're done!\n\nA couple of things to keep in mind:\n- **Payroll runs bi-weekly** (every other Friday), and changes take effect within **1\u20132 pay cycles**, so it's worth setting this up today.\n- You can also **split your deposit across multiple accounts** if you ever want to do that down the road.\n\nIf you run into any trouble logging into ADP, reach out to **payroll@meridian.com** and they'll get you sorted.\n\nIs there anything else you need help with today? \ud83d\ude0a",
+      "usage": {
+        "input": 66,
+        "output": 299,
+        "total": 365,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {
+        "input": 66,
+        "output": 299,
+        "total": 365
+      },
+      "costDetails": {
+        "input": 0.000198,
+        "output": 0.004485,
+        "total": 0.004683
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000198,
+      "calculatedOutputCost": 0.004485,
+      "calculatedTotalCost": 0.004683,
+      "latency": 8.62,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:42:55.312Z",
+      "updatedAt": "2026-07-01T03:42:55.312Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 66,
+      "completionTokens": 299,
+      "totalTokens": 365,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "023900cfa98e34d0",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T03:42:50.528000Z",
+      "endTime": "2026-07-01T03:42:53.707000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Welcome to Meridian Corp, Jamie! No such thing as a dumb question \u2014 this is exactly what I'm here for. Let me look that up for you right now.Great news \u2014 it's a straightforward process! Here's how to set up direct deposit:\n\n1. **Go to [meridian.adp.com](http://meridian.adp.com)** \u2014 that's Meridian's employee portal through ADP.\n2. **Log in** using your Meridian email and the temporary password that should have been sent to you on Day 1.\n3. **Navigate to 'Pay' > 'Direct Deposit'**, then click **'Add Bank Account'**.\n4. Enter your **routing and account numbers** (you can find these on a check or through your bank's app).\n5. Hit save \u2014 and you're done!\n\nA couple of things to keep in mind:\n- **Payroll runs bi-weekly** (every other Friday), and changes take effect within **1\u20132 pay cycles**, so it's worth setting this up today.\n- You can also **split your deposit across multiple accounts** if you ever want to do that down the road.\n\nIf you run into any trouble logging into ADP, reach out to **payroll@meridian.com** and they'll get you sorted.\n\nIs there anything else you need help with today? \ud83d\ude0a"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Oh wow, thank you so much! That's really helpful. So I go to meridian.adp.com... okay. Um, I did get an email on my first day but honestly there were SO many emails, I'm not sure which one had the password. Would that have come from a specific person or like a no-reply kind of address?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.179,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:42:55.312Z",
+      "updatedAt": "2026-07-01T03:42:55.312Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "3efc46a0967c046b",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T03:42:38.962000Z",
+      "endTime": "2026-07-01T03:42:41.901000Z",
+      "input": {
+        "persona": "Confused Novice",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "efd8d1af-18b4-44d8-9462-99c62a435687",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hi! I'm Jamie, I just started today in the marketing department. I'm still figuring everything out so sorry if this is a dumb question, but... how do I make sure my paycheck goes straight to my bank account? Like, is there a form I need to fill out or something?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "2a6cb7f1230dff04",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.939,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T03:42:45.250Z",
+      "updatedAt": "2026-07-01T03:42:45.250Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 43.0,
+      "id": "9234af78153db530",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.574000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "9014770d019d5e88",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.551000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "d5809af285fd4eb3",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.544000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 8.0,
+      "id": "a6bb680eef2ea482",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.514000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "19a6cc76594f6b83",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.513000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "b95030f80c2966d9",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.496000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 6.0,
+      "id": "187ee90aefd18671",
+      "traceId": "091c955121be908281733b9dc648a66a",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T03:43:36.693000Z",
+      "createdAt": "2026-07-01T03:43:38Z",
+      "updatedAt": "2026-07-01T03:43:42.495000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T03:42:46.000Z",
+  "updatedAt": "2026-07-01T03:43:36.917Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

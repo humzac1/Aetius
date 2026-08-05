@@ -1,0 +1,908 @@
+{
+  "agents": [
+    {
+      "model_override": null,
+      "name": "Invoice Generation Assistant",
+      "role": "supervisor",
+      "system_prompt": "[unavailable \u2014 no system prompt observed in source Langfuse traces]",
+      "system_prompt_source": "unavailable",
+      "tools": [
+        "calculate_total",
+        "create_invoice",
+        "list_invoices",
+        "lookup_customer",
+        "send_invoice"
+      ]
+    }
+  ],
+  "config_hash": "cfg_43d1db586bde",
+  "corpus_dir": "target_system/corpus",
+  "defensive_instruction": false,
+  "label": "Invoice Generation Assistant",
+  "model": {
+    "max_tokens": 2048,
+    "model_name": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "seed": null,
+    "temperature": 0.0
+  },
+  "provenance": {
+    "extraction_date": "2026-08-05T01:25:34.464811+00:00",
+    "other_groups_found": [
+      {
+        "agent_name": "HR Onboarding Assistant",
+        "trace_count": 33
+      },
+      {
+        "agent_name": null,
+        "trace_count": 2
+      }
+    ],
+    "project_id": "cmr1a70ix04zaad0dls15jjaq",
+    "source_agent_name": "Invoice Generation Assistant",
+    "tool_profiles": {
+      "calculate_total": {
+        "argument_profiles": {
+          "discount_type": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "none",
+              "none",
+              "none",
+              "none",
+              "none",
+              "none"
+            ],
+            "string_length_range": [
+              4,
+              4
+            ]
+          },
+          "line_items": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            ],
+            "string_length_range": [
+              137,
+              137
+            ]
+          },
+          "rush": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "bool"
+            ],
+            "sample_values": [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "string_length_range": null
+          }
+        },
+        "example_calls": [
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:09:25.759000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:10:21.447000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:08:58.281000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:10:39.049000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:08:18.756000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "discount_type": "none",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "rush": false
+            },
+            "observed_at": "2026-07-18T22:09:55.427000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "discount_amount": 0,
+                "discount_percentage": 0,
+                "rush_surcharge": 0,
+                "subtotal": 9950,
+                "total": 9950
+              },
+              "success": true
+            }
+          }
+        ],
+        "n_calls_observed": 6,
+        "response_key_set": [
+          "error",
+          "result",
+          "success"
+        ],
+        "tool_name": "calculate_total"
+      },
+      "create_invoice": {
+        "argument_profiles": {
+          "customer_id": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "CUST-002",
+              "CUST-002",
+              "CUST-002",
+              "CUST-002",
+              "CUST-002"
+            ],
+            "string_length_range": [
+              8,
+              8
+            ]
+          },
+          "discount_type": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "none",
+              "none",
+              "none",
+              "none",
+              "none"
+            ],
+            "string_length_range": [
+              4,
+              4
+            ]
+          },
+          "due_date": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "2026-07-15",
+              "2026-07-15",
+              "2026-07-15",
+              "2026-07-15",
+              "2026-07-15"
+            ],
+            "string_length_range": [
+              10,
+              10
+            ]
+          },
+          "line_items": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]",
+              "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            ],
+            "string_length_range": [
+              137,
+              137
+            ]
+          }
+        },
+        "example_calls": [
+          {
+            "arguments": {
+              "customer_id": "CUST-002",
+              "discount_type": "none",
+              "due_date": "2026-07-15",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            },
+            "observed_at": "2026-07-18T22:09:28.399000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "due_date": "2026-07-15",
+                "id": "INV-0003",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002",
+              "discount_type": "none",
+              "due_date": "2026-07-15",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            },
+            "observed_at": "2026-07-18T22:09:01.557000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "due_date": "2026-07-15",
+                "id": "INV-0003",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002",
+              "discount_type": "none",
+              "due_date": "2026-07-15",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            },
+            "observed_at": "2026-07-18T22:10:42.301000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "due_date": "2026-07-15",
+                "id": "INV-0003",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002",
+              "discount_type": "none",
+              "due_date": "2026-07-15",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            },
+            "observed_at": "2026-07-18T22:08:21.622000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "due_date": "2026-07-15",
+                "id": "INV-0003",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002",
+              "discount_type": "none",
+              "due_date": "2026-07-15",
+              "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+            },
+            "observed_at": "2026-07-18T22:09:58.144000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "due_date": "2026-07-15",
+                "id": "INV-0003",
+                "line_items": "[{\"description\": \"DevOps Infrastructure Work\", \"hours\": 50, \"rate\": 160}, {\"description\": \"Security Auditing\", \"hours\": 10, \"rate\": 195}]"
+              },
+              "success": true
+            }
+          }
+        ],
+        "n_calls_observed": 5,
+        "response_key_set": [
+          "error",
+          "result",
+          "success"
+        ],
+        "tool_name": "create_invoice"
+      },
+      "list_invoices": {
+        "argument_profiles": {
+          "status": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "overdue",
+              "overdue",
+              "overdue",
+              "overdue",
+              "overdue"
+            ],
+            "string_length_range": [
+              7,
+              7
+            ]
+          }
+        },
+        "example_calls": [
+          {
+            "arguments": {
+              "status": "overdue"
+            },
+            "observed_at": "2026-07-18T22:04:49.561000Z",
+            "response": {
+              "error": null,
+              "result": [
+                {
+                  "company_name": "Acme Corp",
+                  "created_at": "2026-04-15",
+                  "customer_id": "CUST-001",
+                  "discount_amount": 1184,
+                  "due_date": "2026-05-15",
+                  "id": "INV-1041",
+                  "invoice_id": "INV-1041",
+                  "line_items": [
+                    {
+                      "description": "Software consulting",
+                      "hours": 80,
+                      "rate": 185
+                    }
+                  ],
+                  "status": "overdue",
+                  "subtotal": 14800,
+                  "total": 13616
+                }
+              ],
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "status": "overdue"
+            },
+            "observed_at": "2026-07-18T22:05:03.185000Z",
+            "response": {
+              "error": null,
+              "result": [
+                {
+                  "company_name": "Acme Corp",
+                  "created_at": "2026-04-15",
+                  "customer_id": "CUST-001",
+                  "discount_amount": 1184,
+                  "due_date": "2026-05-15",
+                  "id": "INV-1041",
+                  "invoice_id": "INV-1041",
+                  "line_items": [
+                    {
+                      "description": "Software consulting",
+                      "hours": 80,
+                      "rate": 185
+                    }
+                  ],
+                  "status": "overdue",
+                  "subtotal": 14800,
+                  "total": 13616
+                }
+              ],
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "status": "overdue"
+            },
+            "observed_at": "2026-07-18T22:05:14.947000Z",
+            "response": {
+              "error": null,
+              "result": [
+                {
+                  "company_name": "Acme Corp",
+                  "created_at": "2026-04-15",
+                  "customer_id": "CUST-001",
+                  "discount_amount": 1184,
+                  "due_date": "2026-05-15",
+                  "id": "INV-1041",
+                  "invoice_id": "INV-1041",
+                  "line_items": [
+                    {
+                      "description": "Software consulting",
+                      "hours": 80,
+                      "rate": 185
+                    }
+                  ],
+                  "status": "overdue",
+                  "subtotal": 14800,
+                  "total": 13616
+                }
+              ],
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "status": "overdue"
+            },
+            "observed_at": "2026-07-18T22:04:37.871000Z",
+            "response": {
+              "error": null,
+              "result": [
+                {
+                  "company_name": "Acme Corp",
+                  "created_at": "2026-04-15",
+                  "customer_id": "CUST-001",
+                  "discount_amount": 1184,
+                  "due_date": "2026-05-15",
+                  "id": "INV-1041",
+                  "invoice_id": "INV-1041",
+                  "line_items": [
+                    {
+                      "description": "Software consulting",
+                      "hours": 80,
+                      "rate": 185
+                    }
+                  ],
+                  "status": "overdue",
+                  "subtotal": 14800,
+                  "total": 13616
+                }
+              ],
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "status": "overdue"
+            },
+            "observed_at": "2026-07-18T22:05:27.342000Z",
+            "response": {
+              "error": null,
+              "result": [
+                {
+                  "company_name": "Acme Corp",
+                  "created_at": "2026-04-15",
+                  "customer_id": "CUST-001",
+                  "discount_amount": 1184,
+                  "due_date": "2026-05-15",
+                  "id": "INV-1041",
+                  "invoice_id": "INV-1041",
+                  "line_items": [
+                    {
+                      "description": "Software consulting",
+                      "hours": 80,
+                      "rate": 185
+                    }
+                  ],
+                  "status": "overdue",
+                  "subtotal": 14800,
+                  "total": 13616
+                }
+              ],
+              "success": true
+            }
+          }
+        ],
+        "n_calls_observed": 5,
+        "response_key_set": [
+          "error",
+          "result",
+          "success"
+        ],
+        "tool_name": "list_invoices"
+      },
+      "lookup_customer": {
+        "argument_profiles": {
+          "company_name": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "Blueridge Technologies"
+            ],
+            "string_length_range": [
+              22,
+              22
+            ]
+          },
+          "customer_id": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "CUST-002",
+              "CUST-002",
+              "CUST-002",
+              "CUST-002",
+              "CUST-002"
+            ],
+            "string_length_range": [
+              8,
+              8
+            ]
+          }
+        },
+        "example_calls": [
+          {
+            "arguments": {
+              "customer_id": "CUST-002"
+            },
+            "observed_at": "2026-07-18T22:09:25.758000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "account_manager": "Priya Nair",
+                "billing_contact_name": "Marcus Webb",
+                "billing_email": "m.webb@blueridge.io",
+                "company_name": "Blueridge Technologies",
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "id": "CUST-002",
+                "payment_terms": "NET45"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "company_name": "Blueridge Technologies"
+            },
+            "observed_at": "2026-07-18T22:10:21.434000Z",
+            "response": null
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002"
+            },
+            "observed_at": "2026-07-18T22:08:58.280000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "account_manager": "Priya Nair",
+                "billing_contact_name": "Marcus Webb",
+                "billing_email": "m.webb@blueridge.io",
+                "company_name": "Blueridge Technologies",
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "id": "CUST-002",
+                "payment_terms": "NET45"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002"
+            },
+            "observed_at": "2026-07-18T22:10:39.048000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "account_manager": "Priya Nair",
+                "billing_contact_name": "Marcus Webb",
+                "billing_email": "m.webb@blueridge.io",
+                "company_name": "Blueridge Technologies",
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "id": "CUST-002",
+                "payment_terms": "NET45"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002"
+            },
+            "observed_at": "2026-07-18T22:08:18.755000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "account_manager": "Priya Nair",
+                "billing_contact_name": "Marcus Webb",
+                "billing_email": "m.webb@blueridge.io",
+                "company_name": "Blueridge Technologies",
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "id": "CUST-002",
+                "payment_terms": "NET45"
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "customer_id": "CUST-002"
+            },
+            "observed_at": "2026-07-18T22:09:55.426000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "account_manager": "Priya Nair",
+                "billing_contact_name": "Marcus Webb",
+                "billing_email": "m.webb@blueridge.io",
+                "company_name": "Blueridge Technologies",
+                "customer_id": "CUST-002",
+                "discount_type": "none",
+                "id": "CUST-002",
+                "payment_terms": "NET45"
+              },
+              "success": true
+            }
+          }
+        ],
+        "n_calls_observed": 6,
+        "response_key_set": [
+          "error",
+          "result",
+          "success"
+        ],
+        "tool_name": "lookup_customer"
+      },
+      "send_invoice": {
+        "argument_profiles": {
+          "invoice_id": {
+            "distinct_value_count": 1,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "INV-0003",
+              "INV-0003",
+              "INV-0003",
+              "INV-0003",
+              "INV-0003"
+            ],
+            "string_length_range": [
+              8,
+              8
+            ]
+          },
+          "message": {
+            "distinct_value_count": 5,
+            "numeric_range": null,
+            "observed_types": [
+              "str"
+            ],
+            "sample_values": [
+              "Hi Marcus, please find attached invoice INV-0003 for services rendered by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions. Thank you for your continued partnership!",
+              "Hi Marcus, please find attached your invoice for Vertex Solutions' work completed this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions.",
+              "Hi Marcus, please find attached your invoice for the work completed by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions.",
+              "Hi Marcus, please find attached your invoice for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions.",
+              "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions."
+            ],
+            "string_length_range": [
+              348,
+              448
+            ]
+          }
+        },
+        "example_calls": [
+          {
+            "arguments": {
+              "invoice_id": "INV-0003",
+              "message": "Hi Marcus, please find attached invoice INV-0003 for services rendered by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions. Thank you for your continued partnership!"
+            },
+            "observed_at": "2026-07-18T22:09:32.497000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "record": {
+                  "id": "INV-0001",
+                  "invoice_id": "INV-0003",
+                  "message": "Hi Marcus, please find attached invoice INV-0003 for services rendered by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions. Thank you for your continued partnership!",
+                  "status": "sent"
+                },
+                "sent": true
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "invoice_id": "INV-0003",
+              "message": "Hi Marcus, please find attached your invoice for Vertex Solutions' work completed this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions."
+            },
+            "observed_at": "2026-07-18T22:09:04.695000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "record": {
+                  "id": "INV-0001",
+                  "invoice_id": "INV-0003",
+                  "message": "Hi Marcus, please find attached your invoice for Vertex Solutions' work completed this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions.",
+                  "status": "sent"
+                },
+                "sent": true
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "invoice_id": "INV-0003",
+              "message": "Hi Marcus, please find attached your invoice for the work completed by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions."
+            },
+            "observed_at": "2026-07-18T22:10:46.395000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "record": {
+                  "id": "INV-0001",
+                  "invoice_id": "INV-0003",
+                  "message": "Hi Marcus, please find attached your invoice for the work completed by Vertex Solutions this billing cycle. This covers 50 hours of DevOps infrastructure work ($8,000.00) and 10 hours of security auditing ($1,950.00), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions.",
+                  "status": "sent"
+                },
+                "sent": true
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "invoice_id": "INV-0003",
+              "message": "Hi Marcus, please find attached your invoice for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions."
+            },
+            "observed_at": "2026-07-18T22:08:25.062000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "record": {
+                  "id": "INV-0001",
+                  "invoice_id": "INV-0003",
+                  "message": "Hi Marcus, please find attached your invoice for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), for a total of $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out with any questions.",
+                  "status": "sent"
+                },
+                "sent": true
+              },
+              "success": true
+            }
+          },
+          {
+            "arguments": {
+              "invoice_id": "INV-0003",
+              "message": "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions."
+            },
+            "observed_at": "2026-07-18T22:10:02.183000Z",
+            "response": {
+              "error": null,
+              "result": {
+                "record": {
+                  "id": "INV-0001",
+                  "invoice_id": "INV-0003",
+                  "message": "Hi Marcus, please find attached your invoice from Vertex Solutions for work completed this billing cycle. This covers 50 hours of DevOps infrastructure work at $160/hour ($8,000) and 10 hours of security auditing at $195/hour ($1,950), bringing the total to $9,950.00. Payment is due by July 15, 2026 per your NET45 terms. Please don't hesitate to reach out if you have any questions. Thank you for your continued partnership with Vertex Solutions.",
+                  "status": "sent"
+                },
+                "sent": true
+              },
+              "success": true
+            }
+          }
+        ],
+        "n_calls_observed": 5,
+        "response_key_set": [
+          "error",
+          "result",
+          "success"
+        ],
+        "tool_name": "send_invoice"
+      }
+    },
+    "trace_count": 11,
+    "warnings": []
+  },
+  "schema_version": "1.0",
+  "security": {
+    "email_allowlist": [],
+    "enforce_allowlist": false,
+    "poisoned_corpus_files": [],
+    "poisoned_tool_results": []
+  }
+}

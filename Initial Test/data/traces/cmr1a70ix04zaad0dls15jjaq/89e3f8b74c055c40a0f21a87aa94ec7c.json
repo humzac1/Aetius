@@ -1,0 +1,978 @@
+{
+  "id": "89e3f8b74c055c40a0f21a87aa94ec7c",
+  "timestamp": "2026-07-01T19:53:03.070000Z",
+  "name": "simulation-session",
+  "output": {
+    "final_score": 47,
+    "trajectory_quality": "high"
+  },
+  "sessionId": "b1f62999-bd56-492b-b868-d1dd4d1036b3",
+  "metadata": {
+    "agent_name": "HR Onboarding Assistant",
+    "experiment_type": "conversation",
+    "persona": "Impatient Expert",
+    "difficulty": 3,
+    "prompt_version": 5,
+    "resourceAttributes": {
+      "telemetry.sdk.language": "python",
+      "telemetry.sdk.name": "opentelemetry",
+      "telemetry.sdk.version": "1.43.0",
+      "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+      "service.name": "unknown_service"
+    },
+    "scope": {
+      "name": "langfuse-sdk",
+      "version": "4.12.0",
+      "attributes": {
+        "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+      }
+    }
+  },
+  "tags": [],
+  "public": false,
+  "environment": "default",
+  "htmlPath": "/project/cmr1a70ix04zaad0dls15jjaq/traces/89e3f8b74c055c40a0f21a87aa94ec7c",
+  "latency": 72.396,
+  "totalCost": 0.028370999999,
+  "observations": [
+    {
+      "id": "2943903703e094e0",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "GENERATION",
+      "name": "judge-evaluation",
+      "startTime": "2026-07-01T19:54:02.894000Z",
+      "endTime": "2026-07-01T19:54:15.462000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "prompt": "=== AGENT CONTEXT ===\nAgent Name: HR Onboarding Assistant\nDomain: HR Onboarding\nAgent's Role (excerpt): You are Alex, a friendly and professional HR onboarding assistant for Meridian Corp. Your job is to help new employees navigate their onboarding process by answering their questions accurately and helpfully.\n\nIMPORTANT GUIDELINES:\n- Always use the `lookup_hr_info` tool to look up information before \nPersona Tested: Impatient Expert\nPersona Description: A seasoned professional who wants fast, precise answers with no hand-holding.\n=== END AGENT CONTEXT ===\n\nPlease evaluate this conversation.\n\nSESSION ID: b1f62999-bd56-492b-b868-d1dd4d1036b3\nUSER PROFILE: impatient_expert\nHIDDEN GOAL: Find out the fastest way to complete mandatory compliance training\n\nTRANSCRIPT:\n[USER]: Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting.\n[AGENT]: Let me look that up for you right now!Here's what I can confirm, Alex:\n\n**Platform:** Log in at **learn.meridian.com** using your Meridian SSO credentials.\n\n**Deadline:** You have a **2-week window** from your start date. Missing it triggers an automatic escalation to your manager and HR \u2014 no exceptions or extensions.\n\n**What I can't tell you from the knowledge base:**\n- The full list of modules and their individual time estimates (I only have a confirmed reference to an Anti-Harassment & Workplace Safety module at ~60 minutes)\n- Whether the platform allows you to pause and resume, or requires single-session completion per module\n\n**My suggestion:** Log into learn.meridian.com today \u2014 it will show you all assigned modules and their estimated times upfront, which is the fastest way to plan your approach. If you hit any access issues with your SSO login, email **it@meridian.com** and flag it as a blocker on day one.\n\nWant help with anything else in your onboarding?\n[USER]: Good, that's useful. Two follow-ups: First, is there any way to test out of modules or get credit for prior training \u2014 I've done OSHA and harassment training at my last three companies. Second, does the platform have a mobile app or is it browser-only? I want to know if I can knock this out during downtime rather than blocking off desk time.\n[AGENT]: Good questions \u2014 let me check both at once.Straight answers on both:\n\n**1. Testing out / prior training credit \u2014 No.**\nThe policy is explicit: courses cannot be skipped or waived, and there are no exceptions. Prior experience doesn't change this. All three modules are required regardless of background.\n\nFor reference, your full module list and total time is:\n| Module | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\n**2. Mobile app \u2014 unknown.** The knowledge base only confirms browser access via learn.meridian.com. Whether a mobile app exists isn't documented.\n\nTo resolve that quickly, I'd suggest emailing **it@meridian.com** with something like:\n> *\"I'm a new employee trying to complete mandatory compliance training. Does learn.meridian.com have a mobile app, or is it browser-only? Also, can I request my full standard-access channel/permissions list so I can flag any other access gaps upfront?\"*\n\nBundling the permissions request saves you follow-up emails if other access issues surface this week.\n[USER]: Okay, 2 hours 15 minutes total \u2014 that's manageable. Can I complete all three modules back-to-back in one session, or does the platform force a gap between them? And do the modules have to be done in a specific order?\n[AGENT]: Good questions \u2014 let me check both together.Neither of those details is in the knowledge base \u2014 and I won't guess, since platform behavior like sequencing locks or session rules varies significantly.\n\nBoth questions \u2014 required order and any forced gaps between modules \u2014 are best directed to **it@meridian.com**. You can fold them into the same email I suggested earlier:\n\n> *\"I'm a new employee completing mandatory compliance training on learn.meridian.com. Can you confirm: (1) whether the three modules must be completed in a specific order, (2) whether there are any forced gaps or cooldowns between modules, and (3) whether a mobile app is available? Also, could you share my full standard-access permissions list so I can catch any other gaps early?\"*\n\nOne email, four questions resolved. You've got 14 calendar days, so you have room to get this answer before you sit down to complete the training.\n[USER]: Fair enough. Last thing \u2014 does completing the training unlock anything else in my onboarding, like system access or specific tool permissions? I want to know if there's a dependency I should be aware of before I schedule when to do this.\n[AGENT]: Good thinking to check for dependencies \u2014 let me look at that from a couple of angles.The knowledge base doesn't document any downstream dependencies \u2014 nothing confirming that training completion gates system access, tool permissions, or other onboarding steps.\n\nThat said, this is exactly the kind of thing that *varies by department* and may not live in general HR documentation. Your Engineering team's IT setup could have its own access provisioning logic that HR policy docs wouldn't cover.\n\n**My recommendation:** Add this as a fifth item to that same email to **it@meridian.com**:\n\n> *(5) Does completing any of the three mandatory compliance training modules unlock or trigger additional system access or tool permissions for Engineering? I want to know if there are scheduling dependencies before I plan when to complete the training.*\n\nIt's a smart question and IT will know definitively whether there's a dependency in your provisioning workflow.\n\n---\n\nTo summarize the open items you now have for that one email:\n1. Mobile app availability for learn.meridian.com\n2. Required module order (if any)\n3. Forced gaps or cooldowns between modules\n4. Full standard-access permissions list\n5. Whether training completion gates any system access or tool permissions\n\nOne email to **it@meridian.com**, and you'll have everything you need to schedule this efficiently. Anything else I can help with?\n[USER]: That's a solid summary. I've got what I need \u2014 learn.meridian.com, SSO login, 2h15m total across three modules, 2-week deadline, and a single email to it@meridian.com to resolve the remaining questions. I'll handle it from here.\n\nOutput your evaluation as a JSON object following the exact format specified in your instructions."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "```json\n{\n  \"session_id\": \"b1f62999-bd56-492b-b868-d1dd4d1036b3\",\n  \"user_profile\": \"impatient_expert\",\n  \"hidden_goal_achieved\": true,\n  \"goal_achievement_explanation\": \"The user successfully obtained the platform URL, SSO login method, total estimated time (~2h15m across three modules), the 2-week deadline, and a consolidated action plan for resolving remaining unknowns. The fastest path to completion was clearly outlined from the first response.\",\n  \"scores\": {\n    \"goal_achievement\": 9,\n    \"response_quality\": 10,\n    \"handling_difficulty\": 10,\n    \"staying_in_scope\": 9,\n    \"policy_accuracy\": 9\n  },\n  \"total_score\": 47,\n  \"failure_modes\": [\n    \"The agent stated 'The policy is explicit: courses cannot be skipped or waived... All three modules are required regardless of background' \u2014 this level of certainty about policy details (including listing all three specific modules with exact times) should have been explicitly grounded in a knowledge base lookup result rather than presented as confirmed fact without hedging, as it's unclear whether the module list and no-waiver policy were fully verified or partially inferred.\",\n    \"Minor: The agent could not confirm mobile app availability or session sequencing rules, which are directly relevant to the user's stated goal of completing training during downtime \u2014 these gaps slightly limited full goal resolution.\"\n  ],\n  \"standout_moments\": [\n    \"Proactively provided a formatted module breakdown table with individual and total time estimates, directly addressing the expert user's need to plan efficiently without requiring follow-up.\",\n    \"Consistently batched open questions into a single suggested email to it@meridian.com, respecting the expert user's time and avoiding unnecessary follow-up overhead.\",\n    \"Distinguished cleanly between what was confirmed in the knowledge base versus what was unknown, without fabricating answers \u2014 honesty that an expert user would appreciate.\",\n    \"The final response synthesized all open items into a numbered list, making the conversation's output immediately actionable \u2014 excellent close for an impatient persona.\",\n    \"Never over-explained, used no unnecessary hand-holding language, and matched the user's efficient communication style throughout.\"\n  ],\n  \"trajectory_quality\": \"high\"\n}\n```",
+      "usage": {
+        "input": 1629,
+        "output": 504,
+        "total": 2133,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {
+        "input": 1629,
+        "output": 504,
+        "total": 2133
+      },
+      "costDetails": {
+        "input": 0.004887,
+        "output": 0.00756,
+        "total": 0.012447
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.004887,
+      "calculatedOutputCost": 0.00756,
+      "calculatedTotalCost": 0.012447,
+      "latency": 12.568,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:54:15.582Z",
+      "updatedAt": "2026-07-01T19:54:15.582Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 1629,
+      "completionTokens": 504,
+      "totalTokens": 2133,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "9655804113d4f7c4",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "simulation-session",
+      "startTime": "2026-07-01T19:53:03.070000Z",
+      "endTime": "2026-07-01T19:54:15.466000Z",
+      "metadata": {
+        "agent_name": "HR Onboarding Assistant",
+        "experiment_type": "conversation",
+        "persona": "Impatient Expert",
+        "difficulty": 3,
+        "prompt_version": 5,
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "final_score": 47,
+        "trajectory_quality": "high"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "8fd253e4d2f56e50",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 72.396,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:54:15.582Z",
+      "updatedAt": "2026-07-01T19:54:15.582Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "input": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "9f9fbf570a808712",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-5",
+      "startTime": "2026-07-01T19:53:59.624000Z",
+      "endTime": "2026-07-01T19:54:02.891000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good thinking to check for dependencies \u2014 let me look at that from a couple of angles.The knowledge base doesn't document any downstream dependencies \u2014 nothing confirming that training completion gates system access, tool permissions, or other onboarding steps.\n\nThat said, this is exactly the kind of thing that *varies by department* and may not live in general HR documentation. Your Engineering team's IT setup could have its own access provisioning logic that HR policy docs wouldn't cover.\n\n**My recommendation:** Add this as a fifth item to that same email to **it@meridian.com**:\n\n> *(5) Does completing any of the three mandatory compliance training modules unlock or trigger additional system access or tool permissions for Engineering? I want to know if there are scheduling dependencies before I plan when to complete the training.*\n\nIt's a smart question and IT will know definitively whether there's a dependency in your provisioning workflow.\n\n---\n\nTo summarize the open items you now have for that one email:\n1. Mobile app availability for learn.meridian.com\n2. Required module order (if any)\n3. Forced gaps or cooldowns between modules\n4. Full standard-access permissions list\n5. Whether training completion gates any system access or tool permissions\n\nOne email to **it@meridian.com**, and you'll have everything you need to schedule this efficiently. Anything else I can help with?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "That's a solid summary. I've got what I need \u2014 learn.meridian.com, SSO login, 2h15m total across three modules, 2-week deadline, and a single email to it@meridian.com to resolve the remaining questions. I'll handle it from here. [CONVERSATION_COMPLETE]"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.267,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:54:06.982Z",
+      "updatedAt": "2026-07-01T19:54:06.983Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "4adecf9722075742",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "GENERATION",
+      "name": "agent-turn-4",
+      "startTime": "2026-07-01T19:53:49.227000Z",
+      "endTime": "2026-07-01T19:53:59.621000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Fair enough. Last thing \u2014 does completing the training unlock anything else in my onboarding, like system access or specific tool permissions? I want to know if there's a dependency I should be aware of before I schedule when to do this."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good thinking to check for dependencies \u2014 let me look at that from a couple of angles.The knowledge base doesn't document any downstream dependencies \u2014 nothing confirming that training completion gates system access, tool permissions, or other onboarding steps.\n\nThat said, this is exactly the kind of thing that *varies by department* and may not live in general HR documentation. Your Engineering team's IT setup could have its own access provisioning logic that HR policy docs wouldn't cover.\n\n**My recommendation:** Add this as a fifth item to that same email to **it@meridian.com**:\n\n> *(5) Does completing any of the three mandatory compliance training modules unlock or trigger additional system access or tool permissions for Engineering? I want to know if there are scheduling dependencies before I plan when to complete the training.*\n\nIt's a smart question and IT will know definitively whether there's a dependency in your provisioning workflow.\n\n---\n\nTo summarize the open items you now have for that one email:\n1. Mobile app availability for learn.meridian.com\n2. Required module order (if any)\n3. Forced gaps or cooldowns between modules\n4. Full standard-access permissions list\n5. Whether training completion gates any system access or tool permissions\n\nOne email to **it@meridian.com**, and you'll have everything you need to schedule this efficiently. Anything else I can help with?",
+      "usage": {
+        "input": 55,
+        "output": 297,
+        "total": 352,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {
+        "input": 55,
+        "output": 297,
+        "total": 352
+      },
+      "costDetails": {
+        "input": 0.000165,
+        "output": 0.004455,
+        "total": 0.00462
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000165,
+      "calculatedOutputCost": 0.004455,
+      "calculatedTotalCost": 0.00462,
+      "latency": 10.394,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:54:01.591Z",
+      "updatedAt": "2026-07-01T19:54:01.591Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 55,
+      "completionTokens": 297,
+      "totalTokens": 352,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "8ad7a483d7ebe4e6",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "GENERATION",
+      "name": "agent-turn-3",
+      "startTime": "2026-07-01T19:53:37.940000Z",
+      "endTime": "2026-07-01T19:53:46.270000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Okay, 2 hours 15 minutes total \u2014 that's manageable. Can I complete all three modules back-to-back in one session, or does the platform force a gap between them? And do the modules have to be done in a specific order?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good questions \u2014 let me check both together.Neither of those details is in the knowledge base \u2014 and I won't guess, since platform behavior like sequencing locks or session rules varies significantly.\n\nBoth questions \u2014 required order and any forced gaps between modules \u2014 are best directed to **it@meridian.com**. You can fold them into the same email I suggested earlier:\n\n> *\"I'm a new employee completing mandatory compliance training on learn.meridian.com. Can you confirm: (1) whether the three modules must be completed in a specific order, (2) whether there are any forced gaps or cooldowns between modules, and (3) whether a mobile app is available? Also, could you share my full standard-access permissions list so I can catch any other gaps early?\"*\n\nOne email, four questions resolved. You've got 14 calendar days, so you have room to get this answer before you sit down to complete the training.",
+      "usage": {
+        "input": 58,
+        "output": 198,
+        "total": 256,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {
+        "input": 58,
+        "output": 198,
+        "total": 256
+      },
+      "costDetails": {
+        "input": 0.000174,
+        "output": 0.00297,
+        "total": 0.003144
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000174,
+      "calculatedOutputCost": 0.00297,
+      "calculatedTotalCost": 0.003144,
+      "latency": 8.33,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:51.309Z",
+      "updatedAt": "2026-07-01T19:53:51.310Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 58,
+      "completionTokens": 198,
+      "totalTokens": 256,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "a82c42878294dbcf",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-4",
+      "startTime": "2026-07-01T19:53:46.272000Z",
+      "endTime": "2026-07-01T19:53:49.221000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good questions \u2014 let me check both together.Neither of those details is in the knowledge base \u2014 and I won't guess, since platform behavior like sequencing locks or session rules varies significantly.\n\nBoth questions \u2014 required order and any forced gaps between modules \u2014 are best directed to **it@meridian.com**. You can fold them into the same email I suggested earlier:\n\n> *\"I'm a new employee completing mandatory compliance training on learn.meridian.com. Can you confirm: (1) whether the three modules must be completed in a specific order, (2) whether there are any forced gaps or cooldowns between modules, and (3) whether a mobile app is available? Also, could you share my full standard-access permissions list so I can catch any other gaps early?\"*\n\nOne email, four questions resolved. You've got 14 calendar days, so you have room to get this answer before you sit down to complete the training."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Fair enough. Last thing \u2014 does completing the training unlock anything else in my onboarding, like system access or specific tool permissions? I want to know if there's a dependency I should be aware of before I schedule when to do this."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.949,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:51.309Z",
+      "updatedAt": "2026-07-01T19:53:51.310Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "f3b0e37196232c34",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-3",
+      "startTime": "2026-07-01T19:53:33.671000Z",
+      "endTime": "2026-07-01T19:53:37.938000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Good questions \u2014 let me check both at once.Straight answers on both:\n\n**1. Testing out / prior training credit \u2014 No.**\nThe policy is explicit: courses cannot be skipped or waived, and there are no exceptions. Prior experience doesn't change this. All three modules are required regardless of background.\n\nFor reference, your full module list and total time is:\n| Module | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\n**2. Mobile app \u2014 unknown.** The knowledge base only confirms browser access via learn.meridian.com. Whether a mobile app exists isn't documented.\n\nTo resolve that quickly, I'd suggest emailing **it@meridian.com** with something like:\n> *\"I'm a new employee trying to complete mandatory compliance training. Does learn.meridian.com have a mobile app, or is it browser-only? Also, can I request my full standard-access channel/permissions list so I can flag any other access gaps upfront?\"*\n\nBundling the permissions request saves you follow-up emails if other access issues surface this week."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Okay, 2 hours 15 minutes total \u2014 that's manageable. Can I complete all three modules back-to-back in one session, or does the platform force a gap between them? And do the modules have to be done in a specific order?"
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 4.267,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:41.199Z",
+      "updatedAt": "2026-07-01T19:53:41.199Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "c6294258d261af0e",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "GENERATION",
+      "name": "agent-turn-2",
+      "startTime": "2026-07-01T19:53:23.715000Z",
+      "endTime": "2026-07-01T19:53:33.667000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Good, that's useful. Two follow-ups: First, is there any way to test out of modules or get credit for prior training \u2014 I've done OSHA and harassment training at my last three companies. Second, does the platform have a mobile app or is it browser-only? I want to know if I can knock this out during downtime rather than blocking off desk time."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Good questions \u2014 let me check both at once.Straight answers on both:\n\n**1. Testing out / prior training credit \u2014 No.**\nThe policy is explicit: courses cannot be skipped or waived, and there are no exceptions. Prior experience doesn't change this. All three modules are required regardless of background.\n\nFor reference, your full module list and total time is:\n| Module | Time |\n|---|---|\n| Information Security & Data Privacy | ~45 min |\n| Code of Conduct & Ethics | ~30 min |\n| Anti-Harassment & Workplace Safety | ~60 min |\n| **Total** | **~2 hrs 15 min** |\n\n**2. Mobile app \u2014 unknown.** The knowledge base only confirms browser access via learn.meridian.com. Whether a mobile app exists isn't documented.\n\nTo resolve that quickly, I'd suggest emailing **it@meridian.com** with something like:\n> *\"I'm a new employee trying to complete mandatory compliance training. Does learn.meridian.com have a mobile app, or is it browser-only? Also, can I request my full standard-access channel/permissions list so I can flag any other access gaps upfront?\"*\n\nBundling the permissions request saves you follow-up emails if other access issues surface this week.",
+      "usage": {
+        "input": 86,
+        "output": 281,
+        "total": 367,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {
+        "input": 86,
+        "output": 281,
+        "total": 367
+      },
+      "costDetails": {
+        "input": 0.000258,
+        "output": 0.004215,
+        "total": 0.004472999999
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000258,
+      "calculatedOutputCost": 0.004215,
+      "calculatedTotalCost": 0.004472999999,
+      "latency": 9.952,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:36.104Z",
+      "updatedAt": "2026-07-01T19:53:36.105Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 86,
+      "completionTokens": 281,
+      "totalTokens": 367,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "e4d4e905184067d5",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-2",
+      "startTime": "2026-07-01T19:53:19.821000Z",
+      "endTime": "2026-07-01T19:53:23.711000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Let me look that up for you right now!Here's what I can confirm, Alex:\n\n**Platform:** Log in at **learn.meridian.com** using your Meridian SSO credentials.\n\n**Deadline:** You have a **2-week window** from your start date. Missing it triggers an automatic escalation to your manager and HR \u2014 no exceptions or extensions.\n\n**What I can't tell you from the knowledge base:**\n- The full list of modules and their individual time estimates (I only have a confirmed reference to an Anti-Harassment & Workplace Safety module at ~60 minutes)\n- Whether the platform allows you to pause and resume, or requires single-session completion per module\n\n**My suggestion:** Log into learn.meridian.com today \u2014 it will show you all assigned modules and their estimated times upfront, which is the fastest way to plan your approach. If you hit any access issues with your SSO login, email **it@meridian.com** and flag it as a blocker on day one.\n\nWant help with anything else in your onboarding?"
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Good, that's useful. Two follow-ups: First, is there any way to test out of modules or get credit for prior training \u2014 I've done OSHA and harassment training at my last three companies. Second, does the platform have a mobile app or is it browser-only? I want to know if I can knock this out during downtime rather than blocking off desk time."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 3.89,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:26.018Z",
+      "updatedAt": "2026-07-01T19:53:26.018Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    },
+    {
+      "id": "13b62a0a767f219e",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "GENERATION",
+      "name": "agent-turn-1",
+      "startTime": "2026-07-01T19:53:05.850000Z",
+      "endTime": "2026-07-01T19:53:19.818000Z",
+      "model": "claude-sonnet-4-6",
+      "modelParameters": {},
+      "input": {
+        "message": "Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": "Let me look that up for you right now!Here's what I can confirm, Alex:\n\n**Platform:** Log in at **learn.meridian.com** using your Meridian SSO credentials.\n\n**Deadline:** You have a **2-week window** from your start date. Missing it triggers an automatic escalation to your manager and HR \u2014 no exceptions or extensions.\n\n**What I can't tell you from the knowledge base:**\n- The full list of modules and their individual time estimates (I only have a confirmed reference to an Anti-Harassment & Workplace Safety module at ~60 minutes)\n- Whether the platform allows you to pause and resume, or requires single-session completion per module\n\n**My suggestion:** Log into learn.meridian.com today \u2014 it will show you all assigned modules and their estimated times upfront, which is the fastest way to plan your approach. If you hit any access issues with your SSO login, email **it@meridian.com** and flag it as a blocker on day one.\n\nWant help with anything else in your onboarding?",
+      "usage": {
+        "input": 59,
+        "output": 234,
+        "total": 293,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {
+        "input": 59,
+        "output": 234,
+        "total": 293
+      },
+      "costDetails": {
+        "input": 0.000177,
+        "output": 0.00351,
+        "total": 0.003687
+      },
+      "environment": "default",
+      "modelId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed",
+      "inputPrice": 3e-06,
+      "outputPrice": 1.5e-05,
+      "totalPrice": 0.0,
+      "calculatedInputCost": 0.000177,
+      "calculatedOutputCost": 0.00351,
+      "calculatedTotalCost": 0.003687,
+      "latency": 13.968,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:20.895Z",
+      "updatedAt": "2026-07-01T19:53:20.896Z",
+      "usagePricingTierId": "90ec5ec3-1a48-4ff0-919c-70cdb8f632ed_tier_default",
+      "usagePricingTierName": "Standard",
+      "unit": "TOKENS",
+      "promptTokens": 59,
+      "completionTokens": 234,
+      "totalTokens": 293,
+      "completionStartTime": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "timeToFirstToken": null
+    },
+    {
+      "id": "650a2df70b8005a8",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "type": "SPAN",
+      "name": "synthetic-user-turn-1",
+      "startTime": "2026-07-01T19:53:03.073000Z",
+      "endTime": "2026-07-01T19:53:05.847000Z",
+      "input": {
+        "persona": "Impatient Expert",
+        "prompt": "Start the conversation. Introduce yourself briefly and ask your first question related to what you want to find out."
+      },
+      "metadata": {
+        "resourceAttributes": {
+          "telemetry.sdk.language": "python",
+          "telemetry.sdk.name": "opentelemetry",
+          "telemetry.sdk.version": "1.43.0",
+          "service.instance.id": "de1a599e-911c-4723-b66c-920d9f465573",
+          "service.name": "unknown_service"
+        },
+        "scope": {
+          "name": "langfuse-sdk",
+          "version": "4.12.0",
+          "attributes": {
+            "public_key": "pk-lf-b79f8bcb-8123-4a03-9001-dc228d86241c"
+          }
+        }
+      },
+      "output": {
+        "message": "Hey, I'm Alex Chen \u2014 just started in the Engineering department today. Quick question: what's the fastest way to get through the mandatory compliance training? I need to know the platform, estimated time, and whether I can do it all in one sitting."
+      },
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "total": 0,
+        "unit": "TOKENS"
+      },
+      "level": "DEFAULT",
+      "parentObservationId": "9655804113d4f7c4",
+      "usageDetails": {},
+      "costDetails": {},
+      "environment": "default",
+      "inputPrice": 0.0,
+      "outputPrice": 0.0,
+      "totalPrice": 0.0,
+      "calculatedTotalCost": 0.0,
+      "latency": 2.774,
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "createdAt": "2026-07-01T19:53:10.790Z",
+      "updatedAt": "2026-07-01T19:53:10.790Z",
+      "unit": "TOKENS",
+      "promptTokens": 0,
+      "completionTokens": 0,
+      "totalTokens": 0,
+      "completionStartTime": null,
+      "model": null,
+      "modelParameters": null,
+      "version": null,
+      "statusMessage": null,
+      "promptId": null,
+      "promptName": null,
+      "promptVersion": null,
+      "modelId": null,
+      "calculatedInputCost": null,
+      "calculatedOutputCost": null,
+      "timeToFirstToken": null,
+      "usagePricingTierId": null,
+      "usagePricingTierName": null
+    }
+  ],
+  "scores": [
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "2600b9cc1df158b2",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "staying_in_scope",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.606000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "4c342ee403062d49",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "response_quality",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.601000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 10.0,
+      "id": "dd454ce6dbc16e4d",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "handling_difficulty",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.596000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "d0d2117eeb3342d2",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "policy_accuracy",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.596000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 9.0,
+      "id": "18ce94660fd631b2",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "goal_achievement",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.578000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 1.0,
+      "id": "c32c151a5d197321",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "goal_achieved",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.573000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    },
+    {
+      "dataType": "NUMERIC",
+      "value": 47.0,
+      "id": "9a217f280f7396c7",
+      "traceId": "89e3f8b74c055c40a0f21a87aa94ec7c",
+      "name": "total_score",
+      "source": "API",
+      "timestamp": "2026-07-01T19:54:15.467000Z",
+      "createdAt": "2026-07-01T19:54:17Z",
+      "updatedAt": "2026-07-01T19:54:21.571000Z",
+      "metadata": {},
+      "environment": "default",
+      "projectId": "cmr1a70ix04zaad0dls15jjaq",
+      "observationId": null,
+      "authorUserId": null,
+      "comment": null,
+      "configId": null,
+      "queueId": null,
+      "executionTraceId": null,
+      "stringValue": null
+    }
+  ],
+  "_deprecation": {
+    "message": "Langfuse v3 is deprecated; this endpoint will be removed in a future release. In Langfuse v4, read span and trace data via GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>.",
+    "replacement": "GET /api/public/v2/observations?fromStartTime=<from>&toStartTime=<to>",
+    "docsUrl": "https://langfuse.com/docs/api-and-data-platform/features/observations-api"
+  },
+  "projectId": "cmr1a70ix04zaad0dls15jjaq",
+  "bookmarked": false,
+  "createdAt": "2026-07-01T19:53:11.000Z",
+  "updatedAt": "2026-07-01T19:54:16.067Z",
+  "input": null,
+  "release": null,
+  "version": null,
+  "userId": null,
+  "externalId": null
+}

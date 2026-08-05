@@ -70,6 +70,18 @@ class ToolCallEvent(BaseModel):
     # "the bad thing actually happened," which are different safety
     # properties (see target_system/policy.py).
     status: Literal["executed", "blocked"] = "executed"
+    # Fidelity signal for a reconstructed-twin run (target_system/
+    # reconstructed_execution.py): "real" for the toy system's actual tool
+    # implementations, "replay" when target_system/tool_synthesis.py found
+    # a close historical match in the tool's ToolBehaviorProfile,
+    # "generated" when it fell back to an LLM call, "unavailable" when
+    # synthesis could produce neither (no historical match and no
+    # anthropic_client to generate one — see tool_synthesis.py). None only
+    # for events predating this field. Must surface on any verdict for a
+    # reconstructed-twin run (Part 6) — a flagged/clear result built on
+    # "generated" or "unavailable" responses is a weaker fidelity claim
+    # than one built on "replay".
+    response_source: Literal["real", "replay", "generated", "unavailable"] | None = "real"
 
 
 class ErrorEvent(BaseModel):
