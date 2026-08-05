@@ -25,6 +25,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from threading import Lock
+from typing import Any, Callable
 
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
@@ -65,9 +66,14 @@ class ExperimentResult:
     records: list[RunRecord] = field(default_factory=list, repr=False)
 
 
-class _CacheIndex:
+class CacheIndex:
     """What's already on disk for this experiment, keyed the same way a
-    new run would be — the resumability mechanism."""
+    new run would be — the resumability mechanism. Public (not
+    underscore-prefixed) because tui/execution.py reuses it directly for
+    single-config checks, which run_experiment can't cover (it's
+    inherently paired/two-arm) — this is the shared resumability
+    primitive both single- and paired-run execution build on, not
+    something the TUI reimplements."""
 
     def __init__(self, path: Path):
         self.records: list[RunRecord] = []
@@ -134,26 +140,58 @@ def run_experiment(
     stats_method: str = "cluster_bootstrap",
     alpha: float = 0.05,
     method_kwargs: dict | None = None,
+    on_progress: Callable[[int, int], None] | None = None,
+    anthropic_client: Any = None,
 ) -> ExperimentResult:
     """Each arm is either an ArmSpec (resolved here via
     factory.baseline_config(**overrides) — the preset path) or an
     already-resolved SystemConfig (the ad hoc CLI path, for comparing two
     configs someone already saved by hash). Either way what follows only
     ever deals with resolved SystemConfigs, so there's one code path, not
-    two."""
+    two.
+
+    on_progress, if given, is called with (completed, total) — once with
+    (0, total) before any job starts (total may be 0 if everything's
+    already cached), then once per completed job as results come back via
+    as_completed(). Always called on the same thread run_experiment was
+    called from, never from inside a worker thread — callers that need to
+    touch UI state (e.g. the TUI, via Textual's call_from_thread) don't
+    need to do their own marshaling for this specific callback, only for
+    whatever thread they called run_experiment from in the first place.
+
+    anthropic_client: passed straight through to execute_case, which only
+    the reconstructed-twin path (Part 4) uses — the tool-response
+    synthesizer's generation fallback when no close historical match
+    exists (target_system/tool_synthesis.py). None (the default) means
+    that fallback is unreachable and every unmatched call resolves to
+    response_source="unavailable" instead of an LLM call — fine for a
+    toy-system run (which ignores this parameter entirely), a deliberate
+    choice for a reconstructed run only if you want to cap it to replay-only."""
     cases = list(cases) if cases is not None else list(ATTACK_CASES)
     outcome_keys = outcome_keys or OUTCOME_KEYS
     method_kwargs = dict(method_kwargs or {})
 
     config_a = resolve_arm(arm_a) if isinstance(arm_a, ArmSpec) else arm_a
     config_b = resolve_arm(arm_b) if isinstance(arm_b, ArmSpec) else arm_b
+
+    # Fail once, up front, rather than once per job inside the thread pool
+    # below — execute_case enforces this same rule per-job regardless (see
+    # its docstring), this is purely a faster/quieter failure for a caller
+    # about to submit a whole batch of jobs that would all reject anyway.
+    for config in (config_a, config_b):
+        if config.provenance is not None and config.model.provider != "anthropic":
+            raise ValueError(
+                f"{config.label!r}: reconstructed environments only run under provider='anthropic' — "
+                f"got provider={config.model.provider!r}"
+            )
+
     label_a, label_b = config_a.label, config_b.label
     hash_a = save_config(config_a)
     hash_b = save_config(config_b)
     logger.info("arm %s -> %s, arm %s -> %s", label_a, hash_a, label_b, hash_b)
 
     runs_path = runs_dir / f"{experiment_name}.jsonl"
-    cache = _CacheIndex(runs_path)
+    cache = CacheIndex(runs_path)
     write_lock = Lock()
 
     jobs: list[tuple[SystemConfig, str, AttackCase, int]] = []
@@ -166,12 +204,21 @@ def run_experiment(
     n_cached = len(cache.records)
     logger.info("experiment %r: %d runs already cached, %d to execute", experiment_name, n_cached, len(jobs))
 
+    if on_progress is not None:
+        on_progress(0, len(jobs))
+
     def _execute(job: tuple[SystemConfig, str, AttackCase, int]) -> RunRecord:
         config, arm_label, case, seed = job
         mock_scripts = None
+        # build_mock_scripts is toy-system-specific (it scripts a
+        # delegate_task_to_member call no reconstructed solo agent has).
+        # provider == "mock" here always means a toy config: the up-front
+        # guard above already rejects a reconstructed config (provenance
+        # is not None) under any provider but "anthropic" before any job
+        # is ever built, so that combination can't reach this closure.
         if config.model.provider == "mock":
             mock_scripts = build_mock_scripts(case, config, seed)
-        record = execute_case(config, case, seed=seed, arm=arm_label, mock_scripts=mock_scripts)
+        record = execute_case(config, case, seed=seed, arm=arm_label, mock_scripts=mock_scripts, anthropic_client=anthropic_client)
         with write_lock:
             append_run_record(record, runs_path)
         return record
@@ -179,8 +226,10 @@ def run_experiment(
     if jobs:
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = [executor.submit(_execute, job) for job in jobs]
-            for future in as_completed(futures):
+            for completed, future in enumerate(as_completed(futures), start=1):
                 cache.add(future.result())
+                if on_progress is not None:
+                    on_progress(completed, len(jobs))
 
     family_results: dict[str, list[FamilyResult]] = {}
     for outcome_key in outcome_keys:

@@ -58,6 +58,10 @@ Run the test suite:
 - `dashboard/` — a read-only Streamlit dashboard over `data/runs/` and the
   saved reports (`streamlit run dashboard/app.py`). Never executes an
   experiment itself — see "Running the dashboard" below.
+- `tui/` — an interactive Textual terminal UI over the same `experiments/`,
+  `stats/`, and `attacker/` modules the CLI and dashboard use (`python -m
+  tui.app`). Never reimplements statistics or experiment execution — see
+  "Using the TUI" below.
 - `data/runs/*.jsonl` — trajectory logs, one line per run (gitignored).
 - `data/runs/*_report.json` — the computed statistical comparison for each
   experiment (gitignored), read by the dashboard.
@@ -236,6 +240,89 @@ Panels, top to bottom:
 Tested headlessly via `streamlit.testing.v1.AppTest` in
 `tests/test_dashboard_app.py` (skipped automatically if the backfill above
 hasn't been run yet).
+
+## Using the TUI
+
+```bash
+.venv/bin/python -m tui.app
+```
+
+An interactive Textual terminal menu over the same modules the CLI and
+dashboard use — `tui/` calls into `experiments/`, `stats/`, and
+`attacker/` for everything statistical or execution-related; it never
+recomputes a verdict or runs an attack itself outside of those modules.
+Navigation is Textual's own screen stack: `b` back, `h` home, `q` quit,
+shown in the footer on every screen.
+
+Top-level menu:
+
+- **Test my agent** — the guided wizard. Two modes:
+  - *Test a single config* — runs the full attack suite against one
+    `SystemConfig`, no comparison. The verdict is a raw
+    succeeded/blocked/resisted tally per family, deliberately with no
+    statistical language, and always shows a non-dismissable disclaimer:
+    this only reflects the attacks actually tried, not proof of general
+    safety.
+  - *Compare two configs* — runs both arms of a paired comparison (same
+    engine as `experiments.cli`) and lands on one of three verdict tiers:
+    - **FLAGGED** — a family was significant after BH correction. Reported
+      as "rose from X% to Y%" with a CI, never the word "significant" or a
+      raw p-value, plus an inline attempted-vs-executed breakdown (e.g.
+      "caught by your guardrail 8 of 10 times").
+    - **CLEAR** — nothing flagged, and `stats.power.achieved_power` (called
+      live against this run's actual sample size and observed rates) meets
+      the target power (0.8 by default) at the worst-covered family. Shown
+      as "this run could reliably detect a change of N+ points."
+    - **INCONCLUSIVE** — nothing flagged, but achieved power falls short of
+      target. Shows the recommended additional runs/case from
+      `stats.power.required_runs_per_case`. CLEAR vs. INCONCLUSIVE is
+      always this live power calculation, never a hardcoded sample-size
+      cutoff.
+
+  Either mode picks from configs already saved under
+  `target_system/configs/` (or a fresh baseline), then shows a live
+  progress bar while the suite runs in a background thread. Every config
+  in a picker is labeled with an auto-generated, human-readable
+  description (e.g. "baseline, but supervisor's defensive instruction
+  removed"), never a bare label+hash — the hash is still shown, just
+  demoted to a secondary line. The description comes from diffing the
+  config against baseline (`tui.data.describe_config_for_humans`), not
+  from anything hand-authored per config. Press **`v`** on any picker row
+  to view that config's full diff against baseline in Manage Configs'
+  diff screen without leaving the picker.
+
+- **Run a specific experiment** — a menu wrapper around the 5 presets from
+  `experiments/presets.py` (same execution path as `experiments.cli run
+  --preset`), landing on the same comparison verdict screen. Each row also
+  names what you should expect the verdict to be (e.g. "expect FLAGGED",
+  "expect no flag (this is the false-alarm test)") — "no flag" rather than
+  a specific tier, since CLEAR vs. INCONCLUSIVE depends on sample size,
+  not on what a preset guarantees.
+- **View past runs** — one row per run already on disk (comparison
+  experiments and single-config checks alike), each with its verdict
+  already computed. Selecting a row opens exactly the screen a fresh run
+  would land on — nothing is recomputed differently for history. An ad hoc
+  (wizard-driven) comparison's cache filename (`adhoc_<hash>_<hash>`) is
+  never shown — the row displays "{config A description} vs. {config B
+  description}" instead.
+- **Manage configs** — lists every saved `SystemConfig` by its
+  auto-generated description (hash demoted below); pick any two for a
+  readable field-by-field diff (agents diffed by role, not list position,
+  so an added/removed agent reads as one row instead of a garbled
+  positional mismatch; field paths are translated to plain names, e.g.
+  "Supervisor's system prompt" instead of
+  `agents[role=supervisor].system_prompt`), or press **`v`** on a
+  highlighted config to diff it against baseline directly.
+- From any verdict screen, press **`s`** for a statistics drill-down (every
+  family's effect size, CI, and BH q-value from the saved report — plus
+  the mixed-effects fallback reason when one applies) or **`d`** to open
+  the existing Streamlit dashboard for that run in your browser (only
+  opens a tab if `streamlit run dashboard/app.py` is already running in
+  another terminal — the TUI never launches a server behind your back).
+
+Tested headlessly via Textual's `Pilot`/`run_test()` (`tests/test_tui_*.py`)
+— the same "run it and check what actually happened" spirit as the
+dashboard's `AppTest` coverage, just without a real terminal.
 
 ## Development notes
 

@@ -16,6 +16,11 @@ Design choices that matter downstream:
   - `label` is intentionally excluded from the hash: it's a human note, not
     part of the experimental condition. Two configs with different labels
     but identical resolved content are the same condition and must collide.
+  - `provenance` (target_system/provenance.py) is excluded from the hash for
+    the same reason: it's set by ingestion/reconstruct.py to describe where
+    a reconstructed config came from (trace count, project, warnings), not
+    part of what the config resolves to. None for every hand-authored
+    (toy system) config.
 """
 
 from __future__ import annotations
@@ -26,6 +31,8 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
+
+from target_system.provenance import ReconstructionProvenance
 
 CONFIG_SCHEMA_VERSION = "1.0"
 
@@ -48,6 +55,13 @@ class AgentSpec(BaseModel):
     role: str
     name: str
     system_prompt: str
+    # "observed": system_prompt is real text seen in the source (hand-authored
+    # configs, or a future reconstruction source that actually captures it).
+    # "unavailable": system_prompt is a disclosed placeholder, never a
+    # fabrication — see ingestion/reconstruct.py's investigation notes on why
+    # Langfuse-sourced traces don't carry this text. Downstream (Part 6) must
+    # surface "unavailable" inline on any verdict for this config.
+    system_prompt_source: Literal["observed", "unavailable"] = "observed"
     tools: list[str] = Field(default_factory=list)
     model_override: ModelConfig | None = None
 
@@ -80,6 +94,11 @@ class SystemConfig(BaseModel):
     security: SecurityConfig
     corpus_dir: str = "target_system/corpus"
     defensive_instruction: bool = False
+    # None for every hand-authored (toy system) config. Set only by
+    # ingestion/reconstruct.py for a config rebuilt from real traces —
+    # excluded from the hash below for the same reason label is: it
+    # describes provenance, not the experimental condition itself.
+    provenance: ReconstructionProvenance | None = None
 
     def supervisor(self) -> AgentSpec:
         for a in self.agents:
@@ -92,7 +111,7 @@ class SystemConfig(BaseModel):
 
 
 def _canonical_json(config: SystemConfig) -> str:
-    data = config.model_dump(mode="json", exclude={"label"})
+    data = config.model_dump(mode="json", exclude={"label", "provenance"})
     return json.dumps(data, sort_keys=True, separators=(",", ":"))
 
 
@@ -118,3 +137,16 @@ def load_config(config_hash: str, configs_dir: Path = DEFAULT_CONFIGS_DIR) -> Sy
     data = json.loads(path.read_text(encoding="utf-8"))
     data.pop("config_hash", None)
     return SystemConfig.model_validate(data)
+
+
+def list_config_hashes(configs_dir: Path = DEFAULT_CONFIGS_DIR) -> list[str]:
+    """Every config_hash saved under configs_dir, newest first — the
+    enumeration save_config/load_config never needed on their own (each
+    caller already knows the hash it wants), but tui/'s "manage configs"
+    screen does. Sorted by file mtime rather than name so a freshly-run
+    experiment's configs surface first without the caller needing to
+    inspect each file."""
+    if not configs_dir.exists():
+        return []
+    paths = sorted(configs_dir.glob("cfg_*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+    return [p.stem for p in paths]

@@ -189,7 +189,13 @@ def render_comparison_panel() -> None:
         st.warning("No experiment reports found under `data/runs/`. Run a preset via `experiments.cli` first.")
         return
 
-    default_idx = available.index("known_regression") if "known_regression" in available else 0
+    requested = st.query_params.get("experiment")
+    if requested in available:
+        default_idx = available.index(requested)
+    elif "known_regression" in available:
+        default_idx = available.index("known_regression")
+    else:
+        default_idx = 0
     experiment_name = st.selectbox("Experiment", available, index=default_idx, key="comparison_experiment")
     report = load_report(experiment_name)
     if report is None:
