@@ -32,8 +32,9 @@ import json
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
 from langfuse import Langfuse
+
+from config.credentials import ensure_env_loaded
 
 DEFAULT_TRACES_DIR = Path(__file__).parent.parent / "data" / "traces"
 DEFAULT_BATCH_SIZE = 100
@@ -41,27 +42,41 @@ DEFAULT_TIMEOUT = 30.0
 DEFAULT_PAGE_LIMIT = 100  # traces per trace.list() page — Langfuse's own page-size ceiling in practice
 
 
-def build_client(*, timeout: float = DEFAULT_TIMEOUT) -> Langfuse:
+def build_client(
+    *,
+    timeout: float = DEFAULT_TIMEOUT,
+    public_key: str | None = None,
+    secret_key: str | None = None,
+    host: str | None = None,
+) -> Langfuse:
     """Reads LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY / LANGFUSE_BASE_URL
-    from .env. Raises with a clear message (naming which vars are missing,
-    never their values) rather than letting the SDK fail opaquely."""
-    load_dotenv()
-    missing = [k for k in ("LANGFUSE_PUBLIC_KEY", "LANGFUSE_SECRET_KEY", "LANGFUSE_BASE_URL") if not os.environ.get(k)]
+    from the environment (real env vars first, config-file-backed ones
+    next -- see config/credentials.py's ensure_env_loaded) unless
+    explicitly overridden by a caller. The override params exist so
+    config/credentials.py's validate_langfuse can auth-check candidate
+    values before they're written anywhere, without this function ever
+    touching os.environ as a side effect of validation. Raises with a
+    clear message (naming which vars are missing, never their values)
+    rather than letting the SDK fail opaquely."""
+    ensure_env_loaded()
+    public_key = public_key or os.environ.get("LANGFUSE_PUBLIC_KEY")
+    secret_key = secret_key or os.environ.get("LANGFUSE_SECRET_KEY")
+    host = host or os.environ.get("LANGFUSE_BASE_URL")
+    missing = [
+        name
+        for name, value in (("LANGFUSE_PUBLIC_KEY", public_key), ("LANGFUSE_SECRET_KEY", secret_key), ("LANGFUSE_BASE_URL", host))
+        if not value
+    ]
     if missing:
-        raise RuntimeError(f"missing required .env vars: {', '.join(missing)}")
-    return Langfuse(
-        public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
-        secret_key=os.environ["LANGFUSE_SECRET_KEY"],
-        host=os.environ["LANGFUSE_BASE_URL"],
-        timeout=timeout,
-    )
+        raise RuntimeError(f"missing required credentials: {', '.join(missing)}")
+    return Langfuse(public_key=public_key, secret_key=secret_key, host=host, timeout=timeout)
 
 
 def default_project_id() -> str:
-    load_dotenv()
+    ensure_env_loaded()
     project_id = os.environ.get("LANGFUSE_PROJECT_ID")
     if not project_id:
-        raise RuntimeError("LANGFUSE_PROJECT_ID not set in .env")
+        raise RuntimeError("LANGFUSE_PROJECT_ID not set")
     return project_id
 
 
