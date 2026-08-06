@@ -219,3 +219,42 @@ def test_app_completing_credentials_screen_routes_to_add_environment_with_home_u
             assert isinstance(app.screen, HomeScreen)
 
     run_async(scenario)
+
+
+# --- --version -------------------------------------------------------------
+
+
+def test_version_flag_prints_version_and_never_launches_the_app(monkeypatch, capsys):
+    import sys
+
+    import tui.app as app_module
+
+    def _fail_if_constructed(*args, **kwargs):
+        raise AssertionError("--version must not construct/run HarnessApp")
+
+    monkeypatch.setattr(app_module, "HarnessApp", _fail_if_constructed)
+    monkeypatch.setattr(sys, "argv", ["caligula", "--version"])
+
+    app_module.main()
+
+    out = capsys.readouterr().out
+    assert out.strip() == f"caligula {app_module._package_version()}"
+
+
+def test_version_flag_falls_back_gracefully_when_not_installed_as_a_package(monkeypatch, capsys):
+    import sys
+    from importlib.metadata import PackageNotFoundError
+
+    import tui.app as app_module
+
+    def _raise_not_found(name):
+        raise PackageNotFoundError(name)
+
+    monkeypatch.setattr(app_module, "_installed_version", _raise_not_found)
+    monkeypatch.setattr(sys, "argv", ["caligula", "--version"])
+
+    app_module.main()
+
+    out = capsys.readouterr().out
+    assert "caligula" in out
+    assert "unknown" in out.lower()

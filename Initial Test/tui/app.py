@@ -27,6 +27,9 @@ and tui/screens/credentials.py.
 
 from __future__ import annotations
 
+import sys
+from importlib.metadata import PackageNotFoundError, version as _installed_version
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical
@@ -254,7 +257,23 @@ class HarnessApp(App):
 
 
 def main() -> None:
+    if "--version" in sys.argv[1:]:
+        print(f"caligula {_package_version()}")
+        return
     HarnessApp().run()
+
+
+def _package_version() -> str:
+    """Reads the real installed distribution version (importlib.metadata,
+    not a hardcoded string) -- so a specific `caligula-latest.whl` install
+    can actually be identified later even though the download link itself
+    never changes (see scripts/release.sh). Falls back to a clear label
+    rather than crashing when run somewhere caligula was never installed
+    as a package (e.g. `python -m tui.app` against a bare checkout)."""
+    try:
+        return _installed_version("caligula")
+    except PackageNotFoundError:
+        return "unknown (not installed as a package)"
 
 
 if __name__ == "__main__":

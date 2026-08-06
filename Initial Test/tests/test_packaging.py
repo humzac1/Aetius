@@ -44,6 +44,23 @@ def test_caligula_script_file_exists_and_is_executable():
         assert os.access(script_path, os.X_OK), f"{script_path} exists but isn't executable"
 
 
+def test_caligula_version_flag_prints_the_real_installed_version():
+    """Unlike the other subprocess test below, `--version` is expected to
+    exit on its own (not be terminated by us) -- it must never fall
+    through to launching the interactive TUI."""
+    script_path = _script_path()
+    result = subprocess.run(
+        [str(script_path), "--version"],
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert result.returncode == 0
+    expected_version = importlib.metadata.version("caligula")
+    assert result.stdout.strip() == f"caligula {expected_version}"
+
+
 def test_caligula_script_actually_launches_a_process_not_command_not_found():
     """The exact failure this reproduces: running the script by path
     (bypassing shell PATH lookup entirely) must start a real OS process.
