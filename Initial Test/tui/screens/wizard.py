@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Callable
 
 from textual.app import ComposeResult
-from textual.binding import Binding
 from textual.containers import Vertical
 from textual.widgets import Footer, Header, Label, ListItem, ListView
 
@@ -25,18 +24,15 @@ from experiments.cost_estimate import CostEstimate, estimate_batch_cost, format_
 from experiments.persist import save_experiment_report
 from experiments.runner import DEFAULT_RUNS_DIR
 from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, load_config
-from target_system.factory import baseline_config
 from tui.app import BaseScreen
-from tui.data import describe_config_for_humans, ensure_baseline_saved, list_configs
+from tui.data import describe_config_for_humans, list_configs
 from tui.execution import build_anthropic_client, enforce_reconstructed_provider, peek_n_cached, run_comparison_check, run_single_config_check
 from tui.formatting import format_config_list_label
-from tui.screens.configs import ConfigDiffScreen
 from tui.screens.progress import WorkerProgressScreen
 from tui.screens.verdict import ComparisonVerdictScreen, SingleConfigVerdictScreen
 from tui.verdict_logic import compute_comparison_verdict, compute_single_config_summary
 
 DEFAULT_N_RUNS_PER_CASE = 5
-_BASELINE_ITEM_ID = "__baseline__"
 _ORDINAL_LETTERS = ["A", "B", "C", "D"]
 
 
@@ -144,17 +140,14 @@ def _ordinal_label(index: int, total: int) -> str:
 
 class ConfigPickerScreen(BaseScreen):
     """Picks n_needed configs one at a time from what's already saved
-    (tui.data.list_configs), always offering a fresh baseline_config() so
-    the wizard works on an install with nothing saved yet. Calls
+    (tui.data.list_configs) — every real config comes from "Add
+    environment" (a reconstructed SystemConfig); there's no baseline/toy
+    option here (see tui/app.py's module docstring on why). Calls
     on_chosen(configs) and pops itself once enough have been picked.
 
     Every row's primary label is tui.data's auto-generated description
     (never the bare SystemConfig.label a human never named for this
-    purpose) — pressing 'v' opens that config's diff against baseline in
-    Manage Configs' existing diff screen rather than rendering a second
-    diff view here."""
-
-    BINDINGS = BaseScreen.BINDINGS + [Binding("v", "view_diff", "View diff")]
+    purpose)."""
 
     def __init__(self, *, n_needed: int, on_chosen: Callable[[list[SystemConfig]], None], configs_dir: Path = DEFAULT_CONFIGS_DIR) -> None:
         super().__init__()
@@ -165,30 +158,39 @@ class ConfigPickerScreen(BaseScreen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Vertical(
-            Label(f"Pick {_ordinal_label(0, self.n_needed)}", id="picker-title", classes="title"),
-            ListView(*self._build_items(), id="config-picker-list"),
-            classes="wizard-body",
-        )
+        # Fetched once, not once per call site: describe_config_for_humans
+        # (via ensure_baseline_saved) persists the baseline config as a
+        # side effect on its first call for a given configs_dir — calling
+        # list_configs() a second time in the same render would then see
+        # that freshly-saved row and (being newest by mtime) sort it
+        # first, ahead of the config actually being described.
+        summaries = list_configs(configs_dir=self.configs_dir)
+        if not summaries:
+            yield Vertical(
+                Label(f"Pick {_ordinal_label(0, self.n_needed)}", classes="title"),
+                Label("No environments yet.", classes="subtitle"),
+                Label("Add one from the home menu (Add environment) first, then come back here.", classes="hint"),
+                classes="wizard-body",
+            )
+        else:
+            yield Vertical(
+                Label(f"Pick {_ordinal_label(0, self.n_needed)}", id="picker-title", classes="title"),
+                ListView(*self._build_items(summaries), id="config-picker-list"),
+                classes="wizard-body",
+            )
         yield Footer()
 
-    def _build_items(self) -> list[ListItem]:
-        items = [ListItem(Label("New: baseline (defaults)"), id=_BASELINE_ITEM_ID)]
-        for summary in list_configs(configs_dir=self.configs_dir):
-            items.append(ListItem(Label(format_config_list_label(summary.description, summary.config_hash)), id=summary.config_hash))
-        return items
-
-    def action_view_diff(self) -> None:
-        list_view = self.query_one("#config-picker-list", ListView)
-        highlighted = list_view.highlighted_child
-        if highlighted is None or highlighted.id is None or highlighted.id == _BASELINE_ITEM_ID:
-            return  # nothing picked yet, or it's the baseline itself — nothing to diff
-        baseline_hash = ensure_baseline_saved(configs_dir=self.configs_dir)
-        self.app.push_screen(ConfigDiffScreen(baseline_hash, highlighted.id, configs_dir=self.configs_dir))
+    def _build_items(self, summaries=None) -> list[ListItem]:
+        if summaries is None:
+            summaries = list_configs(configs_dir=self.configs_dir)
+        return [
+            ListItem(Label(format_config_list_label(summary.description, summary.config_hash)), id=summary.config_hash)
+            for summary in summaries
+        ]
 
     async def on_list_view_selected(self, event: ListView.Selected) -> None:
         key = event.item.id
-        config = baseline_config(label="baseline") if key == _BASELINE_ITEM_ID else load_config(key, configs_dir=self.configs_dir)
+        config = load_config(key, configs_dir=self.configs_dir)
         self.chosen.append(config)
         if len(self.chosen) >= self.n_needed:
             on_chosen, chosen = self.on_chosen, self.chosen

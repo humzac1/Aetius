@@ -23,12 +23,11 @@ from pathlib import Path
 from threading import Lock
 from typing import Any, Callable
 
-from dotenv import load_dotenv
-
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
 from attacker.executor import execute_case
 from experiments.mock_policy import build_mock_scripts
+from config.credentials import ensure_env_loaded
 from experiments.runner import DEFAULT_RUNS_DIR, CacheIndex, ExperimentResult, run_experiment
 from target_system.config import ModelConfig, SystemConfig, compute_config_hash, save_config
 from target_system.logging_schema import RunRecord, append_run_record
@@ -37,19 +36,21 @@ from tui.data import single_config_run_path
 
 def build_anthropic_client() -> Any:
     """Constructs a real anthropic.Anthropic client from ANTHROPIC_API_KEY
-    in .env — the one place the TUI actually builds this (every lower
-    layer takes anthropic_client as an injected parameter, never
-    constructs one itself, so it stays cheaply testable without spending
-    real API money — see target_system/tool_synthesis.py). Same
-    missing-var discipline as ingestion/langfuse_client.py's build_client:
-    raises naming which var is missing, never touches its value. Import of
-    the anthropic package is local to this function so nothing that never
-    runs a real model needs it importable."""
+    (real env var first, config-file-backed one next — see
+    config/credentials.py's ensure_env_loaded) — the one place the TUI
+    actually builds this (every lower layer takes anthropic_client as an
+    injected parameter, never constructs one itself, so it stays cheaply
+    testable without spending real API money — see
+    target_system/tool_synthesis.py). Same missing-var discipline as
+    ingestion/langfuse_client.py's build_client: raises naming which var is
+    missing, never touches its value. Import of the anthropic package is
+    local to this function so nothing that never runs a real model needs it
+    importable."""
     import anthropic
 
-    load_dotenv()
+    ensure_env_loaded()
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise RuntimeError("missing required .env var: ANTHROPIC_API_KEY")
+        raise RuntimeError("missing required credential: ANTHROPIC_API_KEY")
     return anthropic.Anthropic()
 
 

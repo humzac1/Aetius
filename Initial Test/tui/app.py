@@ -1,13 +1,28 @@
-"""Entry point: `python -m tui.app`. This module owns only navigation
-scaffolding (the App subclass, BaseScreen's back/home/quit bindings, and
-the top-level menu) — every screen it pushes does its own work by calling
-into tui/data.py, tui/execution.py, and tui/verdict_logic.py, never by
-recomputing anything itself.
+"""Entry point: `caligula` (console script, see pyproject.toml's
+[project.scripts]) or `python -m tui.app`. This module owns only
+navigation scaffolding (the App subclass, BaseScreen's back/home/quit
+bindings, and the top-level menu) — every screen it pushes does its own
+work by calling into tui/data.py, tui/execution.py, and
+tui/verdict_logic.py, never by recomputing anything itself.
 
 Navigation is Textual's own screen stack (push_screen/pop_screen), not a
 hand-rolled state machine: BaseScreen.action_go_back pops one level,
 action_go_home pops back to the HomeScreen, and every pushed screen
 inherits both for free.
+
+The toy target system (target_system/, its 5 presets in
+experiments/presets.py, tui/screens/presets.py) is a retired internal
+regression baseline, not part of the shipped product — there is
+deliberately no menu item routing to it. It stays fully testable directly
+(pytest, experiments.cli) and its screen module still exists so its own
+tests keep exercising it in isolation; it's just never reachable from
+HomeScreen. See tui/screens/wizard.py's ConfigPickerScreen (no more
+baseline_config() option) and tui/screens/configs.py (no more "diff vs.
+baseline") for the same boundary applied to the wizard/config-management
+screens.
+
+Credentials are gated before Home is ever reachable — see on_mount below
+and tui/screens/credentials.py.
 """
 
 from __future__ import annotations
@@ -18,12 +33,13 @@ from textual.containers import Vertical
 from textual.screen import Screen
 from textual.widgets import Footer, Header, Label, ListItem, ListView
 
-APP_TITLE = "Agent Regression Detection Harness"
+from config import credentials
+
+APP_TITLE = "Caligula"
 
 MENU_ITEMS = [
     ("test_agent", "Test my agent (wizard)"),
     ("add_environment", "Add environment (from Langfuse)"),
-    ("run_preset", "Run a specific experiment"),
     ("view_runs", "View past runs"),
     ("manage_configs", "Manage configs"),
     ("settings", "Settings / exit"),
@@ -92,14 +108,12 @@ class HomeScreen(BaseScreen):
             self.app.push_screen(self._wizard_screen())
         elif key == "add_environment":
             self.app.push_screen(self._add_environment_screen())
-        elif key == "run_preset":
-            self.app.push_screen(self._preset_menu_screen())
         elif key == "view_runs":
             self.app.push_screen(self._past_runs_screen())
         elif key == "manage_configs":
             self.app.push_screen(self._manage_configs_screen())
         elif key == "settings":
-            self.app.exit()
+            self.app.push_screen(self._settings_screen())
 
     # Each of these is a deferred import so HomeScreen never breaks while a
     # later screen module is still being built — swapped for the real
@@ -120,13 +134,13 @@ class HomeScreen(BaseScreen):
         except ImportError:
             return PlaceholderScreen("Add environment (from Langfuse)")
 
-    def _preset_menu_screen(self) -> Screen:
+    def _settings_screen(self) -> Screen:
         try:
-            from tui.screens.presets import PresetMenuScreen
+            from tui.screens.settings import SettingsScreen
 
-            return PresetMenuScreen()
+            return SettingsScreen()
         except ImportError:
-            return PlaceholderScreen("Run a specific experiment")
+            return PlaceholderScreen("Settings")
 
     def _past_runs_screen(self) -> Screen:
         try:
@@ -219,7 +233,24 @@ class HarnessApp(App):
     """
 
     def on_mount(self) -> None:
+        if credentials.missing_keys():
+            from tui.screens.credentials import CredentialsScreen
+
+            self.push_screen(CredentialsScreen(first_run=True, on_complete=self._credentials_complete))
+        else:
+            self.push_screen(HomeScreen())
+
+    def _credentials_complete(self) -> None:
+        # First real action after setup is pulling traces and building the
+        # first reconstructed environment, not an empty Home menu with
+        # nothing in it yet -- but Home still goes on the stack underneath
+        # (not skipped) so 'b'/'h' from Add Environment land somewhere real,
+        # same invariant every other screen in this app relies on.
+        from tui.screens.add_environment import AddEnvironmentScreen
+
+        self.pop_screen()
         self.push_screen(HomeScreen())
+        self.push_screen(AddEnvironmentScreen())
 
 
 def main() -> None:

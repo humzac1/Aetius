@@ -4,7 +4,6 @@ from target_system.config import AgentSpec, ModelConfig, SecurityConfig, SystemC
 from target_system.factory import baseline_config
 from target_system.provenance import ReconstructionProvenance, ToolBehaviorProfile
 from tui.app import HarnessApp
-from tui.screens.configs import ConfigDiffScreen
 from tui.screens.verdict import ComparisonVerdictScreen, SingleConfigVerdictScreen
 from tui.screens.wizard import CostConfirmScreen, ConfigPickerScreen, WizardModeScreen, WizardProgressScreen
 from tests.tui_test_support import run_async
@@ -72,51 +71,70 @@ def test_selecting_comparison_mode_pushes_picker_needing_two_configs():
 # --- config picker --------------------------------------------------------
 
 
-def test_picker_always_offers_baseline_first():
+def test_picker_shows_empty_state_when_no_configs_saved(tmp_path):
     async def scenario():
         app = HarnessApp()
         async with app.run_test() as pilot:
-            screen = ConfigPickerScreen(n_needed=1, on_chosen=lambda configs: None)
+            screen = ConfigPickerScreen(n_needed=1, on_chosen=lambda configs: None, configs_dir=tmp_path)
             app.push_screen(screen)
             await pilot.pause()
-            menu = screen.query_one("#config-picker-list", ListView)
-            assert menu.children[0].id == "__baseline__"
+            assert not screen.query("#config-picker-list")
+            labels = " ".join(str(label.render()) for label in screen.query(Label))
+            assert "No environments yet" in labels
 
     run_async(scenario)
 
 
-def test_picker_with_one_needed_calls_back_and_pops_on_first_pick():
+def test_picker_never_offers_a_baseline_or_toy_option(tmp_path):
+    save_config(baseline_config(label="one"), configs_dir=tmp_path)
+
+    async def scenario():
+        app = HarnessApp()
+        async with app.run_test() as pilot:
+            screen = ConfigPickerScreen(n_needed=1, on_chosen=lambda configs: None, configs_dir=tmp_path)
+            app.push_screen(screen)
+            await pilot.pause()
+            menu = screen.query_one("#config-picker-list", ListView)
+            assert all(item.id != "__baseline__" for item in menu.children)
+
+    run_async(scenario)
+
+
+def test_picker_with_one_needed_calls_back_and_pops_on_first_pick(tmp_path):
+    save_config(baseline_config(label="only-config"), configs_dir=tmp_path)
     chosen_configs = []
 
     async def scenario():
         app = HarnessApp()
         async with app.run_test() as pilot:
             base_depth = len(app.screen_stack)
-            app.push_screen(ConfigPickerScreen(n_needed=1, on_chosen=chosen_configs.append))
+            app.push_screen(ConfigPickerScreen(n_needed=1, on_chosen=chosen_configs.append, configs_dir=tmp_path))
             await pilot.pause()
-            await pilot.press("enter")  # picks baseline
+            await pilot.press("enter")  # only one row: "only-config"
             await pilot.pause()
             assert len(app.screen_stack) == base_depth  # popped back off
             assert len(chosen_configs) == 1
-            assert chosen_configs[0][0].label == "baseline"
+            assert chosen_configs[0][0].label == "only-config"
 
     run_async(scenario)
 
 
-def test_picker_with_two_needed_waits_for_second_pick():
+def test_picker_with_two_needed_waits_for_second_pick(tmp_path):
+    save_config(baseline_config(label="one"), configs_dir=tmp_path)
+    save_config(baseline_config(label="two", defensive_instruction=False), configs_dir=tmp_path)
     chosen_configs = []
 
     async def scenario():
         app = HarnessApp()
         async with app.run_test() as pilot:
-            screen = ConfigPickerScreen(n_needed=2, on_chosen=chosen_configs.append)
+            screen = ConfigPickerScreen(n_needed=2, on_chosen=chosen_configs.append, configs_dir=tmp_path)
             app.push_screen(screen)
             await pilot.pause()
-            await pilot.press("enter")  # first pick: baseline
+            await pilot.press("enter")  # first pick
             await pilot.pause()
             assert chosen_configs == []  # not called yet — only one of two chosen
             assert isinstance(app.screen, ConfigPickerScreen)  # still on the picker
-            await pilot.press("enter")  # second pick: baseline again
+            await pilot.press("enter")  # second pick
             await pilot.pause()
             assert len(chosen_configs) == 1
             assert len(chosen_configs[0]) == 2
@@ -134,49 +152,10 @@ def test_picker_rows_show_description_with_hash_demoted_below(tmp_path):
             app.push_screen(screen)
             await pilot.pause()
             menu = screen.query_one("#config-picker-list", ListView)
-            real_config_item = menu.children[1]  # index 0 is "New: baseline (defaults)"
+            real_config_item = menu.children[0]  # no baseline row anymore — this is the only item
             text = str(real_config_item.query_one(Label).render())
             assert "baseline, but supervisor's defensive instruction removed" in text
             assert "cfg_" in text  # hash still present, just secondary
-
-    run_async(scenario)
-
-
-# --- view diff (v keybinding) ------------------------------------------------
-
-
-def test_v_on_baseline_item_does_nothing():
-    async def scenario():
-        app = HarnessApp()
-        async with app.run_test() as pilot:
-            screen = ConfigPickerScreen(n_needed=1, on_chosen=lambda configs: None)
-            app.push_screen(screen)
-            await pilot.pause()  # highlighted_child defaults to the first item: baseline
-            await pilot.press("v")
-            await pilot.pause()
-            assert isinstance(app.screen, ConfigPickerScreen)
-
-    run_async(scenario)
-
-
-def test_v_on_real_config_opens_diff_against_baseline(tmp_path):
-    target_hash = save_config(baseline_config(defensive_instruction=False), configs_dir=tmp_path)
-
-    async def scenario():
-        app = HarnessApp()
-        async with app.run_test() as pilot:
-            screen = ConfigPickerScreen(n_needed=1, on_chosen=lambda configs: None, configs_dir=tmp_path)
-            app.push_screen(screen)
-            await pilot.pause()
-            await pilot.press("down")  # move off baseline onto the real config
-            await pilot.press("v")
-            await pilot.pause()
-            assert isinstance(app.screen, ConfigDiffScreen)
-            assert app.screen.hash_b == target_hash
-            # pressing v must have persisted baseline so the diff screen can actually load it
-            from target_system.config import list_config_hashes
-
-            assert app.screen.hash_a in list_config_hashes(configs_dir=tmp_path)
 
     run_async(scenario)
 

@@ -10,16 +10,62 @@ where the ground truth is under our own control.
 
 ## Setup
 
+### As the `caligula` command (recommended)
+
+```bash
+brew install pipx && pipx ensurepath   # one-time, skip if pipx is already set up
+GIT_SSH_COMMAND="ssh -i ~/.ssh/caligula_deploy_key -o IdentitiesOnly=yes" \
+  pipx install "git+ssh://git@github.com/humzac1/Caligula.git#subdirectory=Initial Test"
+caligula
+```
+
+**Why `pipx`, not `pip install` into a venv:** a plain `pip install` puts
+`caligula` on `PATH` only inside whatever venv it was installed into —
+this genuinely broke in practice (`source .venv/bin/activate` typed
+slightly wrong, or skipped, and `caligula` "isn't found" in a fresh
+terminal, even though the script really is sitting in that venv's
+`bin/`). `pipx` builds its own isolated environment per package *and*
+symlinks the command into a directory it puts on `PATH` for you
+(`~/.local/bin` — `pipx ensurepath` sets this up once) — no activation
+step, ever. Verified for real: a fresh `pipx install` from this repo
+followed by plain `caligula` in a brand-new shell (`zsh -l`, sourcing
+real dotfiles, no inherited activation) resolves and runs.
+
+If your machine's default `python3` is newer than this project has
+prebuilt wheels for yet, `pipx install --python 3.11 ...` (or `3.12`)
+pins it to a version that does.
+
+The private-repo access is a GitHub **deploy key** (a repo-scoped,
+read-only SSH key added under the repo's Settings -> Deploy keys), not a
+personal token — hand that key file to whoever needs to install it.
+Anyone without git/SSH access set up can instead be handed a built wheel
+(`uv build --wheel`, from inside `Initial Test/`) and run
+`pipx install caligula-<version>-py3-none-any.whl` the same way.
+
+On first launch, `caligula` asks for `ANTHROPIC_API_KEY`,
+`LANGFUSE_SECRET_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_BASE_URL`, and
+`LANGFUSE_PROJECT_ID` (each validated against the real service before
+anything is saved — see `config/credentials.py`) and stores them at a
+user-level config location (`platformdirs.user_config_dir("caligula")`,
+e.g. `~/.config/caligula/.env` on Linux/macOS) — never in the repo. Real
+environment variables (`export ANTHROPIC_API_KEY=...`, a CI environment,
+etc.) always take priority over that file and skip the prompt entirely,
+so a dev/CI workflow is never forced through the interactive screen. Edit
+saved credentials any time from the TUI's Settings menu.
+
+### From a source checkout (development)
+
 ```bash
 cd "Initial Test"
 uv venv .venv --python 3.11
-uv pip install -e ".[dev]" --python .venv/bin/python
-cp .env.example .env   # only needed for provider="anthropic" runs
+uv pip install -e ".[dev,dashboard]" --python .venv/bin/python
 ```
 
 Everything below assumes `.venv/bin/python` (or an activated venv). The
 mock backend (`provider="mock"` — the default everywhere in this repo)
-needs no API key and makes zero network calls.
+needs no API key and makes zero network calls; it's what the toy target
+system and its 5 presets (below) run against, and is unaffected by the
+credentials flow above.
 
 Run the test suite:
 
@@ -69,6 +115,10 @@ Run the test suite:
   repo has ever run, keyed by content hash.
 
 ## Running experiments
+
+Internal regression-baseline tooling for developing this repo, run against
+the toy target system from a source checkout — not reachable from the
+shipped `caligula` command (see "Using the TUI" below).
 
 ```bash
 .venv/bin/python -m experiments.cli list-presets
@@ -175,8 +225,8 @@ about real model behavior. The roll uses common random numbers across arms
 is what makes `known_neutral` and `aa` show *exactly* 0.0pp rather than
 noisy near-zero: same true probability, same underlying draw, so nothing
 to disagree about. Real findings require `provider="anthropic"` on both
-arms — see `.env.example` for the API key, and `target_system/config.py`'s
-`ModelConfig` for the model name field.
+arms — see "Setup" above for `ANTHROPIC_API_KEY`, and
+`target_system/config.py`'s `ModelConfig` for the model name field.
 
 ## Multi-turn cases
 
@@ -192,6 +242,11 @@ it automatically based on `AttackCase.injection_vector` — nothing in
 `experiments/` needs to know the difference.
 
 ## Running the dashboard
+
+Needs the `dashboard` extra (`uv pip install -e ".[dashboard]"` — already
+included if you installed `.[dev,dashboard]` above); it's kept out of the
+base `caligula` install since nothing the command itself reaches needs
+streamlit/plotly (see pyproject.toml).
 
 ```bash
 # one-time backfill — generates the artifacts the dashboard reads (see below)
@@ -244,6 +299,8 @@ hasn't been run yet).
 ## Using the TUI
 
 ```bash
+caligula
+# or, from a source checkout:
 .venv/bin/python -m tui.app
 ```
 
@@ -253,6 +310,22 @@ dashboard use — `tui/` calls into `experiments/`, `stats/`, and
 recomputes a verdict or runs an attack itself outside of those modules.
 Navigation is Textual's own screen stack: `b` back, `h` home, `q` quit,
 shown in the footer on every screen.
+
+On launch, if any of the five required credentials aren't resolved (real
+environment variable or the saved config file — see "Setup" above), Home
+isn't reachable until the credentials screen validates and saves them
+(press `ctrl+s`, shown in the footer, once every field is filled in —
+scroll down if your terminal isn't tall enough to show all five fields at
+once). Completing first-run setup goes straight into Add Environment, not
+an empty Home menu — pulling your first batch of traces is the actual
+point of finishing setup, not just reaching a menu with nothing in it yet.
+
+The toy target system (Supervisor/Researcher/Operator, its 5 presets) is
+internal regression-baseline tooling only — there is no menu path to it
+anywhere in the TUI. Every config in a picker below comes from "Add
+environment" (a real reconstructed `SystemConfig`); there's no baseline/
+toy option and no "diff against baseline" — see "Running experiments"
+above for the toy system's own (non-TUI) tooling.
 
 Top-level menu:
 
@@ -280,24 +353,12 @@ Top-level menu:
       cutoff.
 
   Either mode picks from configs already saved under
-  `target_system/configs/` (or a fresh baseline), then shows a live
-  progress bar while the suite runs in a background thread. Every config
-  in a picker is labeled with an auto-generated, human-readable
-  description (e.g. "baseline, but supervisor's defensive instruction
-  removed"), never a bare label+hash — the hash is still shown, just
-  demoted to a secondary line. The description comes from diffing the
-  config against baseline (`tui.data.describe_config_for_humans`), not
-  from anything hand-authored per config. Press **`v`** on any picker row
-  to view that config's full diff against baseline in Manage Configs'
-  diff screen without leaving the picker.
+  `target_system/configs/` (from "Add environment" — no baseline/toy
+  option), then shows a live progress bar while the suite runs in a
+  background thread. Every config in a picker is labeled with an
+  auto-generated, human-readable description, never a bare label+hash —
+  the hash is still shown, just demoted to a secondary line.
 
-- **Run a specific experiment** — a menu wrapper around the 5 presets from
-  `experiments/presets.py` (same execution path as `experiments.cli run
-  --preset`), landing on the same comparison verdict screen. Each row also
-  names what you should expect the verdict to be (e.g. "expect FLAGGED",
-  "expect no flag (this is the false-alarm test)") — "no flag" rather than
-  a specific tier, since CLEAR vs. INCONCLUSIVE depends on sample size,
-  not on what a preset guarantees.
 - **View past runs** — one row per run already on disk (comparison
   experiments and single-config checks alike), each with its verdict
   already computed. Selecting a row opens exactly the screen a fresh run
@@ -311,8 +372,9 @@ Top-level menu:
   so an added/removed agent reads as one row instead of a garbled
   positional mismatch; field paths are translated to plain names, e.g.
   "Supervisor's system prompt" instead of
-  `agents[role=supervisor].system_prompt`), or press **`v`** on a
-  highlighted config to diff it against baseline directly.
+  `agents[role=supervisor].system_prompt`).
+- **Settings** — re-edit saved credentials (same validate-before-write
+  flow as first launch) or quit.
 - From any verdict screen, press **`s`** for a statistics drill-down (every
   family's effect size, CI, and BH q-value from the saved report — plus
   the mixed-effects fallback reason when one applies) or **`d`** to open

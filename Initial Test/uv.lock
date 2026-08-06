@@ -7,52 +7,6 @@ resolution-markers = [
 ]
 
 [[package]]
-name = "agent-regression-harness"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "agno" },
-    { name = "anthropic" },
-    { name = "langfuse" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "plotly" },
-    { name = "pydantic" },
-    { name = "python-dotenv" },
-    { name = "pyyaml" },
-    { name = "scipy" },
-    { name = "statsmodels" },
-    { name = "streamlit" },
-    { name = "textual" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "agno", specifier = "==2.6.17" },
-    { name = "anthropic", specifier = "==0.109.2" },
-    { name = "langfuse", specifier = "==4.14.2" },
-    { name = "numpy", specifier = "==2.3.4" },
-    { name = "pandas", specifier = "==2.3.3" },
-    { name = "plotly", specifier = "==6.3.1" },
-    { name = "pydantic", specifier = "==2.13.4" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = "==8.4.2" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.0.0" },
-    { name = "python-dotenv", specifier = "==1.1.1" },
-    { name = "pyyaml", specifier = "==6.0.2" },
-    { name = "scipy", specifier = "==1.16.3" },
-    { name = "statsmodels", specifier = "==0.14.5" },
-    { name = "streamlit", specifier = "==1.51.0" },
-    { name = "textual", specifier = "==8.2.8" },
-]
-provides-extras = ["dev"]
-
-[[package]]
 name = "agno"
 version = "2.6.17"
 source = { registry = "https://pypi.org/simple" }
@@ -177,6 +131,56 @@ sdist = { url = "https://files.pythonhosted.org/packages/39/91/d9ae9a66b01102a18
 wheels = [
     { url = "https://files.pythonhosted.org/packages/90/45/f458fa2c388e79dd9d8b9b0c99f1d31b568f27388f2fdba7bb66bbc0c6ed/cachetools-6.2.6-py3-none-any.whl", hash = "sha256:8c9717235b3c651603fff0076db52d6acbfd1b338b8ed50256092f7ce9c85bda", size = 11668, upload-time = "2026-01-27T20:32:58.527Z" },
 ]
+
+[[package]]
+name = "caligula"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "agno" },
+    { name = "anthropic" },
+    { name = "langfuse" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "platformdirs" },
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "pyyaml" },
+    { name = "scipy" },
+    { name = "statsmodels" },
+    { name = "textual" },
+]
+
+[package.optional-dependencies]
+dashboard = [
+    { name = "plotly" },
+    { name = "streamlit" },
+]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "agno", specifier = "==2.6.17" },
+    { name = "anthropic", specifier = "==0.109.2" },
+    { name = "langfuse", specifier = "==4.14.2" },
+    { name = "numpy", specifier = "==2.3.4" },
+    { name = "pandas", specifier = "==2.3.3" },
+    { name = "platformdirs", specifier = "==4.11.0" },
+    { name = "plotly", marker = "extra == 'dashboard'", specifier = "==6.3.1" },
+    { name = "pydantic", specifier = "==2.13.4" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = "==8.4.2" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.0.0" },
+    { name = "python-dotenv", specifier = "==1.1.1" },
+    { name = "pyyaml", specifier = "==6.0.2" },
+    { name = "scipy", specifier = "==1.16.3" },
+    { name = "statsmodels", specifier = "==0.14.5" },
+    { name = "streamlit", marker = "extra == 'dashboard'", specifier = "==1.51.0" },
+    { name = "textual", specifier = "==8.2.8" },
+]
+provides-extras = ["dashboard", "dev"]
 
 [[package]]
 name = "certifi"

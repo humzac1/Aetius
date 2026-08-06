@@ -9,19 +9,16 @@ from __future__ import annotations
 from pathlib import Path
 
 from textual.app import ComposeResult
-from textual.binding import Binding
 from textual.containers import Vertical
 from textual.widgets import DataTable, Footer, Header, Label, ListItem, ListView
 
 from target_system.config import DEFAULT_CONFIGS_DIR
 from tui.app import BaseScreen
-from tui.data import ConfigSummary, describe_config_for_humans, diff_configs, ensure_baseline_saved, list_configs
+from tui.data import ConfigSummary, describe_config_for_humans, diff_configs, list_configs
 from tui.formatting import diff_field_label, format_config_list_label
 
 
 class ManageConfigsScreen(BaseScreen):
-    BINDINGS = BaseScreen.BINDINGS + [Binding("v", "view_diff", "View diff vs. baseline")]
-
     def __init__(self, *, configs_dir: Path = DEFAULT_CONFIGS_DIR) -> None:
         super().__init__()
         self.configs_dir = configs_dir
@@ -41,8 +38,7 @@ class ManageConfigsScreen(BaseScreen):
             yield Vertical(
                 Label("Manage configs", classes="title"),
                 Label(
-                    "Pick two to diff against each other, or press v to diff the highlighted one against baseline "
-                    "(or b/h to go back).",
+                    "Pick two to diff against each other (or b/h to go back).",
                     id="picker-hint",
                     classes="subtitle",
                 ),
@@ -63,22 +59,7 @@ class ManageConfigsScreen(BaseScreen):
             second_pick = event.item.id
             self.app.push_screen(ConfigDiffScreen(self._first_pick, second_pick, configs_dir=self.configs_dir))
             self._first_pick = None
-            self.query_one("#picker-hint", Label).update(
-                "Pick two to diff against each other, or press v to diff the highlighted one against baseline "
-                "(or b/h to go back)."
-            )
-
-    def action_view_diff(self) -> None:
-        if not self.summaries:
-            return
-        list_view = self.query_one("#config-list", ListView)
-        highlighted = list_view.highlighted_child
-        if highlighted is None or highlighted.id is None:
-            return
-        baseline_hash = ensure_baseline_saved(configs_dir=self.configs_dir)
-        if highlighted.id == baseline_hash:
-            return  # already baseline, nothing to diff
-        self.app.push_screen(ConfigDiffScreen(baseline_hash, highlighted.id, configs_dir=self.configs_dir))
+            self.query_one("#picker-hint", Label).update("Pick two to diff against each other (or b/h to go back).")
 
 
 class ConfigDiffScreen(BaseScreen):
