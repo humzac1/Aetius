@@ -54,7 +54,7 @@ def format_other_groups_found_note(provenance: "ReconstructionProvenance") -> st
         return None
     others = ", ".join(f"{g.agent_name or _NONE_GROUP_LABEL} ({g.trace_count})" for g in provenance.other_groups_found)
     n_total = len(provenance.other_groups_found) + 1
-    return f"This environment reflects only one of {n_total} systems detected in the source Langfuse project — also found: {others}."
+    return f"This environment reflects only one of {n_total} systems detected in the source trace batch — also found: {others}."
 
 
 _RESPONSE_SOURCE_LABELS = {

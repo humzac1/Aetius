@@ -42,7 +42,17 @@ DEFAULT_CONFIGS_DIR = Path(__file__).parent / "configs"
 class ModelConfig(BaseModel):
     provider: Literal["anthropic", "mock"]
     model_name: str
-    temperature: float = 0.0
+    # None means "not pinned" -- omitted from the API call entirely, so the
+    # provider's own default applies. Reconstruction never observes a real
+    # temperature from trace data (Braintrust/Langfuse don't record sampling
+    # params), so a reconstructed config leaves this None rather than
+    # fabricating 0.0; some real models (e.g. claude-opus-4-8, confirmed via
+    # a real Braintrust-reconstructed end-to-end run) reject an explicit
+    # temperature outright with a 400 "temperature is deprecated for this
+    # model" error, so fabricating a value here isn't just inaccurate, it's
+    # actively unsafe to send. The toy system (target_system/factory.py)
+    # still pins 0.0 explicitly for its own determinism.
+    temperature: float | None = 0.0
     max_tokens: int = 2048
     # Passed through to the API where supported (Anthropic does not expose a
     # sampling seed today, but this stays wired through the config/adapter

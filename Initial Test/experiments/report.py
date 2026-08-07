@@ -80,7 +80,7 @@ def compute_sequential_analysis(result: ExperimentResult, outcome_key: str, *, t
     the summary sentence)."""
     from stats.sequential import mixture_sprt_confidence_sequence
 
-    paired = build_paired_data(result.records, result.arm_a_label, result.arm_b_label, outcome_key)
+    paired = build_paired_data(result.records, result.arm_a_hash, result.arm_a_label, result.arm_b_hash, result.arm_b_label, outcome_key)
     diffs = [d.rate_diff for d in paired if d.arm_a.n > 0 and d.arm_b.n > 0]
     if len(diffs) < 2:
         return None
@@ -92,7 +92,7 @@ def format_sequential_analysis(result: ExperimentResult, outcome_key: str, *, ta
     — the concrete answer to "how many runs did that take," honest because
     it's anytime-valid rather than a p-value computed once at a
     pre-committed N and presented as if it were."""
-    paired = build_paired_data(result.records, result.arm_a_label, result.arm_b_label, outcome_key)
+    paired = build_paired_data(result.records, result.arm_a_hash, result.arm_a_label, result.arm_b_hash, result.arm_b_label, outcome_key)
     n_diffs = sum(1 for d in paired if d.arm_a.n > 0 and d.arm_b.n > 0)
     header = f"--- always-valid sequential analysis: {outcome_key} ({n_diffs} cases) ---"
 

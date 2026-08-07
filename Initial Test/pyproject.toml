@@ -1,7 +1,7 @@
 [project]
 name = "caligula"
 version = "0.1.0"
-description = "Agent security assurance: reconstructs a structural twin of a real agent system from Langfuse traces and runs a statistically sound attack/regression engine against it."
+description = "Agent security assurance: reconstructs a structural twin of a real agent system from Langfuse or Braintrust traces and runs a statistically sound attack/regression engine against it."
 requires-python = ">=3.11"
 dependencies = [
     "agno==2.6.17",
@@ -17,8 +17,9 @@ dependencies = [
     "statsmodels==0.14.5",
     # Part 6 (tui, the shipped `caligula` command).
     "textual==8.2.8",
-    # Ingestion (real Langfuse project reconstruction, see ingestion/).
+    # Ingestion (real trace-source project reconstruction, see ingestion/).
     "langfuse==4.14.2",
+    "braintrust==0.32.0",
 ]
 
 [project.optional-dependencies]

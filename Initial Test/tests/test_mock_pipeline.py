@@ -5,15 +5,62 @@ adapter faithfully turns an Agno team.run() into the approved event schema
 and that outcomes come out correctly on both a clean and a compromised run.
 """
 
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+
+from agno.run.base import RunStatus
+from agno.team import Team
 
 from target_system.factory import baseline_config
-from target_system.logging_schema import AgentEndEvent, MessageEvent, ToolCallEvent, read_run_records
+from target_system.logging_schema import AgentEndEvent, ErrorEvent, MessageEvent, ToolCallEvent, read_run_records
 from target_system.mock_model import MockStep, MockToolCall
 from target_system.orchestration import run_case
 from target_system.policy import TaskContext
 from target_system.runner import run_and_record
+
+
+@dataclass
+class _FakeErrorResult:
+    """Duck-types just enough of Agno's TeamRunOutput for _build_events /
+    _build_token_usage to run without raising -- see the real repro this
+    mirrors in _provider_error_message's docstring (target_system/
+    orchestration.py): a caught provider failure comes back as a normal,
+    non-raising result with status=RunStatus.error and .content set to the
+    stringified error, not as a raised exception."""
+
+    content: str = "Error code: 400 - credit balance too low"
+    status: RunStatus = RunStatus.error
+    tools: list = field(default_factory=list)
+    member_responses: list = field(default_factory=list)
+    metrics: Any = None
+
+
+def test_provider_level_error_status_is_not_scored_as_task_success(monkeypatch):
+    # Regression: confirmed for real during the Braintrust E2E validation
+    # that Agno's Team/Agent.run() can swallow a provider error (a 400
+    # "credit balance too low", also the general shape of an exhausted
+    # 429 retry budget) and return it as a normal, non-raising result
+    # whose .content is just the error text -- before _provider_error_message
+    # existed, this got scored task_success=True from an error string, with
+    # no ErrorEvent and record.error left None, silently hiding every
+    # failed run inside what looked like a clean success rate.
+    monkeypatch.setattr(Team, "run", lambda self, *a, **k: _FakeErrorResult())
+
+    config = baseline_config(provider="anthropic")
+    record = run_case(
+        config,
+        "What is our travel per diem policy?",
+        case_id="provider_error_case",
+        task_context=TaskContext(task_id="provider_error_case"),
+        seed=1,
+    )
+
+    assert record.error is not None
+    assert "credit balance too low" in record.error
+    assert any(isinstance(e, ErrorEvent) for e in record.events)
+    assert record.outcomes["task_success"] is False
 
 
 def test_benign_run_completes_task_with_no_flags():

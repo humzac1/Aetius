@@ -8,7 +8,7 @@ import asyncio
 
 import config.credentials as credentials
 from tui.app import HarnessApp, HomeScreen, MENU_ITEMS, PlaceholderScreen
-from tui.screens.credentials import CredentialsScreen
+from tui.screens.credentials import AnthropicStepScreen
 from tui.screens.presets import PresetMenuScreen
 from tui.screens.settings import SettingsScreen
 
@@ -164,56 +164,71 @@ def test_quit_binding_exits_app():
 
 
 # --- credentials gate on launch --------------------------------------------
+#
+# Real env vars are cleared (not credentials.missing_keys mocked) so the
+# credentials flow's own fresh resolve_all() agrees with what triggered
+# the gate -- mocking missing_keys alone would leave conftest's "every
+# credential resolved" default env vars in place underneath, so the
+# entry screen would immediately route past every step to the terminal
+# "already set via environment variables" state instead of the step
+# these tests actually mean to exercise.
 
 
 def test_app_shows_credentials_screen_when_keys_missing(monkeypatch):
-    monkeypatch.setattr(credentials, "missing_keys", lambda **kwargs: ["ANTHROPIC_API_KEY"])
+    monkeypatch.delenv(credentials.ANTHROPIC_KEY, raising=False)
 
     async def scenario():
         app = HarnessApp()
         async with app.run_test():
-            assert isinstance(app.screen, CredentialsScreen)
+            assert isinstance(app.screen, AnthropicStepScreen)
             assert app.screen.first_run is True
 
     run_async(scenario)
 
 
 def test_home_is_unreachable_while_credentials_screen_is_up(monkeypatch):
-    monkeypatch.setattr(credentials, "missing_keys", lambda **kwargs: ["ANTHROPIC_API_KEY"])
+    monkeypatch.delenv(credentials.ANTHROPIC_KEY, raising=False)
 
     async def scenario():
         app = HarnessApp()
         async with app.run_test() as pilot:
-            assert isinstance(app.screen, CredentialsScreen)
+            assert isinstance(app.screen, AnthropicStepScreen)
             base_depth = len(app.screen_stack)
-            await pilot.press("b")  # disabled on first_run — see CredentialsScreen.action_go_back
+            await pilot.press("b")  # disabled on first_run — see _FormStepScreen.action_go_back
             await pilot.pause()
-            assert isinstance(app.screen, CredentialsScreen)
-            await pilot.press("h")  # disabled on first_run — see CredentialsScreen.action_go_home
+            assert isinstance(app.screen, AnthropicStepScreen)
+            await pilot.press("h")  # disabled on first_run — see _FormStepScreen.action_go_home
             await pilot.pause()
-            assert isinstance(app.screen, CredentialsScreen)
+            assert isinstance(app.screen, AnthropicStepScreen)
             assert len(app.screen_stack) == base_depth
 
     run_async(scenario)
 
 
-def test_app_completing_credentials_screen_routes_to_add_environment_with_home_underneath(monkeypatch):
+def test_credentials_complete_routes_to_add_environment_with_home_underneath_and_pops_every_step():
     # Onboarding's actual first action is pulling traces / building the
     # first reconstructed environment, not an empty Home menu -- but Home
     # still goes on the stack underneath, not skipped, so 'b'/'h' from
-    # Add Environment land somewhere real (see tui/app.py's
-    # _credentials_complete).
+    # Add Environment land somewhere real. Also the regression this once
+    # was: a multi-step flow can push several screens before completing
+    # (Anthropic -> source picker -> fields), so completion must pop all
+    # of them, not just one -- simulated here by pushing two placeholder
+    # screens before calling _credentials_complete directly.
     from tui.screens.add_environment import AddEnvironmentScreen
-
-    monkeypatch.setattr(credentials, "missing_keys", lambda **kwargs: ["ANTHROPIC_API_KEY"])
 
     async def scenario():
         app = HarnessApp()
         async with app.run_test() as pilot:
-            assert isinstance(app.screen, CredentialsScreen)
-            app.screen.on_complete()
+            app.push_screen(PlaceholderScreen("step 1"))
+            app.push_screen(PlaceholderScreen("step 2"))
+            await pilot.pause()
+            app._credentials_complete()
             await pilot.pause()
             assert isinstance(app.screen, AddEnvironmentScreen)
+            # exactly [_default, HomeScreen, AddEnvironmentScreen] -- both
+            # placeholder steps popped, nothing left over underneath
+            assert len(app.screen_stack) == 3
+            assert isinstance(app.screen_stack[1], HomeScreen)
             await pilot.press("b")
             await pilot.pause()
             assert isinstance(app.screen, HomeScreen)

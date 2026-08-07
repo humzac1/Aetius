@@ -210,17 +210,26 @@ def compute_comparison_verdict(
 
 
 def compute_attempted_executed_counts(
-    records: list[dict[str, Any]], *, arm_label: str, family: str, base_outcome_key: str, config: SystemConfig
+    records: list[dict[str, Any]], *, arm_hash: str, arm_label: str, family: str, base_outcome_key: str, config: SystemConfig
 ) -> AttemptedExecutedCounts | None:
     """records: raw RunRecord dicts (both arms, as read from the
-    experiment's .jsonl). Filters to arm_label + family, counts
+    experiment's .jsonl). Filters to (arm_hash, arm_label) + family, counts
     ToolCallEvent statuses for whichever tool(s) in `config` carry the role
     that outcome_key's family targets (attacker.applicability.
     OUTCOME_REQUIRED_ROLE + tool_names_for_role) -- resolved per-config,
     same generalization target_system/policy.py already applies to outcome
     evaluation, so this isn't hardcoded to the toy system's send_email/
     lookup_customer. Returns None if no such tool was ever called in this
-    slice (the "no attempted/blocked breakdown to show" case)."""
+    slice (the "no attempted/blocked breakdown to show" case).
+
+    arm_hash + arm_label together, not arm_label alone -- same fix, same
+    reasoning, as experiments.runner.build_paired_data: reconstruction
+    defaults a config's label to its workflow_name/agent_name, so two
+    genuinely different reconstructions (different config_hash) can share
+    a label, and arm_label alone can't tell their records apart. Pure
+    config_hash isn't sufficient either -- an A/A comparison (arm_a_hash
+    == arm_b_hash by design) needs its two arms distinguished by label,
+    same as build_paired_data's docstring explains in full."""
     role = OUTCOME_REQUIRED_ROLE.get(base_outcome_key)
     if role is None:
         return None
@@ -230,7 +239,7 @@ def compute_attempted_executed_counts(
 
     executed = blocked = 0
     for record in records:
-        if record.get("arm") != arm_label or record.get("case_family") != family:
+        if record.get("config_hash") != arm_hash or record.get("arm") != arm_label or record.get("case_family") != family:
             continue
         for event in record.get("events", []):
             if event.get("type") != "tool_call" or event.get("tool_name") not in tool_names:
@@ -246,11 +255,22 @@ def compute_attempted_executed_counts(
 
 
 def _tally_response_sources(
-    records: list[dict[str, Any]], *, family: str, tool_names: set[str], arm_label: Any = _ANY_ARM
+    records: list[dict[str, Any]],
+    *,
+    family: str,
+    tool_names: set[str],
+    arm_hash: Any = _ANY_ARM,
+    arm_label: Any = _ANY_ARM,
 ) -> ResponseSourceBreakdown | None:
+    """arm_label is the filter gate (still _ANY_ARM by default, for
+    compute_response_source_breakdown_for_row's deliberate both-arms
+    scope) but a real per-arm filter requires arm_hash to match too --
+    label alone silently blended two different-hash configs sharing a
+    label into one breakdown, same bug and same fix as
+    compute_attempted_executed_counts above."""
     counts = {"real": 0, "replay": 0, "generated": 0, "unavailable": 0, "unknown": 0}
     for record in records:
-        if arm_label is not _ANY_ARM and record.get("arm") != arm_label:
+        if arm_label is not _ANY_ARM and (record.get("config_hash") != arm_hash or record.get("arm") != arm_label):
             continue
         if record.get("case_family") != family:
             continue
@@ -268,9 +288,9 @@ def _tally_response_sources(
 
 
 def compute_response_source_breakdown(
-    records: list[dict[str, Any]], *, arm_label: str, family: str, base_outcome_key: str, config: SystemConfig
+    records: list[dict[str, Any]], *, arm_hash: str, arm_label: str, family: str, base_outcome_key: str, config: SystemConfig
 ) -> ResponseSourceBreakdown | None:
-    """Same arm+family+role-resolved-tool scoping as
+    """Same (arm_hash, arm_label)+family+role-resolved-tool scoping as
     compute_attempted_executed_counts, tallying response_source instead of
     status -- the FLAGGED screen's evidence-chain callout: was this specific
     flagged outcome's evidence real/replayed, or partly synthesized?"""
@@ -280,7 +300,7 @@ def compute_response_source_breakdown(
     tool_names = tool_names_for_role(config, role)
     if not tool_names:
         return None
-    return _tally_response_sources(records, family=family, tool_names=tool_names, arm_label=arm_label)
+    return _tally_response_sources(records, family=family, tool_names=tool_names, arm_hash=arm_hash, arm_label=arm_label)
 
 
 def compute_response_source_breakdown_for_row(

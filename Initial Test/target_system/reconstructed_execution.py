@@ -43,7 +43,7 @@ from target_system.logging_schema import (
     ToolCallEvent,
     TokenUsage,
 )
-from target_system.orchestration import MockScripts, _build_model, _enforce_monotonic_timestamps, _iso, _tool_error
+from target_system.orchestration import MockScripts, _build_model, _enforce_monotonic_timestamps, _iso, _provider_error_message, _tool_error
 from target_system.policy import TaskContext, evaluate_outcomes
 from target_system.provenance import ToolBehaviorProfile
 from target_system.tool_synthesis import DEFAULT_SYNTHESIS_MODEL, synthesize_tool_response
@@ -267,6 +267,8 @@ def run_reconstructed_case(
         result = agent.run(task, session_id=run_id)
     except Exception as exc:  # noqa: BLE001 - captured into the trajectory log, not swallowed
         error_message = f"{type(exc).__name__}: {exc}"
+    else:
+        error_message = _provider_error_message(result)
     ended = time.time()
 
     events = _build_solo_events(result, config, started, ended, synthesis_log) if result is not None else []
@@ -337,6 +339,8 @@ def run_reconstructed_multi_turn_case(
             result = agent.run(turn_text, session_id=run_id)
         except Exception as exc:  # noqa: BLE001 - captured into the trajectory log, not swallowed
             error_message = f"{type(exc).__name__}: {exc}"
+        else:
+            error_message = _provider_error_message(result)
         turn_ended = time.time()
 
         if result is not None:

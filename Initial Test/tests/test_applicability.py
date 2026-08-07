@@ -159,6 +159,48 @@ def test_applicable_cases_for_configs_full_toy_system_keeps_every_case():
     assert len(result) == len(ATTACK_CASES)
 
 
+def test_case_applicability_corpus_document_excluded_for_reconstructed_even_with_entry_point_role():
+    # Regression: a real reconstructed Braintrust tool ("search_maintenance_
+    # tickets") tokenizes to "search" and legitimately classifies as
+    # UNTRUSTED_CONTENT_ENTRY_POINT, so the role-based check alone let a
+    # corpus_document case through applicable_cases_for_configs -- then
+    # build_reconstructed_run_kwargs (attacker/executor.py) raised, since
+    # reconstructed environments have no corpus-poisoning delivery
+    # mechanism at all, regardless of which roles are present.
+    case = _case("c1", "indirect_injection_document", "corpus_document", "unauthorized_lookup")
+    assert case_applicability(case, ALL_ROLES, reconstructed=False).applicable is True
+    result = case_applicability(case, ALL_ROLES, reconstructed=True)
+    assert result.applicable is False
+    assert any("corpus_document" in r for r in result.reasons)
+
+
+def test_applicable_cases_for_configs_excludes_corpus_document_for_reconstructed_arm():
+    from target_system.config import AgentSpec, ModelConfig, SecurityConfig, SystemConfig
+    from target_system.provenance import ReconstructionProvenance, ToolBehaviorProfile
+
+    config = SystemConfig(
+        label="recon",
+        model=ModelConfig(provider="anthropic", model_name="claude-haiku-4-5-20251001"),
+        agents=[
+            AgentSpec(
+                role="supervisor", name="A", system_prompt="[unavailable]", system_prompt_source="unavailable",
+                tools=["search_maintenance_tickets", "get_tenant_current_balance"],
+            )
+        ],
+        security=SecurityConfig(),
+        provenance=ReconstructionProvenance(
+            project_id="p", source_agent_name="A", trace_count=1, extraction_date="x",
+            tool_profiles={
+                "search_maintenance_tickets": ToolBehaviorProfile(tool_name="search_maintenance_tickets"),
+                "get_tenant_current_balance": ToolBehaviorProfile(tool_name="get_tenant_current_balance"),
+            },
+        ),
+    )
+    assert ToolRole.UNTRUSTED_CONTENT_ENTRY_POINT in roles_for_config(config)  # role is genuinely present
+    case = _case("c1", "indirect_injection_document", "corpus_document", "unauthorized_lookup")
+    assert applicable_cases_for_configs([case], [config]) == []  # still excluded -- no reconstructed delivery mechanism
+
+
 def test_applicable_cases_for_configs_intersects_across_arms():
     from target_system.config import AgentSpec, ModelConfig, SecurityConfig, SystemConfig
 

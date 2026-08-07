@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pytest
+from agno.run.base import RunStatus
 
 from attacker.cases import by_family
 from experiments.presets import ArmSpec
@@ -113,6 +114,7 @@ class _FakeRunOutput:
     content: str
     tools: list
     metrics: object = None
+    status: RunStatus = RunStatus.completed
 
     def __post_init__(self):
         if self.metrics is None:
@@ -217,6 +219,75 @@ def test_run_experiment_rejection_happens_before_any_job_runs(tmp_path: Path, mo
         run_experiment(config_a, config_b, experiment_name="test_recon_mock_reject2", cases=cases, n_runs_per_case=1, runs_dir=tmp_path)
     assert called == []
     assert not (tmp_path / "test_recon_mock_reject2.jsonl").exists()  # nothing was ever written either
+
+
+def _labeled_config(label, *, model_name, tools=("send_invoice",)):
+    return SystemConfig(
+        label=label,
+        model=ModelConfig(provider="anthropic", model_name=model_name),
+        agents=[AgentSpec(role="supervisor", name="A", system_prompt="[unavailable]", system_prompt_source="unavailable", tools=list(tools))],
+        security=SecurityConfig(),
+        provenance=ReconstructionProvenance(
+            project_id="proj-1", source_agent_name="A", trace_count=5, extraction_date="2026-01-01",
+            tool_profiles={name: ToolBehaviorProfile(tool_name=name) for name in tools},
+        ),
+    )
+
+
+def test_run_experiment_separates_same_label_configs_by_config_hash(tmp_path: Path, monkeypatch):
+    # Regression for the real bug found during the Braintrust E2E
+    # validation: reconstruction defaults a config's label to its
+    # workflow_name/agent_name, so two genuinely different reconstructions
+    # of the same real workflow (e.g. re-pulled a week apart with real
+    # behavior drift) end up sharing that default label. Before this fix,
+    # build_paired_data/_task_success_rate grouped run records by
+    # record.arm (the label) alone, so both arms' records were silently
+    # merged into one indistinguishable pool at report time -- with no
+    # error, just a blended/wrong result.
+    #
+    # config_a and config_b here share one label but differ in model_name
+    # (and therefore config_hash), and are scripted so every arm-A run
+    # succeeds and every arm-B run errors -- a maximally distinguishable
+    # signal. If records were still being merged by label alone,
+    # task_success_a and task_success_b would come out identical (the
+    # same ~50/50 blend of both arms' runs) instead of cleanly 1.0/0.0.
+    from agno.agent import Agent
+    from agno.run.base import RunStatus
+    from target_system.config import compute_config_hash
+
+    same_label = "homepilot-ticket-analysis"
+    config_a = _labeled_config(same_label, model_name="model-a")
+    config_b = _labeled_config(same_label, model_name="model-b")
+    assert config_a.label == config_b.label  # the exact real-world collision
+    hash_a, hash_b = compute_config_hash(config_a), compute_config_hash(config_b)
+    assert hash_a != hash_b
+
+    def _fake_run(self, task, *, session_id=None, **kwargs):
+        if self.model.id == "model-a":
+            return _FakeRunOutput(content="Task completed.", tools=[])
+        return _FakeRunOutput(content="Error code: 400 - simulated provider failure", tools=[], status=RunStatus.error)
+
+    monkeypatch.setattr(Agent, "run", _fake_run)
+    cases = _small_case_subset()
+    result = run_experiment(
+        config_a, config_b, experiment_name="test_same_label_diff_hash", cases=cases,
+        n_runs_per_case=2, max_workers=2, runs_dir=tmp_path,
+    )
+
+    # Every record really does carry the same label -- this is the exact
+    # condition that broke label-only grouping.
+    assert {r.arm for r in result.records} == {same_label}
+    assert {r.config_hash for r in result.records} == {hash_a, hash_b}
+
+    assert result.task_success_a == 1.0
+    assert result.task_success_b == 0.0
+
+    records_a = [r for r in result.records if r.config_hash == hash_a]
+    records_b = [r for r in result.records if r.config_hash == hash_b]
+    assert len(records_a) == len(cases) * 2
+    assert len(records_b) == len(cases) * 2
+    assert all(r.error is None for r in records_a)
+    assert all(r.error is not None for r in records_b)
 
 
 def test_run_experiment_concurrent_writes_produce_no_corrupted_lines(tmp_path: Path):

@@ -42,16 +42,25 @@ Anyone without git/SSH access set up can instead be handed a built wheel
 (`uv build --wheel`, from inside `Initial Test/`) and run
 `pipx install caligula-<version>-py3-none-any.whl` the same way.
 
-On first launch, `caligula` asks for `ANTHROPIC_API_KEY`,
-`LANGFUSE_SECRET_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_BASE_URL`, and
-`LANGFUSE_PROJECT_ID` (each validated against the real service before
-anything is saved — see `config/credentials.py`) and stores them at a
-user-level config location (`platformdirs.user_config_dir("caligula")`,
-e.g. `~/.config/caligula/.env` on Linux/macOS) — never in the repo. Real
-environment variables (`export ANTHROPIC_API_KEY=...`, a CI environment,
-etc.) always take priority over that file and skip the prompt entirely,
-so a dev/CI workflow is never forced through the interactive screen. Edit
-saved credentials any time from the TUI's Settings menu.
+On first launch, `caligula` walks through 3 steps: an `ANTHROPIC_API_KEY`
+(always required), a trace-source pick (Langfuse or Braintrust — pick
+whichever your real agent's traces are actually logged to), then only
+that source's own fields (Langfuse: `LANGFUSE_SECRET_KEY`,
+`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_BASE_URL`, `LANGFUSE_PROJECT_ID`;
+Braintrust: `BRAINTRUST_API_KEY`, `BRAINTRUST_PROJECT_NAME` — see
+`ingestion/braintrust_client.py`'s module docstring for what was
+actually investigated to arrive at just these two). Everything is
+validated against the real service before anything is saved (see
+`config/credentials.py`) and stored at a user-level config location
+(`platformdirs.user_config_dir("caligula")`, e.g. `~/.config/caligula/.env`
+on Linux/macOS) — never in the repo. Real environment variables
+(`export ANTHROPIC_API_KEY=...`, a CI environment, etc.) always take
+priority over that file and skip the corresponding step entirely, so a
+dev/CI workflow is never forced through the interactive screen. Edit
+saved credentials — including switching which trace source is
+configured — any time from the TUI's Settings menu. Only one trace
+source is active at a time by design (see `config/credentials.py`'s
+module docstring); nothing downstream can use two at once yet.
 
 ### From a source checkout (development)
 
