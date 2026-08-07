@@ -16,7 +16,7 @@ from textual.binding import Binding
 from textual.containers import Vertical
 from textual.widgets import DataTable, Footer, Header, Label, Static
 
-from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, load_config
+from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, compute_config_hash, load_config
 from tui.app import BaseScreen
 from tui.dashboard_link import open_dashboard_for_run
 from tui.data import describe_comparison_for_humans, describe_config_for_humans
@@ -171,8 +171,16 @@ class ComparisonVerdictScreen(BaseScreen):
 
         flagged_config = config_a if self.verdict.flagged_arm_label == self.report.get("arm_a_label") else config_b
         if flagged_config is not None:
+            # Hash the resolved config object directly rather than picking
+            # report["arm_a_hash"]/["arm_b_hash"] through the same
+            # flagged_arm_label comparison used just above -- that
+            # comparison is ambiguous whenever arm_a_label == arm_b_label
+            # (a separate, pre-existing issue from this fix), so deriving
+            # the hash from flagged_config itself is correct regardless.
+            flagged_arm_hash = compute_config_hash(flagged_config)
             counts = compute_attempted_executed_counts(
                 self.records,
+                arm_hash=flagged_arm_hash,
                 arm_label=self.verdict.flagged_arm_label,
                 family=self.verdict.flagged_family,
                 base_outcome_key=self.verdict.flagged_outcome_key,
@@ -185,6 +193,7 @@ class ComparisonVerdictScreen(BaseScreen):
             if flagged_config.provenance is not None:
                 source_breakdown = compute_response_source_breakdown(
                     self.records,
+                    arm_hash=flagged_arm_hash,
                     arm_label=self.verdict.flagged_arm_label,
                     family=self.verdict.flagged_family,
                     base_outcome_key=self.verdict.flagged_outcome_key,

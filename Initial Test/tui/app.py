@@ -42,7 +42,7 @@ APP_TITLE = "Caligula"
 
 MENU_ITEMS = [
     ("test_agent", "Test my agent (wizard)"),
-    ("add_environment", "Add environment (from Langfuse)"),
+    ("add_environment", "Add environment"),
     ("view_runs", "View past runs"),
     ("manage_configs", "Manage configs"),
     ("settings", "Settings / exit"),
@@ -135,7 +135,7 @@ class HomeScreen(BaseScreen):
 
             return AddEnvironmentScreen()
         except ImportError:
-            return PlaceholderScreen("Add environment (from Langfuse)")
+            return PlaceholderScreen("Add environment")
 
     def _settings_screen(self) -> Screen:
         try:
@@ -237,9 +237,9 @@ class HarnessApp(App):
 
     def on_mount(self) -> None:
         if credentials.missing_keys():
-            from tui.screens.credentials import CredentialsScreen
+            from tui.screens.credentials import credentials_flow_entry_screen
 
-            self.push_screen(CredentialsScreen(first_run=True, on_complete=self._credentials_complete))
+            self.push_screen(credentials_flow_entry_screen(first_run=True, on_complete=self._credentials_complete))
         else:
             self.push_screen(HomeScreen())
 
@@ -248,10 +248,15 @@ class HarnessApp(App):
         # first reconstructed environment, not an empty Home menu with
         # nothing in it yet -- but Home still goes on the stack underneath
         # (not skipped) so 'b'/'h' from Add Environment land somewhere real,
-        # same invariant every other screen in this app relies on.
+        # same invariant every other screen in this app relies on. Pops
+        # everything the credentials flow pushed (1-3 screens, depending
+        # how many steps actually showed -- see tui/screens/credentials.py),
+        # not just one: a single pop_screen() here would leave earlier
+        # steps sitting on the stack underneath Home.
         from tui.screens.add_environment import AddEnvironmentScreen
 
-        self.pop_screen()
+        while len(self.screen_stack) > 1:
+            self.pop_screen()
         self.push_screen(HomeScreen())
         self.push_screen(AddEnvironmentScreen())
 

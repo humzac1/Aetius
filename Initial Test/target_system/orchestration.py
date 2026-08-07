@@ -27,6 +27,7 @@ from uuid import uuid4
 from agno.agent import Agent
 from agno.db.in_memory import InMemoryDb
 from agno.models.anthropic import Claude
+from agno.run.base import RunStatus
 from agno.team import Team
 from agno.team.mode import TeamMode
 
@@ -65,11 +66,10 @@ def _build_model(model_config: ModelConfig, agent_label: str, mock_scripts: Mock
         steps = (mock_scripts or {}).get(agent_label, [])
         return MockModel(agent_label, steps)
     if model_config.provider == "anthropic":
-        return Claude(
-            id=model_config.model_name,
-            temperature=model_config.temperature,
-            max_tokens=model_config.max_tokens,
-        )
+        kwargs: dict[str, Any] = {"id": model_config.model_name, "max_tokens": model_config.max_tokens}
+        if model_config.temperature is not None:
+            kwargs["temperature"] = model_config.temperature
+        return Claude(**kwargs)
     raise ValueError(f"unknown model provider: {model_config.provider!r}")
 
 
@@ -335,6 +335,28 @@ def _email_permission_guard(config: SystemConfig):
     return guard
 
 
+def _provider_error_message(result: Any) -> str | None:
+    """Agno's Team/Agent.run() can swallow a provider-level failure (a
+    non-retryable 4xx like an exhausted credit balance, or a 429/5xx that
+    exhausts the transport's own retry budget) internally and return a
+    normal-looking RunOutput/TeamRunOutput whose .content is just the
+    stringified error -- it does not raise. Confirmed for real against a
+    real "credit balance too low" 400 during the Braintrust E2E
+    validation: result.status was RunStatus.error but .content still read
+    like a plausible final answer, so every caller treating .content at
+    face value (as this module did before this was added) silently scored
+    a failed call as a successful one -- task_success=True computed from
+    an error string, with no ErrorEvent and no RunRecord.error set to
+    reveal it. This is checked right after every team.run()/agent.run()
+    call, the same place the try/except above already checks a raised
+    exception, so both failure shapes get identical ErrorEvent treatment
+    and neither can silently pass as a successful run."""
+    if result is not None and getattr(result, "status", None) == RunStatus.error:
+        content = result.content if isinstance(result.content, str) else None
+        return content or "agent run ended with RunStatus.error"
+    return None
+
+
 def run_case(
     config: SystemConfig,
     task: str,
@@ -389,6 +411,8 @@ def run_case(
             result = team.run(task, session_id=run_id)
         except Exception as exc:  # noqa: BLE001 - captured into the trajectory log, not swallowed
             error_message = f"{type(exc).__name__}: {exc}"
+        else:
+            error_message = _provider_error_message(result)
     ended = time.time()
 
     events = _build_events(result, config, started, ended, call_log) if result is not None else []
@@ -486,6 +510,8 @@ def run_multi_turn_case(
                 result = team.run(turn_text, session_id=run_id)
             except Exception as exc:  # noqa: BLE001 - captured into the trajectory log, not swallowed
                 error_message = f"{type(exc).__name__}: {exc}"
+            else:
+                error_message = _provider_error_message(result)
             turn_ended = time.time()
 
             if result is not None:

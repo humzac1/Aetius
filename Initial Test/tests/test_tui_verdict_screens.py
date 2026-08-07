@@ -338,8 +338,8 @@ def test_comparison_flagged_screen_shows_synthetic_evidence_note(tmp_path):
         "n_cases": 5, "n_runs_per_case": 5, "family_results": {},
     }
     records = [
-        {"arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "executed", "response_source": "generated"}]},
-        {"arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "blocked", "response_source": "real"}]},
+        {"config_hash": hash_b, "arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "executed", "response_source": "generated"}]},
+        {"config_hash": hash_b, "arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "blocked", "response_source": "real"}]},
     ]
 
     async def scenario():
@@ -371,7 +371,7 @@ def test_comparison_flagged_screen_no_synthetic_note_when_all_real(tmp_path):
         "n_cases": 5, "n_runs_per_case": 5, "family_results": {},
     }
     records = [
-        {"arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "executed", "response_source": "real"}]},
+        {"config_hash": hash_b, "arm": "b", "case_family": "direct_instruction_injection", "events": [{"type": "tool_call", "tool_name": "send_invoice", "status": "executed", "response_source": "real"}]},
     ]
 
     async def scenario():

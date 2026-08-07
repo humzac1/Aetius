@@ -48,8 +48,20 @@ class CaseApplicability:
     reasons: tuple[str, ...] = ()  # non-empty only when applicable is False
 
 
-def case_applicability(case: AttackCase, roles: set[ToolRole]) -> CaseApplicability:
+def case_applicability(case: AttackCase, roles: set[ToolRole], *, reconstructed: bool = False) -> CaseApplicability:
     reasons: list[str] = []
+
+    # corpus_document has no reconstructed-environment delivery mechanism
+    # at all (see attacker/executor.py's build_reconstructed_run_kwargs
+    # docstring) -- unlike the other role checks below, this isn't about
+    # whether a matching tool role happens to be present. A reconstructed
+    # tool can still legitimately classify as UNTRUSTED_CONTENT_ENTRY_POINT
+    # (e.g. a real "search_maintenance_tickets" tool tokenizes to "search",
+    # confirmed against real Braintrust data) without there being any way
+    # to actually poison a corpus for it, so that role match alone must
+    # not make a corpus_document case applicable to a reconstructed twin.
+    if reconstructed and case.injection_vector == "corpus_document":
+        reasons.append("delivery vector 'corpus_document' has no reconstructed-environment delivery mechanism")
 
     delivery_role = DELIVERY_VECTOR_REQUIRED_ROLE.get(case.injection_vector)
     if delivery_role is not None and delivery_role not in roles:
@@ -73,7 +85,9 @@ class FamilyApplicability:
     reasons: tuple[str, ...] = field(default_factory=tuple)
 
 
-def family_applicability(cases: list[AttackCase], roles: set[ToolRole]) -> dict[str, FamilyApplicability]:
+def family_applicability(
+    cases: list[AttackCase], roles: set[ToolRole], *, reconstructed: bool = False
+) -> dict[str, FamilyApplicability]:
     """One entry per family present in `cases`. A family is applicable if
     ANY of its cases are — mirrors the "OR across cases" shape of the
     compute_comparison_verdict fix's family/outcome-key applicability,
@@ -85,7 +99,7 @@ def family_applicability(cases: list[AttackCase], roles: set[ToolRole]) -> dict[
 
     result: dict[str, FamilyApplicability] = {}
     for family, family_cases in by_family.items():
-        per_case = [case_applicability(c, roles) for c in family_cases]
+        per_case = [case_applicability(c, roles, reconstructed=reconstructed) for c in family_cases]
         applicable_ids = tuple(ca.case_id for ca in per_case if ca.applicable)
         inapplicable_ids = tuple(ca.case_id for ca in per_case if not ca.applicable)
         reasons: list[str] = []
@@ -103,11 +117,11 @@ def family_applicability(cases: list[AttackCase], roles: set[ToolRole]) -> dict[
     return result
 
 
-def applicable_cases(cases: list[AttackCase], roles: set[ToolRole]) -> list[AttackCase]:
+def applicable_cases(cases: list[AttackCase], roles: set[ToolRole], *, reconstructed: bool = False) -> list[AttackCase]:
     """The subset of cases actually runnable against an environment with
     this role set — what an execution path (Part 4/5) should filter to
     before running anything, rather than running every case regardless."""
-    return [c for c in cases if case_applicability(c, roles).applicable]
+    return [c for c in cases if case_applicability(c, roles, reconstructed=reconstructed).applicable]
 
 
 def roles_for_config(config: SystemConfig) -> set[ToolRole]:
@@ -155,4 +169,12 @@ def applicable_cases_for_configs(cases: list[AttackCase], configs: list[SystemCo
     filters the full case list to before running anything; toy-system
     configs (whose tool set covers every role) filter to a no-op."""
     role_sets = [roles_for_config(c) for c in configs]
-    return [c for c in cases if all(case_applicability(c, roles).applicable for roles in role_sets)]
+    reconstructed_flags = [c.provenance is not None for c in configs]
+    return [
+        c
+        for c in cases
+        if all(
+            case_applicability(c, roles, reconstructed=reconstructed).applicable
+            for roles, reconstructed in zip(role_sets, reconstructed_flags)
+        )
+    ]

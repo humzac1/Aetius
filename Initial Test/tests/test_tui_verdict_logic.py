@@ -238,14 +238,15 @@ def _tool_call_event(tool_name, status):
 
 def test_attempted_executed_counts_filters_by_arm_and_family():
     records = [
-        {"arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "executed")]},
-        {"arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "blocked")]},
-        {"arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "blocked")]},
-        {"arm": "arm_a", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "executed")]},  # wrong arm
-        {"arm": "arm_b", "case_family": "other_family", "events": [_tool_call_event("send_email", "executed")]},  # wrong family
+        {"config_hash": "h1", "arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "executed")]},
+        {"config_hash": "h1", "arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "blocked")]},
+        {"config_hash": "h1", "arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "blocked")]},
+        {"config_hash": "h1", "arm": "arm_a", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "executed")]},  # wrong arm
+        {"config_hash": "h1", "arm": "arm_b", "case_family": "other_family", "events": [_tool_call_event("send_email", "executed")]},  # wrong family
+        {"config_hash": "h2", "arm": "arm_b", "case_family": "direct_instruction_injection", "events": [_tool_call_event("send_email", "executed")]},  # wrong hash, same label
     ]
     counts = compute_attempted_executed_counts(
-        records, arm_label="arm_b", family="direct_instruction_injection", base_outcome_key="exfiltration", config=baseline_config()
+        records, arm_hash="h1", arm_label="arm_b", family="direct_instruction_injection", base_outcome_key="exfiltration", config=baseline_config()
     )
     assert counts.executed == 1
     assert counts.blocked == 2
@@ -254,16 +255,16 @@ def test_attempted_executed_counts_filters_by_arm_and_family():
 
 
 def test_attempted_executed_counts_none_when_nothing_found():
-    records = [{"arm": "arm_b", "case_family": "direct_instruction_injection", "events": []}]
+    records = [{"config_hash": "h1", "arm": "arm_b", "case_family": "direct_instruction_injection", "events": []}]
     assert compute_attempted_executed_counts(
-        records, arm_label="arm_b", family="direct_instruction_injection", base_outcome_key="exfiltration", config=baseline_config()
+        records, arm_hash="h1", arm_label="arm_b", family="direct_instruction_injection", base_outcome_key="exfiltration", config=baseline_config()
     ) is None
 
 
 def test_attempted_executed_counts_unknown_outcome_key_returns_none():
-    records = [{"arm": "arm_b", "case_family": "f", "events": [_tool_call_event("send_email", "executed")]}]
+    records = [{"config_hash": "h1", "arm": "arm_b", "case_family": "f", "events": [_tool_call_event("send_email", "executed")]}]
     assert compute_attempted_executed_counts(
-        records, arm_label="arm_b", family="f", base_outcome_key="task_success", config=baseline_config()
+        records, arm_hash="h1", arm_label="arm_b", family="f", base_outcome_key="task_success", config=baseline_config()
     ) is None
 
 
@@ -275,9 +276,9 @@ def test_attempted_executed_counts_none_when_config_has_no_matching_role():
         agents=[AgentSpec(role="supervisor", name="A", system_prompt="x", tools=["search_corpus"])],
         security=SecurityConfig(),
     )
-    records = [{"arm": "arm_b", "case_family": "f", "events": [_tool_call_event("send_email", "executed")]}]
+    records = [{"config_hash": "h1", "arm": "arm_b", "case_family": "f", "events": [_tool_call_event("send_email", "executed")]}]
     assert compute_attempted_executed_counts(
-        records, arm_label="arm_b", family="f", base_outcome_key="exfiltration", config=no_sensitive_action
+        records, arm_hash="h1", arm_label="arm_b", family="f", base_outcome_key="exfiltration", config=no_sensitive_action
     ) is None
 
 
@@ -296,12 +297,13 @@ def _tool_call_event_src(tool_name, response_source):
 
 def test_compute_response_source_breakdown_scoped_to_arm_and_family():
     records = [
-        {"arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", "real")]},
-        {"arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", "generated")]},
-        {"arm": "b", "case_family": "f", "events": [_tool_call_event_src("send_email", "unavailable")]},  # wrong arm
-        {"arm": "a", "case_family": "other", "events": [_tool_call_event_src("send_email", "replay")]},  # wrong family
+        {"config_hash": "h1", "arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", "real")]},
+        {"config_hash": "h1", "arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", "generated")]},
+        {"config_hash": "h1", "arm": "b", "case_family": "f", "events": [_tool_call_event_src("send_email", "unavailable")]},  # wrong arm
+        {"config_hash": "h1", "arm": "a", "case_family": "other", "events": [_tool_call_event_src("send_email", "replay")]},  # wrong family
+        {"config_hash": "h2", "arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", "unavailable")]},  # wrong hash, same label
     ]
-    breakdown = compute_response_source_breakdown(records, arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config())
+    breakdown = compute_response_source_breakdown(records, arm_hash="h1", arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config())
     assert breakdown.real == 1
     assert breakdown.generated == 1
     assert breakdown.replay == 0
@@ -311,15 +313,51 @@ def test_compute_response_source_breakdown_scoped_to_arm_and_family():
 
 
 def test_compute_response_source_breakdown_none_when_no_matching_calls():
-    records = [{"arm": "a", "case_family": "f", "events": []}]
-    assert compute_response_source_breakdown(records, arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config()) is None
+    records = [{"config_hash": "h1", "arm": "a", "case_family": "f", "events": []}]
+    assert compute_response_source_breakdown(records, arm_hash="h1", arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config()) is None
 
 
 def test_compute_response_source_breakdown_treats_missing_source_as_unknown():
-    records = [{"arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", _MISSING)]}]
-    breakdown = compute_response_source_breakdown(records, arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config())
+    records = [{"config_hash": "h1", "arm": "a", "case_family": "f", "events": [_tool_call_event_src("send_email", _MISSING)]}]
+    breakdown = compute_response_source_breakdown(records, arm_hash="h1", arm_label="a", family="f", base_outcome_key="exfiltration", config=baseline_config())
     assert breakdown.unknown == 1
     assert breakdown.total == 1
+
+
+def test_compute_response_source_breakdown_separates_same_label_configs_by_hash():
+    # Regression, same shape as experiments/runner.py's
+    # test_run_experiment_separates_same_label_configs_by_config_hash:
+    # reconstruction defaults a config's label to its workflow_name/
+    # agent_name, so two genuinely different reconstructions (different
+    # config_hash -- different tools observed, different behavior) can
+    # share a label. Before arm_hash existed here, _tally_response_sources
+    # filtered by arm_label alone, so both configs' tool-call records were
+    # silently blended into one breakdown with no error. config h-a's
+    # calls are scripted "real", config h-b's are scripted "generated" --
+    # if blended, the h-a breakdown would show generated > 0 too.
+    same_label = "homepilot-ticket-analysis"
+    records = [
+        {"config_hash": "h-a", "arm": same_label, "case_family": "f", "events": [_tool_call_event_src("send_email", "real")]},
+        {"config_hash": "h-a", "arm": same_label, "case_family": "f", "events": [_tool_call_event_src("send_email", "real")]},
+        {"config_hash": "h-b", "arm": same_label, "case_family": "f", "events": [_tool_call_event_src("send_email", "generated")]},
+        {"config_hash": "h-b", "arm": same_label, "case_family": "f", "events": [_tool_call_event_src("send_email", "generated")]},
+        {"config_hash": "h-b", "arm": same_label, "case_family": "f", "events": [_tool_call_event_src("send_email", "generated")]},
+    ]
+
+    breakdown_a = compute_response_source_breakdown(
+        records, arm_hash="h-a", arm_label=same_label, family="f", base_outcome_key="exfiltration", config=baseline_config()
+    )
+    breakdown_b = compute_response_source_breakdown(
+        records, arm_hash="h-b", arm_label=same_label, family="f", base_outcome_key="exfiltration", config=baseline_config()
+    )
+
+    assert breakdown_a.real == 2
+    assert breakdown_a.generated == 0
+    assert breakdown_a.total == 2
+
+    assert breakdown_b.real == 0
+    assert breakdown_b.generated == 3
+    assert breakdown_b.total == 3
 
 
 def test_compute_response_source_breakdown_for_row_spans_both_arms():

@@ -1,0 +1,53 @@
+{
+  "agents": [
+    {
+      "model_override": null,
+      "name": "A",
+      "role": "supervisor",
+      "system_prompt": "[unavailable]",
+      "system_prompt_source": "unavailable",
+      "tools": [
+        "send_invoice"
+      ]
+    }
+  ],
+  "config_hash": "cfg_a73779fa517d",
+  "corpus_dir": "target_system/corpus",
+  "defensive_instruction": false,
+  "label": "homepilot-ticket-analysis",
+  "model": {
+    "max_tokens": 2048,
+    "model_name": "model-a",
+    "provider": "anthropic",
+    "seed": null,
+    "temperature": 0.0
+  },
+  "provenance": {
+    "avg_completion_tokens_per_generation": null,
+    "avg_cost_usd_per_trace": null,
+    "avg_generations_per_trace": null,
+    "avg_prompt_tokens_per_generation": null,
+    "extraction_date": "2026-01-01",
+    "other_groups_found": [],
+    "project_id": "proj-1",
+    "source_agent_name": "A",
+    "tool_profiles": {
+      "send_invoice": {
+        "argument_profiles": {},
+        "example_calls": [],
+        "n_calls_observed": 0,
+        "response_key_set": [],
+        "tool_name": "send_invoice"
+      }
+    },
+    "trace_count": 5,
+    "warnings": []
+  },
+  "schema_version": "1.0",
+  "security": {
+    "email_allowlist": [],
+    "enforce_allowlist": false,
+    "poisoned_corpus_files": [],
+    "poisoned_tool_results": []
+  }
+}
