@@ -119,9 +119,10 @@ from typing import Any
 
 from braintrust.logger import BraintrustState, login_to_state
 
+from config import paths
 from config.credentials import ensure_env_loaded
 
-DEFAULT_TRACES_DIR = Path(__file__).parent.parent / "data" / "traces_braintrust"
+DEFAULT_TRACES_DIR = paths.TRACES_BRAINTRUST_DIR
 DEFAULT_BATCH_SIZE = 100
 DEFAULT_PAGE_LIMIT = 100  # root-span listing pages
 DEFAULT_TRACE_FETCH_LIMIT = 1000  # per-trace span fetch -- matches the SDK's own DEFAULT_FETCH_BATCH_SIZE

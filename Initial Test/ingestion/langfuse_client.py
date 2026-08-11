@@ -34,9 +34,10 @@ from pathlib import Path
 
 from langfuse import Langfuse
 
+from config import paths
 from config.credentials import ensure_env_loaded
 
-DEFAULT_TRACES_DIR = Path(__file__).parent.parent / "data" / "traces"
+DEFAULT_TRACES_DIR = paths.TRACES_DIR
 DEFAULT_BATCH_SIZE = 100
 DEFAULT_TIMEOUT = 30.0
 DEFAULT_PAGE_LIMIT = 100  # traces per trace.list() page — Langfuse's own page-size ceiling in practice

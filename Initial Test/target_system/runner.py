@@ -1,17 +1,19 @@
 """Thin wrapper around orchestration.run_case that persists the resulting
-RunRecord to data/runs/<experiment>.jsonl and ensures the config that
-produced it is saved under target_system/configs/."""
+RunRecord to <user data dir>/runs/<experiment>.jsonl and ensures the config
+that produced it is saved under <user data dir>/configs/ (see
+config/paths.py for where that resolves and why)."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
+from config import paths
 from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, save_config
 from target_system.logging_schema import AttackInfo, RunRecord, append_run_record
 from target_system.orchestration import MockScripts, run_case
 from target_system.policy import TaskContext
 
-DEFAULT_RUNS_DIR = Path(__file__).parent.parent / "data" / "runs"
+DEFAULT_RUNS_DIR = paths.RUNS_DIR
 
 
 def run_and_record(

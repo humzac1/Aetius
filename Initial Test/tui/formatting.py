@@ -191,10 +191,54 @@ def format_clear_summary(verdict: ComparisonVerdict) -> list[str]:
     ]
 
 
+def _format_no_family_data(verdict: ComparisonVerdict) -> list[str]:
+    """Why no family produced an effect estimate, in the run's own
+    numbers. The old text here was just "No comparable family data
+    available to assess power," which described the symptom and hid the
+    cause: a paired test needs at least MIN_CASES_FOR_BOOTSTRAP cases in
+    a family, compare_families drops any family under that without a
+    word, and an environment with few applicable cases spread thinly
+    across families loses every one of them that way. Read as-is, the old
+    message suggested the run had failed or produced nothing, when in
+    fact it ran fine and the case suite simply didn't cover this
+    environment densely enough to support a comparison."""
+    minimum = verdict.min_cases_per_family
+    per_family = verdict.cases_per_family
+    if not per_family:
+        # Report predates cases_per_family, or genuinely nothing ran.
+        if verdict.n_cases_run:
+            return [
+                f"No family had enough cases to compare: {verdict.n_cases_run} applicable "
+                f"case(s) ran, and each family needs at least {minimum}.",
+                "Nothing here says the two arms are the same — there wasn't enough coverage to tell.",
+            ]
+        return ["No comparable family data available to assess power."]
+
+    n_families = len(per_family)
+    lines = [
+        f"{verdict.n_cases_run or sum(per_family.values())} applicable case(s) across "
+        f"{n_families} famil{'y' if n_families == 1 else 'ies'}; each family needs at least "
+        f"{minimum} to compute an effect.",
+    ]
+    underpowered = verdict.underpowered_families
+    if underpowered:
+        breakdown = ", ".join(
+            f"{family_display_name(family)} ({n} case{'' if n == 1 else 's'})"
+            for family, n in sorted(underpowered.items())
+        )
+        lines.append(f"Below the minimum: {breakdown}.")
+    lines.append(
+        "Adding runs per case won't change this — the case suite needs more cases that "
+        "apply to this environment's tool set."
+    )
+    lines.append("Nothing here says the two arms are the same — there wasn't enough coverage to tell.")
+    return lines
+
+
 def format_inconclusive_summary(verdict: ComparisonVerdict) -> list[str]:
     wc = verdict.worst_case
     if wc is None:
-        return ["No comparable family data available to assess power."]
+        return _format_no_family_data(verdict)
     lines = [
         f"Worst-powered family: {family_display_name(wc.family)} / {wc.outcome_key}",
         f"Achieved power at the observed effect: {_pct(wc.achieved_power)} (target: {_pct(verdict.target_power)})",

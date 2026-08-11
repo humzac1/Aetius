@@ -14,15 +14,34 @@ from __future__ import annotations
 
 import dataclasses
 import json
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 from experiments.report import compute_sequential_analysis
 from experiments.runner import DEFAULT_RUNS_DIR, ExperimentResult
+from target_system.logging_schema import RunRecord
 
 
 def report_path(experiment_name: str, runs_dir: Path = DEFAULT_RUNS_DIR) -> Path:
     return runs_dir / f"{experiment_name}_report.json"
+
+
+def cases_per_family(records: list[RunRecord]) -> dict[str, int]:
+    """How many distinct cases this run actually has records for, per
+    family. Saved into the report because family_results alone can't
+    answer it: a family whose case count is under stats.paired's
+    MIN_CASES_FOR_BOOTSTRAP produces no FamilyResult at all
+    (compare_families swallows the ValueError), so by the time a verdict
+    is computed the evidence for *why* there's nothing to report is
+    exactly the thing that got dropped. Counted off the raw records
+    rather than the case list so it reflects what genuinely ran, not what
+    was requested."""
+    by_family: dict[str, set[str]] = defaultdict(set)
+    for record in records:
+        if record.case_family:
+            by_family[record.case_family].add(record.case_id)
+    return {family: len(case_ids) for family, case_ids in sorted(by_family.items())}
 
 
 def save_experiment_report(
@@ -39,6 +58,7 @@ def save_experiment_report(
         "arm_a_hash": result.arm_a_hash,
         "arm_b_hash": result.arm_b_hash,
         "n_cases": result.n_cases,
+        "cases_per_family": cases_per_family(result.records),
         "n_runs_per_case": result.n_runs_per_case,
         "n_cached": result.n_cached,
         "n_executed": result.n_executed,

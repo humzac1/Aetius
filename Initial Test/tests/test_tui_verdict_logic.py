@@ -442,3 +442,34 @@ def test_single_config_summary_empty_records():
     summary = compute_single_config_summary([], config_label="x", config_hash="cfg_x")
     assert summary.total_attacks == 0
     assert summary.by_family == []
+
+
+def test_empty_family_results_carries_case_coverage_for_the_message():
+    # So the INCONCLUSIVE text can name the real cause (too few applicable
+    # cases per family for a paired test) instead of just reporting that
+    # no data came back. Numbers are the real cfg_4c44f09aed30 A/A run's.
+    report = _report({})
+    report["n_cases"] = 2
+    report["cases_per_family"] = {"tool_result_poisoning": 1, "multi_turn_goal_hijack": 1}
+
+    verdict = compute_comparison_verdict(report)
+    assert verdict.tier == "INCONCLUSIVE"
+    assert verdict.worst_case is None
+    assert verdict.n_cases_run == 2
+    assert verdict.cases_per_family == {"tool_result_poisoning": 1, "multi_turn_goal_hijack": 1}
+    assert verdict.underpowered_families == {"tool_result_poisoning": 1, "multi_turn_goal_hijack": 1}
+
+
+def test_min_cases_per_family_tracks_the_stats_layer_not_a_copied_constant():
+    # The threshold in the message must be the one compare_families
+    # actually drops families at, so the two can't drift apart.
+    from stats.paired import MIN_CASES_FOR_BOOTSTRAP
+
+    assert compute_comparison_verdict(_report({})).min_cases_per_family == MIN_CASES_FOR_BOOTSTRAP
+
+
+def test_empty_family_results_tolerates_reports_without_case_coverage():
+    verdict = compute_comparison_verdict(_report({}))
+    assert verdict.n_cases_run == 0
+    assert verdict.cases_per_family == {}
+    assert verdict.underpowered_families == {}

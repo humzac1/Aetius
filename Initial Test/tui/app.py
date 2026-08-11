@@ -36,7 +36,7 @@ from textual.containers import Vertical
 from textual.screen import Screen
 from textual.widgets import Footer, Header, Label, ListItem, ListView
 
-from config import credentials
+from config import credentials, paths
 
 APP_TITLE = "Caligula"
 
@@ -265,7 +265,31 @@ def main() -> None:
     if "--version" in sys.argv[1:]:
         print(f"caligula {_package_version()}")
         return
+    if "--where" in sys.argv[1:]:
+        _print_data_locations()
+        return
+    # Before any screen can read a config list: brings data written by a
+    # pre-platformdirs build (which saved into the installed package's own
+    # directory) forward into the stable user data dir, so upgrading
+    # doesn't look like "all my environments disappeared." No-op once
+    # everything's already been copied across. See config/paths.py.
+    for source, destination in paths.migrate_legacy_data():
+        print(f"migrated {source} -> {destination}")
     HarnessApp().run()
+
+
+def _print_data_locations() -> None:
+    """Prints exactly where this install reads and writes everything --
+    the answer to "where did my reconstructed environment go?" without
+    having to guess at a package directory. Deliberately not a TUI screen:
+    it needs to be greppable/scriptable and to work when the TUI can't
+    start at all."""
+    print(f"caligula {_package_version()}")
+    print(f"credentials : {paths.ENV_PATH}")
+    print(f"configs     : {paths.CONFIGS_DIR}")
+    print(f"runs        : {paths.RUNS_DIR}")
+    print(f"traces      : {paths.TRACES_DIR}")
+    print(f"traces (bt) : {paths.TRACES_BRAINTRUST_DIR}")
 
 
 def _package_version() -> str:

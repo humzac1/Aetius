@@ -1,7 +1,8 @@
 """The single versioned config object that drives every knob of the target
 system. Every run's trajectory log references a config only by its content
 hash (see compute_config_hash) — the resolved config itself is persisted
-once to target_system/configs/<hash>.json so it can be looked up later.
+once to <user data dir>/configs/<hash>.json so it can be looked up later
+(config/paths.py resolves that, and explains why it isn't package-relative).
 
 Design choices that matter downstream:
   - AgentSpec.system_prompt is the fully resolved prompt text, not a
@@ -32,11 +33,12 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from config import paths
 from target_system.provenance import ReconstructionProvenance
 
 CONFIG_SCHEMA_VERSION = "1.0"
 
-DEFAULT_CONFIGS_DIR = Path(__file__).parent / "configs"
+DEFAULT_CONFIGS_DIR = paths.CONFIGS_DIR
 
 
 class ModelConfig(BaseModel):
