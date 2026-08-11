@@ -13,9 +13,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from config import paths
+
 DASHBOARD_DIR = Path(__file__).parent
-REPO_ROOT = DASHBOARD_DIR.parent
-RUNS_DIR = REPO_ROOT / "data" / "runs"
+RUNS_DIR = paths.RUNS_DIR
 
 PRESET_ORDER = ["aa", "known_regression", "known_neutral", "model_swap", "added_agent"]
 

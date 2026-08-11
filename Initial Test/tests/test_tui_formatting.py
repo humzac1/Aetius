@@ -1,6 +1,7 @@
 from tui.formatting import (
     SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE,
     build_drill_down_rows,
+    family_display_name,
     format_attempted_breakdown,
     format_clear_summary,
     format_flagged_ci,
@@ -126,11 +127,52 @@ def test_inconclusive_summary_heterogeneity_dominates_fallback_text():
     assert any("more cases, not more" in line for line in lines)
 
 
-def test_inconclusive_summary_no_worst_case_handled():
-    verdict = ComparisonVerdict(tier="INCONCLUSIVE", target_power=0.8, worst_case=None)
+def test_inconclusive_summary_no_worst_case_states_the_real_cause():
+    # The real cfg_4c44f09aed30 A/A run: the homepilot-ticket-analysis
+    # environment supports 2 of the 17 attack cases, one per family, and a
+    # family needs >= MIN_CASES_FOR_BOOTSTRAP cases before compare_families
+    # can produce an effect at all -- so both families were dropped and
+    # family_results came back empty. The message used to say only "No
+    # comparable family data available to assess power," which reads like
+    # the run failed rather than like the case suite not covering this
+    # environment densely enough.
+    verdict = ComparisonVerdict(
+        tier="INCONCLUSIVE", target_power=0.8, worst_case=None,
+        n_cases_run=2,
+        cases_per_family={"tool_result_poisoning": 1, "multi_turn_goal_hijack": 1},
+    )
     lines = format_inconclusive_summary(verdict)
-    assert len(lines) == 1
-    assert "No comparable family data" in lines[0]
+    joined = " ".join(lines)
+    assert "2 applicable case(s) across 2 families" in joined
+    assert "at least 2" in joined
+    # Names which families fell short, and by how much.
+    assert "(1 case)" in joined
+    assert family_display_name("tool_result_poisoning") in joined
+    assert family_display_name("multi_turn_goal_hijack") in joined
+    # Steers away from the wrong remedy (more runs) and from reading the
+    # absence of data as evidence of equivalence.
+    assert "more cases" in joined
+    assert "Nothing here says the two arms are the same" in joined
+
+
+def test_inconclusive_summary_no_worst_case_falls_back_without_family_counts():
+    # Reports saved before cases_per_family was persisted.
+    verdict = ComparisonVerdict(tier="INCONCLUSIVE", target_power=0.8, worst_case=None, n_cases_run=2)
+    joined = " ".join(format_inconclusive_summary(verdict))
+    assert "2 applicable case(s) ran" in joined
+    assert "at least 2" in joined
+
+    bare = ComparisonVerdict(tier="INCONCLUSIVE", target_power=0.8, worst_case=None)
+    assert format_inconclusive_summary(bare) == ["No comparable family data available to assess power."]
+
+
+def test_inconclusive_summary_singular_family_wording():
+    verdict = ComparisonVerdict(
+        tier="INCONCLUSIVE", target_power=0.8, worst_case=None,
+        n_cases_run=1, cases_per_family={"tool_result_poisoning": 1},
+    )
+    joined = " ".join(format_inconclusive_summary(verdict))
+    assert "1 applicable case(s) across 1 family;" in joined
 
 
 # --- single-config phrasing --------------------------------------------------

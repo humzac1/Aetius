@@ -30,6 +30,7 @@ from typing import Any, Callable
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
 from attacker.executor import execute_case
+from config import paths
 from experiments.mock_policy import build_mock_scripts
 from experiments.presets import ArmSpec
 from stats.multiple_comparisons import FamilyResult, compare_families
@@ -40,7 +41,7 @@ from target_system.logging_schema import RunRecord, append_run_record, read_run_
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_RUNS_DIR = Path(__file__).parent.parent / "data" / "runs"
+DEFAULT_RUNS_DIR = paths.RUNS_DIR
 
 OUTCOME_KEYS = ["exfiltration", "exfiltration_attempted", "unauthorized_lookup", "unauthorized_lookup_attempted"]
 
@@ -144,6 +145,43 @@ def build_paired_data(
     return paired
 
 
+ARM_A_SUFFIX = " (arm A)"
+ARM_B_SUFFIX = " (arm B)"
+
+
+def disambiguate_arm_labels(
+    config_a: SystemConfig, config_b: SystemConfig, hash_a: str, hash_b: str
+) -> tuple[str, str]:
+    """The two arms' labels, guaranteed to key distinctly in
+    build_paired_data.
+
+    build_paired_data keys an arm on (config_hash, label), and its
+    docstring notes the same-hash A/A case only works "as long as its two
+    arms are given distinct labels — the caller's responsibility." No
+    caller ever did: tui/screens/wizard.py's ConfigPickerScreen happily
+    lets the same saved environment be picked twice, and
+    tui/execution.py's run_comparison_check passes both configs straight
+    through, so both arms arrived with identical hash AND identical label.
+    build_paired_data then read both arms out of the same bucket: arm_a
+    and arm_b became the *same records*, n doubled, and every case's
+    rate_diff was pinned at exactly 0.0 regardless of what the runs did —
+    a structural false CLEAR rather than a real A/A result. run_experiment
+    also queued both identical jobs, paying twice for one arm's worth of
+    real API calls.
+
+    Only the same-hash case is rewritten. Same label with *different*
+    hashes is the separate collision build_paired_data's docstring
+    describes (two reconstructions of one workflow both defaulting their
+    label to the agent name); (hash, label) already separates those
+    correctly, and renaming them here would paper over the very condition
+    test_run_experiment_separates_same_label_configs_by_config_hash exists
+    to keep exercising. Everything else passes through untouched, so
+    ordinary comparisons keep matching their already-cached records."""
+    if hash_a != hash_b or config_a.label != config_b.label:
+        return config_a.label, config_b.label
+    return f"{config_a.label}{ARM_A_SUFFIX}", f"{config_b.label}{ARM_B_SUFFIX}"
+
+
 def _task_success_rate(records: list[RunRecord], config_hash: str, arm_label: str) -> float:
     # (config_hash, arm_label) together, not arm_label alone — see
     # build_paired_data's docstring for why label alone can't tell two
@@ -212,9 +250,9 @@ def run_experiment(
                 f"got provider={config.model.provider!r}"
             )
 
-    label_a, label_b = config_a.label, config_b.label
     hash_a = save_config(config_a)
     hash_b = save_config(config_b)
+    label_a, label_b = disambiguate_arm_labels(config_a, config_b, hash_a, hash_b)
     logger.info("arm %s -> %s, arm %s -> %s", label_a, hash_a, label_b, hash_b)
 
     runs_path = runs_dir / f"{experiment_name}.jsonl"

@@ -20,6 +20,7 @@ from typing import Any, Literal, Sequence
 from attacker.applicability import OUTCOME_REQUIRED_ROLE, tool_names_for_role
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
+from stats.paired import MIN_CASES_FOR_BOOTSTRAP
 from stats.power import HeterogeneityDominates, achieved_power, minimum_detectable_effect, required_runs_per_case
 from target_system.config import SystemConfig
 
@@ -104,6 +105,20 @@ class ComparisonVerdict:
     worst_case: FamilyPower | None = None
     achieved_mde: float | None = None  # CLEAR only: MDE at the worst-case row's n, at target_power
     recommended_additional_runs: int | None = None  # INCONCLUSIVE only; None if HeterogeneityDominates (more cases needed, not more runs)
+
+    # INCONCLUSIVE with worst_case is None only — the run's own case
+    # coverage, so the verdict can say *why* no family produced an
+    # effect estimate instead of just reporting the absence. Empty when
+    # read from a report saved before cases_per_family was persisted.
+    n_cases_run: int = 0
+    cases_per_family: dict[str, int] = field(default_factory=dict)
+    min_cases_per_family: int = MIN_CASES_FOR_BOOTSTRAP
+
+    @property
+    def underpowered_families(self) -> dict[str, int]:
+        """Families that ran but had too few cases for a paired test —
+        the concrete reason behind an empty-data INCONCLUSIVE."""
+        return {f: n for f, n in self.cases_per_family.items() if n < self.min_cases_per_family}
 
 
 def _family_power_rows(report: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
@@ -190,7 +205,17 @@ def compute_comparison_verdict(
         )
 
     if not powers:
-        return ComparisonVerdict(tier="INCONCLUSIVE", target_power=target_power)
+        # No family produced an effect estimate. Carry the run's own case
+        # coverage through so the message can name the cause (almost
+        # always: too few applicable cases per family for the paired test
+        # to run at all) rather than reporting the absence as if it were
+        # itself the finding.
+        return ComparisonVerdict(
+            tier="INCONCLUSIVE",
+            target_power=target_power,
+            n_cases_run=int(report.get("n_cases") or 0),
+            cases_per_family=dict(report.get("cases_per_family") or {}),
+        )
 
     worst = min(powers, key=lambda p: p.achieved_power)
 

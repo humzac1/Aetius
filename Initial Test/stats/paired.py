@@ -61,6 +61,15 @@ def _bca_z_to_percentile(z0: float, a: float, z: float) -> float:
     return float(norm.cdf(adjusted))
 
 
+# Resampling cases needs at least two of them to resample. Named (rather
+# than a bare `2` inline) because it's the threshold a whole family gets
+# silently dropped at -- compare_families swallows the ValueError below --
+# so tui/verdict_logic.py imports this to explain *why* a verdict has no
+# family data, instead of the number being restated from memory somewhere
+# it can drift out of sync with this guard.
+MIN_CASES_FOR_BOOTSTRAP = 2
+
+
 def cluster_bootstrap_diff(
     data: list[PairedCaseData],
     *,
@@ -104,8 +113,10 @@ def cluster_bootstrap_diff(
     and falls back below 5 cases for the same reason).
     """
     usable = _usable(data)
-    if len(usable) < 2:
-        raise ValueError("cluster_bootstrap_diff needs at least 2 cases with data in both arms")
+    if len(usable) < MIN_CASES_FOR_BOOTSTRAP:
+        raise ValueError(
+            f"cluster_bootstrap_diff needs at least {MIN_CASES_FOR_BOOTSTRAP} cases with data in both arms"
+        )
 
     rng = np.random.default_rng(seed)
     diffs = np.array([d.rate_diff for d in usable])
