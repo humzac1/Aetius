@@ -27,19 +27,22 @@ and tui/screens/credentials.py.
 
 from __future__ import annotations
 
+import sys
+from importlib.metadata import PackageNotFoundError, version as _installed_version
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical
 from textual.screen import Screen
 from textual.widgets import Footer, Header, Label, ListItem, ListView
 
-from config import credentials
+from config import credentials, paths
 
 APP_TITLE = "Caligula"
 
 MENU_ITEMS = [
     ("test_agent", "Test my agent (wizard)"),
-    ("add_environment", "Add environment (from Langfuse)"),
+    ("add_environment", "Add environment"),
     ("view_runs", "View past runs"),
     ("manage_configs", "Manage configs"),
     ("settings", "Settings / exit"),
@@ -132,7 +135,7 @@ class HomeScreen(BaseScreen):
 
             return AddEnvironmentScreen()
         except ImportError:
-            return PlaceholderScreen("Add environment (from Langfuse)")
+            return PlaceholderScreen("Add environment")
 
     def _settings_screen(self) -> Screen:
         try:
@@ -234,9 +237,9 @@ class HarnessApp(App):
 
     def on_mount(self) -> None:
         if credentials.missing_keys():
-            from tui.screens.credentials import CredentialsScreen
+            from tui.screens.credentials import credentials_flow_entry_screen
 
-            self.push_screen(CredentialsScreen(first_run=True, on_complete=self._credentials_complete))
+            self.push_screen(credentials_flow_entry_screen(first_run=True, on_complete=self._credentials_complete))
         else:
             self.push_screen(HomeScreen())
 
@@ -245,16 +248,61 @@ class HarnessApp(App):
         # first reconstructed environment, not an empty Home menu with
         # nothing in it yet -- but Home still goes on the stack underneath
         # (not skipped) so 'b'/'h' from Add Environment land somewhere real,
-        # same invariant every other screen in this app relies on.
+        # same invariant every other screen in this app relies on. Pops
+        # everything the credentials flow pushed (1-3 screens, depending
+        # how many steps actually showed -- see tui/screens/credentials.py),
+        # not just one: a single pop_screen() here would leave earlier
+        # steps sitting on the stack underneath Home.
         from tui.screens.add_environment import AddEnvironmentScreen
 
-        self.pop_screen()
+        while len(self.screen_stack) > 1:
+            self.pop_screen()
         self.push_screen(HomeScreen())
         self.push_screen(AddEnvironmentScreen())
 
 
 def main() -> None:
+    if "--version" in sys.argv[1:]:
+        print(f"caligula {_package_version()}")
+        return
+    if "--where" in sys.argv[1:]:
+        _print_data_locations()
+        return
+    # Before any screen can read a config list: brings data written by a
+    # pre-platformdirs build (which saved into the installed package's own
+    # directory) forward into the stable user data dir, so upgrading
+    # doesn't look like "all my environments disappeared." No-op once
+    # everything's already been copied across. See config/paths.py.
+    for source, destination in paths.migrate_legacy_data():
+        print(f"migrated {source} -> {destination}")
     HarnessApp().run()
+
+
+def _print_data_locations() -> None:
+    """Prints exactly where this install reads and writes everything --
+    the answer to "where did my reconstructed environment go?" without
+    having to guess at a package directory. Deliberately not a TUI screen:
+    it needs to be greppable/scriptable and to work when the TUI can't
+    start at all."""
+    print(f"caligula {_package_version()}")
+    print(f"credentials : {paths.ENV_PATH}")
+    print(f"configs     : {paths.CONFIGS_DIR}")
+    print(f"runs        : {paths.RUNS_DIR}")
+    print(f"traces      : {paths.TRACES_DIR}")
+    print(f"traces (bt) : {paths.TRACES_BRAINTRUST_DIR}")
+
+
+def _package_version() -> str:
+    """Reads the real installed distribution version (importlib.metadata,
+    not a hardcoded string) -- so a specific `caligula-latest.whl` install
+    can actually be identified later even though the download link itself
+    never changes (see scripts/release.sh). Falls back to a clear label
+    rather than crashing when run somewhere caligula was never installed
+    as a package (e.g. `python -m tui.app` against a bare checkout)."""
+    try:
+        return _installed_version("caligula")
+    except PackageNotFoundError:
+        return "unknown (not installed as a package)"
 
 
 if __name__ == "__main__":

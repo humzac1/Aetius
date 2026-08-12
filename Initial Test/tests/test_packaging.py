@@ -44,6 +44,23 @@ def test_caligula_script_file_exists_and_is_executable():
         assert os.access(script_path, os.X_OK), f"{script_path} exists but isn't executable"
 
 
+def test_caligula_version_flag_prints_the_real_installed_version():
+    """Unlike the other subprocess test below, `--version` is expected to
+    exit on its own (not be terminated by us) -- it must never fall
+    through to launching the interactive TUI."""
+    script_path = _script_path()
+    result = subprocess.run(
+        [str(script_path), "--version"],
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert result.returncode == 0
+    expected_version = importlib.metadata.version("caligula")
+    assert result.stdout.strip() == f"caligula {expected_version}"
+
+
 def test_caligula_script_actually_launches_a_process_not_command_not_found():
     """The exact failure this reproduces: running the script by path
     (bypassing shell PATH lookup entirely) must start a real OS process.
@@ -72,3 +89,25 @@ def test_caligula_script_actually_launches_a_process_not_command_not_found():
         except subprocess.TimeoutExpired:
             proc.kill()
             proc.wait(timeout=3)
+
+
+def test_wheel_does_not_ship_saved_configs():
+    # target_system/configs/ was DEFAULT_CONFIGS_DIR before configs moved
+    # to the platformdirs user data dir, so whatever a developer had saved
+    # locally got swept into the build: the first 0.1.0 wheel shipped 19,
+    # including real reconstructed customer environments (homepilot tool
+    # names and observed argument/response profiles from live Braintrust
+    # traces). Nothing under that path belongs in a distributed artifact.
+    import zipfile
+    from pathlib import Path
+
+    wheels = sorted((Path(__file__).parent.parent / "dist").glob("caligula-*.whl"))
+    if not wheels:
+        pytest.skip("no built wheel in dist/ — run scripts/release.sh first")
+
+    with zipfile.ZipFile(wheels[-1]) as wheel:
+        names = wheel.namelist()
+    assert not [n for n in names if n.startswith("target_system/configs/")]
+    # ...while the genuine read-only package resources are still shipped.
+    assert "target_system/policy.yaml" in names
+    assert any(n.startswith("target_system/corpus/") for n in names)

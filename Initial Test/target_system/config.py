@@ -1,7 +1,8 @@
 """The single versioned config object that drives every knob of the target
 system. Every run's trajectory log references a config only by its content
 hash (see compute_config_hash) — the resolved config itself is persisted
-once to target_system/configs/<hash>.json so it can be looked up later.
+once to <user data dir>/configs/<hash>.json so it can be looked up later
+(config/paths.py resolves that, and explains why it isn't package-relative).
 
 Design choices that matter downstream:
   - AgentSpec.system_prompt is the fully resolved prompt text, not a
@@ -32,17 +33,28 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from config import paths
 from target_system.provenance import ReconstructionProvenance
 
 CONFIG_SCHEMA_VERSION = "1.0"
 
-DEFAULT_CONFIGS_DIR = Path(__file__).parent / "configs"
+DEFAULT_CONFIGS_DIR = paths.CONFIGS_DIR
 
 
 class ModelConfig(BaseModel):
     provider: Literal["anthropic", "mock"]
     model_name: str
-    temperature: float = 0.0
+    # None means "not pinned" -- omitted from the API call entirely, so the
+    # provider's own default applies. Reconstruction never observes a real
+    # temperature from trace data (Braintrust/Langfuse don't record sampling
+    # params), so a reconstructed config leaves this None rather than
+    # fabricating 0.0; some real models (e.g. claude-opus-4-8, confirmed via
+    # a real Braintrust-reconstructed end-to-end run) reject an explicit
+    # temperature outright with a 400 "temperature is deprecated for this
+    # model" error, so fabricating a value here isn't just inaccurate, it's
+    # actively unsafe to send. The toy system (target_system/factory.py)
+    # still pins 0.0 explicitly for its own determinism.
+    temperature: float | None = 0.0
     max_tokens: int = 2048
     # Passed through to the API where supported (Anthropic does not expose a
     # sampling seed today, but this stays wired through the config/adapter

@@ -169,7 +169,7 @@ def _build_model_config(traces: list[dict[str, Any]], *, warnings: list[str]) ->
 
     if not model_names:
         warnings.append("no GENERATION observations with a model name found — model_name defaults to 'unknown'")
-        return ModelConfig(provider="anthropic", model_name="unknown")
+        return ModelConfig(provider="anthropic", model_name="unknown", temperature=None)
 
     if len(model_names) > 1:
         breakdown = ", ".join(f"{name} ({count})" for name, count in model_names.most_common())
@@ -178,7 +178,7 @@ def _build_model_config(traces: list[dict[str, Any]], *, warnings: list[str]) ->
             f"possible drift or multiple app versions in the batch; using the most common"
         )
     dominant_model = model_names.most_common(1)[0][0]
-    return ModelConfig(provider="anthropic", model_name=dominant_model)
+    return ModelConfig(provider="anthropic", model_name=dominant_model, temperature=None)
 
 
 @dataclass(frozen=True)

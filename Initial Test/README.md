@@ -42,16 +42,25 @@ Anyone without git/SSH access set up can instead be handed a built wheel
 (`uv build --wheel`, from inside `Initial Test/`) and run
 `pipx install caligula-<version>-py3-none-any.whl` the same way.
 
-On first launch, `caligula` asks for `ANTHROPIC_API_KEY`,
-`LANGFUSE_SECRET_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_BASE_URL`, and
-`LANGFUSE_PROJECT_ID` (each validated against the real service before
-anything is saved — see `config/credentials.py`) and stores them at a
-user-level config location (`platformdirs.user_config_dir("caligula")`,
-e.g. `~/.config/caligula/.env` on Linux/macOS) — never in the repo. Real
-environment variables (`export ANTHROPIC_API_KEY=...`, a CI environment,
-etc.) always take priority over that file and skip the prompt entirely,
-so a dev/CI workflow is never forced through the interactive screen. Edit
-saved credentials any time from the TUI's Settings menu.
+On first launch, `caligula` walks through 3 steps: an `ANTHROPIC_API_KEY`
+(always required), a trace-source pick (Langfuse or Braintrust — pick
+whichever your real agent's traces are actually logged to), then only
+that source's own fields (Langfuse: `LANGFUSE_SECRET_KEY`,
+`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_BASE_URL`, `LANGFUSE_PROJECT_ID`;
+Braintrust: `BRAINTRUST_API_KEY`, `BRAINTRUST_PROJECT_NAME` — see
+`ingestion/braintrust_client.py`'s module docstring for what was
+actually investigated to arrive at just these two). Everything is
+validated against the real service before anything is saved (see
+`config/credentials.py`) and stored at a user-level config location
+(`platformdirs.user_config_dir("caligula")`, e.g. `~/.config/caligula/.env`
+on Linux/macOS) — never in the repo. Real environment variables
+(`export ANTHROPIC_API_KEY=...`, a CI environment, etc.) always take
+priority over that file and skip the corresponding step entirely, so a
+dev/CI workflow is never forced through the interactive screen. Edit
+saved credentials — including switching which trace source is
+configured — any time from the TUI's Settings menu. Only one trace
+source is active at a time by design (see `config/credentials.py`'s
+module docstring); nothing downstream can use two at once yet.
 
 ### From a source checkout (development)
 
@@ -72,6 +81,55 @@ Run the test suite:
 ```bash
 .venv/bin/python -m pytest tests/ -q
 ```
+
+## Releasing a wheel
+
+Self-hosted, no PyPI involved — build a wheel, stage it at a stable
+filename, host that file wherever (a private file share, S3, whatever you
+already use for the private repo). From a source checkout:
+
+```bash
+scripts/release.sh
+```
+
+Builds `dist/caligula-<version>-py3-none-any.whl` (kept for records, one
+per version) via `uv build --wheel`, then copies it to the stable,
+version-less `release/caligula-latest.whl` — that second file is what you
+actually host/link; its name never changes between releases even though
+its content does. The `[dashboard]` extra split holds all the way through
+the built artifact (checked, not assumed — the wheel's own METADATA lists
+`streamlit`/`plotly` only under `extra == 'dashboard'`), so a plain
+install of it never needs streamlit/plotly/pyarrow.
+
+**Installing `caligula-latest.whl` needs one extra step, and it's not
+optional.** `pip`/`pipx` validate that a wheel's *filename itself* is a
+real PEP 427 name (`name-version-pytag-abitag-platformtag.whl`) before
+looking at its contents — confirmed for real, not assumed:
+`pipx install release/caligula-latest.whl --force` fails outright with
+`Invalid wheel filename`, and plain `pip install` on the identical file
+fails the same way. There's no supported override; a stable-named `.whl`
+file can never be installed by that literal name. `scripts/install_latest.sh`
+handles this — it reads the real name out of the wheel's own
+`*.dist-info` metadata, copies to a spec-compliant temp filename, and
+installs *that*:
+
+```bash
+scripts/install_latest.sh                                    # local file (release/caligula-latest.whl)
+scripts/install_latest.sh https://your-host/caligula-latest.whl  # or a URL — downloads first
+```
+
+Verify any install (this one or a manual one) with `caligula --version`,
+which prints the real installed version via `importlib.metadata`, not a
+hardcoded string — useful for confirming which build is actually running
+when the download link itself never changes.
+
+Confirmed end-to-end for real (not just that `uv build` exits 0): ran
+`scripts/release.sh`, inspected the built wheel's `METADATA` to confirm
+`streamlit`/`plotly` are gated behind the `dashboard` extra, then ran
+`scripts/install_latest.sh` into a clean `pipx` state
+(`pipx uninstall caligula` first), confirmed `caligula --version` resolves
+in a brand-new shell, and confirmed streamlit/pyarrow are genuinely absent
+from that installed venv's `site-packages`.
 
 ## Project layout
 

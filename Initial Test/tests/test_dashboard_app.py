@@ -5,10 +5,17 @@ preset CLI runs) and checks it renders without exceptions, plus a few
 specific behaviors the build spec called out explicitly (flagged-case
 default, multi-turn turn boundaries, evidence marking).
 
-These depend on this repo's actual backfilled data/runs/ files existing —
-skipped if they don't, rather than failing, since generating them takes
-real (if cheap, mock-backend) computation that shouldn't run as a side
-effect of `pytest`.
+These depend on actual backfilled run artifacts existing — skipped if they
+don't, rather than failing, since generating them takes real (if cheap,
+mock-backend) computation that shouldn't run as a side effect of `pytest`.
+
+The dashboard reads config.paths.RUNS_DIR (a platformdirs user data
+location, not this repo), so the guard below checks *that* directory —
+checking the repo's own data/runs/ would skip or run based on files the app
+under test never opens. To run these against this checkout's backfilled
+fixtures, point the app at them:
+
+    CALIGULA_DATA_DIR="$PWD/data" pytest tests/test_dashboard_app.py
 """
 
 from pathlib import Path
@@ -16,8 +23,10 @@ from pathlib import Path
 import pytest
 from streamlit.testing.v1 import AppTest
 
+from config import paths
+
 APP_PATH = Path(__file__).parent.parent / "dashboard" / "app.py"
-RUNS_DIR = Path(__file__).parent.parent / "data" / "runs"
+RUNS_DIR = paths.RUNS_DIR
 
 pytestmark = pytest.mark.skipif(
     not (RUNS_DIR / "known_regression_report.json").exists(),

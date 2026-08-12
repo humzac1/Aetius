@@ -30,6 +30,7 @@ from typing import Any, Callable
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
 from attacker.executor import execute_case
+from config import paths
 from experiments.mock_policy import build_mock_scripts
 from experiments.presets import ArmSpec
 from stats.multiple_comparisons import FamilyResult, compare_families
@@ -40,7 +41,7 @@ from target_system.logging_schema import RunRecord, append_run_record, read_run_
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_RUNS_DIR = Path(__file__).parent.parent / "data" / "runs"
+DEFAULT_RUNS_DIR = paths.RUNS_DIR
 
 OUTCOME_KEYS = ["exfiltration", "exfiltration_attempted", "unauthorized_lookup", "unauthorized_lookup_attempted"]
 
@@ -95,18 +96,42 @@ class CacheIndex:
         self.records.append(record)
 
 
-def build_paired_data(records: list[RunRecord], arm_a_label: str, arm_b_label: str, outcome_key: str) -> list[PairedCaseData]:
-    by_case_arm: dict[tuple[str, str | None], list[RunRecord]] = defaultdict(list)
+def build_paired_data(
+    records: list[RunRecord], arm_a_hash: str, arm_a_label: str, arm_b_hash: str, arm_b_label: str, outcome_key: str
+) -> list[PairedCaseData]:
+    """Groups by (case_id, config_hash, arm) — record.arm alone isn't a
+    reliable arm identity: reconstruction defaults a config's label (what
+    record.arm is set to, see run_experiment) to its workflow_name/
+    agent_name, so two genuinely different reconstructions of the same
+    real workflow (a legitimate before/after regression check, e.g.
+    re-pulled a week apart with real behavior drift) can silently share a
+    label — config_hash (content-only, see compute_config_hash) tells
+    them apart, since it's guaranteed to differ whenever anything about
+    the resolved config actually differs.
+
+    config_hash alone isn't sufficient either: it deliberately excludes
+    label (see _canonical_json), so a genuine AA-equivalence check
+    comparing a config to itself (see format_experiment_report's "both
+    arms resolved to the same config_hash" note — an intentional,
+    already-supported case) has arm_a_hash == arm_b_hash by design, and
+    hash-only keying would silently re-merge that scenario's two arms
+    right back into the same bug this is fixing, just at the hash level
+    instead of the label level. (config_hash, label) together correctly
+    separates both failure modes while preserving the same-hash AA-check
+    case, as long as its two arms are given distinct labels — the
+    caller's responsibility, same as it already is for run_experiment's
+    arm_a/arm_b needing to be distinguishable at all."""
+    by_case_arm: dict[tuple[str, str, str | None], list[RunRecord]] = defaultdict(list)
     family_by_case: dict[str, str] = {}
     for r in records:
-        by_case_arm[(r.case_id, r.arm)].append(r)
+        by_case_arm[(r.case_id, r.config_hash, r.arm)].append(r)
         if r.case_family:
             family_by_case[r.case_id] = r.case_family
 
     paired = []
-    for case_id in sorted({cid for cid, _arm in by_case_arm}):
-        recs_a = sorted(by_case_arm.get((case_id, arm_a_label), []), key=lambda r: r.seed)
-        recs_b = sorted(by_case_arm.get((case_id, arm_b_label), []), key=lambda r: r.seed)
+    for case_id in sorted({cid for cid, _hash, _arm in by_case_arm}):
+        recs_a = sorted(by_case_arm.get((case_id, arm_a_hash, arm_a_label), []), key=lambda r: r.seed)
+        recs_b = sorted(by_case_arm.get((case_id, arm_b_hash, arm_b_label), []), key=lambda r: r.seed)
         if not recs_a or not recs_b:
             continue
         outcomes_a = tuple(int(bool(r.outcomes.get(outcome_key, False))) for r in recs_a)
@@ -120,8 +145,48 @@ def build_paired_data(records: list[RunRecord], arm_a_label: str, arm_b_label: s
     return paired
 
 
-def _task_success_rate(records: list[RunRecord], arm_label: str) -> float:
-    relevant = [r for r in records if r.arm == arm_label]
+ARM_A_SUFFIX = " (arm A)"
+ARM_B_SUFFIX = " (arm B)"
+
+
+def disambiguate_arm_labels(
+    config_a: SystemConfig, config_b: SystemConfig, hash_a: str, hash_b: str
+) -> tuple[str, str]:
+    """The two arms' labels, guaranteed to key distinctly in
+    build_paired_data.
+
+    build_paired_data keys an arm on (config_hash, label), and its
+    docstring notes the same-hash A/A case only works "as long as its two
+    arms are given distinct labels — the caller's responsibility." No
+    caller ever did: tui/screens/wizard.py's ConfigPickerScreen happily
+    lets the same saved environment be picked twice, and
+    tui/execution.py's run_comparison_check passes both configs straight
+    through, so both arms arrived with identical hash AND identical label.
+    build_paired_data then read both arms out of the same bucket: arm_a
+    and arm_b became the *same records*, n doubled, and every case's
+    rate_diff was pinned at exactly 0.0 regardless of what the runs did —
+    a structural false CLEAR rather than a real A/A result. run_experiment
+    also queued both identical jobs, paying twice for one arm's worth of
+    real API calls.
+
+    Only the same-hash case is rewritten. Same label with *different*
+    hashes is the separate collision build_paired_data's docstring
+    describes (two reconstructions of one workflow both defaulting their
+    label to the agent name); (hash, label) already separates those
+    correctly, and renaming them here would paper over the very condition
+    test_run_experiment_separates_same_label_configs_by_config_hash exists
+    to keep exercising. Everything else passes through untouched, so
+    ordinary comparisons keep matching their already-cached records."""
+    if hash_a != hash_b or config_a.label != config_b.label:
+        return config_a.label, config_b.label
+    return f"{config_a.label}{ARM_A_SUFFIX}", f"{config_b.label}{ARM_B_SUFFIX}"
+
+
+def _task_success_rate(records: list[RunRecord], config_hash: str, arm_label: str) -> float:
+    # (config_hash, arm_label) together, not arm_label alone — see
+    # build_paired_data's docstring for why label alone can't tell two
+    # arms apart.
+    relevant = [r for r in records if r.config_hash == config_hash and r.arm == arm_label]
     if not relevant:
         return float("nan")
     return sum(1 for r in relevant if r.outcomes.get("task_success")) / len(relevant)
@@ -185,9 +250,9 @@ def run_experiment(
                 f"got provider={config.model.provider!r}"
             )
 
-    label_a, label_b = config_a.label, config_b.label
     hash_a = save_config(config_a)
     hash_b = save_config(config_b)
+    label_a, label_b = disambiguate_arm_labels(config_a, config_b, hash_a, hash_b)
     logger.info("arm %s -> %s, arm %s -> %s", label_a, hash_a, label_b, hash_b)
 
     runs_path = runs_dir / f"{experiment_name}.jsonl"
@@ -233,7 +298,7 @@ def run_experiment(
 
     family_results: dict[str, list[FamilyResult]] = {}
     for outcome_key in outcome_keys:
-        paired = build_paired_data(cache.records, label_a, label_b, outcome_key)
+        paired = build_paired_data(cache.records, hash_a, label_a, hash_b, label_b, outcome_key)
         family_results[outcome_key] = compare_families(
             paired, method=stats_method, alpha=alpha, method_kwargs=method_kwargs
         )
@@ -249,7 +314,7 @@ def run_experiment(
         n_cached=n_cached,
         n_executed=len(jobs),
         family_results=family_results,
-        task_success_a=_task_success_rate(cache.records, label_a),
-        task_success_b=_task_success_rate(cache.records, label_b),
+        task_success_a=_task_success_rate(cache.records, hash_a, label_a),
+        task_success_b=_task_success_rate(cache.records, hash_b, label_b),
         records=cache.records,
     )

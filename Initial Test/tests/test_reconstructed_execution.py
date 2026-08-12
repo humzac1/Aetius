@@ -1,9 +1,13 @@
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Any
 
 import pytest
+from agno.agent import Agent
+from agno.run.base import RunStatus
 
 from target_system.config import AgentSpec, ModelConfig, SecurityConfig, SystemConfig
+from target_system.logging_schema import ErrorEvent
 from target_system.mock_model import MockStep, MockToolCall
 from target_system.policy import TaskContext
 from target_system.provenance import ArgumentProfile, ObservedToolCall, ReconstructionProvenance, ToolBehaviorProfile
@@ -187,6 +191,36 @@ def test_run_reconstructed_case_records_error_on_exception(monkeypatch):
     assert "simulated API failure" in record.error
     assert any(e.type == "error" for e in record.events)
     assert any(e.type == "error" for e in record.events)
+
+
+@dataclass
+class _FakeErrorResult:
+    """Duck-types just enough of Agno's RunOutput for _build_solo_events /
+    _build_token_usage_solo to run without raising. Regression: confirmed
+    for real during the Braintrust E2E validation that Agent.run() can
+    swallow a provider error (a 400 "credit balance too low", the same
+    general shape as an exhausted 429 retry budget) and return it as a
+    normal, non-raising result with status=RunStatus.error and .content
+    set to the stringified error -- not as a raised exception, so the
+    try/except above (test_run_reconstructed_case_records_error_on_exception)
+    never catches it. Before _provider_error_message (target_system/
+    orchestration.py) existed, this got scored task_success=True from an
+    error string, with record.error left None."""
+
+    content: str = "Error code: 400 - credit balance too low"
+    status: RunStatus = RunStatus.error
+    tools: list = field(default_factory=list)
+    metrics: Any = None
+
+
+def test_run_reconstructed_case_records_error_on_provider_error_status(monkeypatch):
+    monkeypatch.setattr(Agent, "run", lambda self, *a, **k: _FakeErrorResult())
+    config = _reconstructed_config(tools=[])
+    record = run_reconstructed_case(config, "do something", case_id="c1", task_context=TaskContext(task_id="c1"), seed=0)
+    assert record.error is not None
+    assert "credit balance too low" in record.error
+    assert any(isinstance(e, ErrorEvent) for e in record.events)
+    assert record.outcomes["task_success"] is False
 
 
 # --- multi-turn ----------------------------------------------------------
