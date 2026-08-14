@@ -15,7 +15,7 @@ checking the repo's own data/runs/ would skip or run based on files the app
 under test never opens. To run these against this checkout's backfilled
 fixtures, point the app at them:
 
-    CALIGULA_DATA_DIR="$PWD/data" pytest tests/test_dashboard_app.py
+    AETIUS_DATA_DIR="$PWD/data" pytest tests/test_dashboard_app.py
 """
 
 from pathlib import Path

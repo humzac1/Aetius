@@ -1,4 +1,4 @@
-"""Entry point: `caligula` (console script, see pyproject.toml's
+"""Entry point: `aetius` (console script, see pyproject.toml's
 [project.scripts]) or `python -m tui.app`. This module owns only
 navigation scaffolding (the App subclass, BaseScreen's back/home/quit
 bindings, and the top-level menu) — every screen it pushes does its own
@@ -38,7 +38,7 @@ from textual.widgets import Footer, Header, Label, ListItem, ListView
 
 from config import credentials, paths
 
-APP_TITLE = "Caligula"
+APP_TITLE = "Aetius"
 
 MENU_ITEMS = [
     ("test_agent", "Test my agent (wizard)"),
@@ -263,7 +263,7 @@ class HarnessApp(App):
 
 def main() -> None:
     if "--version" in sys.argv[1:]:
-        print(f"caligula {_package_version()}")
+        print(f"aetius {_package_version()}")
         return
     if "--where" in sys.argv[1:]:
         _print_data_locations()
@@ -284,7 +284,7 @@ def _print_data_locations() -> None:
     having to guess at a package directory. Deliberately not a TUI screen:
     it needs to be greppable/scriptable and to work when the TUI can't
     start at all."""
-    print(f"caligula {_package_version()}")
+    print(f"aetius {_package_version()}")
     print(f"credentials : {paths.ENV_PATH}")
     print(f"configs     : {paths.CONFIGS_DIR}")
     print(f"runs        : {paths.RUNS_DIR}")
@@ -294,13 +294,13 @@ def _print_data_locations() -> None:
 
 def _package_version() -> str:
     """Reads the real installed distribution version (importlib.metadata,
-    not a hardcoded string) -- so a specific `caligula-latest.whl` install
+    not a hardcoded string) -- so a specific `aetius-latest.whl` install
     can actually be identified later even though the download link itself
     never changes (see scripts/release.sh). Falls back to a clear label
-    rather than crashing when run somewhere caligula was never installed
+    rather than crashing when run somewhere aetius was never installed
     as a package (e.g. `python -m tui.app` against a bare checkout)."""
     try:
-        return _installed_version("caligula")
+        return _installed_version("aetius")
     except PackageNotFoundError:
         return "unknown (not installed as a package)"
 

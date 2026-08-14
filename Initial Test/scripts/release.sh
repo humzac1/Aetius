@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Builds a self-hosted wheel for caligula -- no PyPI involved. Produces:
-#   dist/caligula-<version>-py3-none-any.whl   (versioned, kept for records)
-#   release/caligula-latest.whl                (stable filename -- this is
+# Builds a self-hosted wheel for aetius -- no PyPI involved. Produces:
+#   dist/aetius-<version>-py3-none-any.whl   (versioned, kept for records)
+#   release/aetius-latest.whl                (stable filename -- this is
 #                                                the one to actually host/link)
 #
 # The core wheel only ever requires the base [project.dependencies] list --
@@ -18,14 +18,14 @@ cd "$PROJECT_ROOT"
 
 DIST_DIR="$PROJECT_ROOT/dist"
 RELEASE_DIR="$PROJECT_ROOT/release"
-STABLE_PATH="$RELEASE_DIR/caligula-latest.whl"
+STABLE_PATH="$RELEASE_DIR/aetius-latest.whl"
 
 echo "Building wheel from $PROJECT_ROOT..."
 uv build --wheel --clear -o "$DIST_DIR"
 
-WHEEL_PATH="$(ls -t "$DIST_DIR"/caligula-*-py3-none-any.whl 2>/dev/null | head -n1)"
+WHEEL_PATH="$(ls -t "$DIST_DIR"/aetius-*-py3-none-any.whl 2>/dev/null | head -n1)"
 if [ -z "$WHEEL_PATH" ]; then
-    echo "error: no caligula-*-py3-none-any.whl found in $DIST_DIR after build" >&2
+    echo "error: no aetius-*-py3-none-any.whl found in $DIST_DIR after build" >&2
     exit 1
 fi
 
@@ -37,4 +37,4 @@ echo "Versioned (kept for records): $WHEEL_PATH"
 echo "Stable filename (host this):  $STABLE_PATH"
 echo
 echo "Install with:  pipx install $STABLE_PATH --force"
-echo "Verify with:   caligula --version"
+echo "Verify with:   aetius --version"

@@ -248,12 +248,12 @@ def test_version_flag_prints_version_and_never_launches_the_app(monkeypatch, cap
         raise AssertionError("--version must not construct/run HarnessApp")
 
     monkeypatch.setattr(app_module, "HarnessApp", _fail_if_constructed)
-    monkeypatch.setattr(sys, "argv", ["caligula", "--version"])
+    monkeypatch.setattr(sys, "argv", ["aetius", "--version"])
 
     app_module.main()
 
     out = capsys.readouterr().out
-    assert out.strip() == f"caligula {app_module._package_version()}"
+    assert out.strip() == f"aetius {app_module._package_version()}"
 
 
 def test_version_flag_falls_back_gracefully_when_not_installed_as_a_package(monkeypatch, capsys):
@@ -266,10 +266,10 @@ def test_version_flag_falls_back_gracefully_when_not_installed_as_a_package(monk
         raise PackageNotFoundError(name)
 
     monkeypatch.setattr(app_module, "_installed_version", _raise_not_found)
-    monkeypatch.setattr(sys, "argv", ["caligula", "--version"])
+    monkeypatch.setattr(sys, "argv", ["aetius", "--version"])
 
     app_module.main()
 
     out = capsys.readouterr().out
-    assert "caligula" in out
+    assert "aetius" in out
     assert "unknown" in out.lower()

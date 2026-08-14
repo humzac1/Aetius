@@ -1,4 +1,4 @@
-"""Resolves, validates, and persists Caligula's credentials: an always-
+"""Resolves, validates, and persists Aetius's credentials: an always-
 required ANTHROPIC_API_KEY, plus TRACE_SOURCE ("langfuse" or "braintrust")
 and whichever fields *that* source needs. Real environment variables
 always win -- resolve_all/resolve_one check os.environ before ever

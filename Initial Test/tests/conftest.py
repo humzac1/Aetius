@@ -27,7 +27,7 @@ from config.credentials import ANTHROPIC_KEY, LANGFUSE_FIELDS, TRACE_SOURCE_KEY
 @pytest.fixture(autouse=True)
 def _isolate_real_credentials_file(monkeypatch, tmp_path):
     """No test should ever read or write the real per-user credentials
-    file (platformdirs.user_config_dir("caligula")/.env) -- confirmed the
+    file (platformdirs.user_config_dir("aetius")/.env) -- confirmed the
     hard way: config/credentials.py's functions default env_path to
     config.paths.ENV_PATH when not given one explicitly, and a stray real
     file from earlier manual testing this session silently made

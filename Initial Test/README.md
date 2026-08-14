@@ -10,25 +10,25 @@ where the ground truth is under our own control.
 
 ## Setup
 
-### As the `caligula` command (recommended)
+### As the `aetius` command (recommended)
 
 ```bash
 brew install pipx && pipx ensurepath   # one-time, skip if pipx is already set up
 GIT_SSH_COMMAND="ssh -i ~/.ssh/caligula_deploy_key -o IdentitiesOnly=yes" \
   pipx install "git+ssh://git@github.com/humzac1/Caligula.git#subdirectory=Initial Test"
-caligula
+aetius
 ```
 
 **Why `pipx`, not `pip install` into a venv:** a plain `pip install` puts
-`caligula` on `PATH` only inside whatever venv it was installed into —
+`aetius` on `PATH` only inside whatever venv it was installed into —
 this genuinely broke in practice (`source .venv/bin/activate` typed
-slightly wrong, or skipped, and `caligula` "isn't found" in a fresh
+slightly wrong, or skipped, and `aetius` "isn't found" in a fresh
 terminal, even though the script really is sitting in that venv's
 `bin/`). `pipx` builds its own isolated environment per package *and*
 symlinks the command into a directory it puts on `PATH` for you
 (`~/.local/bin` — `pipx ensurepath` sets this up once) — no activation
 step, ever. Verified for real: a fresh `pipx install` from this repo
-followed by plain `caligula` in a brand-new shell (`zsh -l`, sourcing
+followed by plain `aetius` in a brand-new shell (`zsh -l`, sourcing
 real dotfiles, no inherited activation) resolves and runs.
 
 If your machine's default `python3` is newer than this project has
@@ -40,9 +40,9 @@ read-only SSH key added under the repo's Settings -> Deploy keys), not a
 personal token — hand that key file to whoever needs to install it.
 Anyone without git/SSH access set up can instead be handed a built wheel
 (`uv build --wheel`, from inside `Initial Test/`) and run
-`pipx install caligula-<version>-py3-none-any.whl` the same way.
+`pipx install aetius-<version>-py3-none-any.whl` the same way.
 
-On first launch, `caligula` walks through 3 steps: an `ANTHROPIC_API_KEY`
+On first launch, `aetius` walks through 3 steps: an `ANTHROPIC_API_KEY`
 (always required), a trace-source pick (Langfuse or Braintrust — pick
 whichever your real agent's traces are actually logged to), then only
 that source's own fields (Langfuse: `LANGFUSE_SECRET_KEY`,
@@ -52,7 +52,7 @@ Braintrust: `BRAINTRUST_API_KEY`, `BRAINTRUST_PROJECT_NAME` — see
 actually investigated to arrive at just these two). Everything is
 validated against the real service before anything is saved (see
 `config/credentials.py`) and stored at a user-level config location
-(`platformdirs.user_config_dir("caligula")`, e.g. `~/.config/caligula/.env`
+(`platformdirs.user_config_dir("aetius")`, e.g. `~/.config/aetius/.env`
 on Linux/macOS) — never in the repo. Real environment variables
 (`export ANTHROPIC_API_KEY=...`, a CI environment, etc.) always take
 priority over that file and skip the corresponding step entirely, so a
@@ -92,20 +92,20 @@ already use for the private repo). From a source checkout:
 scripts/release.sh
 ```
 
-Builds `dist/caligula-<version>-py3-none-any.whl` (kept for records, one
+Builds `dist/aetius-<version>-py3-none-any.whl` (kept for records, one
 per version) via `uv build --wheel`, then copies it to the stable,
-version-less `release/caligula-latest.whl` — that second file is what you
+version-less `release/aetius-latest.whl` — that second file is what you
 actually host/link; its name never changes between releases even though
 its content does. The `[dashboard]` extra split holds all the way through
 the built artifact (checked, not assumed — the wheel's own METADATA lists
 `streamlit`/`plotly` only under `extra == 'dashboard'`), so a plain
 install of it never needs streamlit/plotly/pyarrow.
 
-**Installing `caligula-latest.whl` needs one extra step, and it's not
+**Installing `aetius-latest.whl` needs one extra step, and it's not
 optional.** `pip`/`pipx` validate that a wheel's *filename itself* is a
 real PEP 427 name (`name-version-pytag-abitag-platformtag.whl`) before
 looking at its contents — confirmed for real, not assumed:
-`pipx install release/caligula-latest.whl --force` fails outright with
+`pipx install release/aetius-latest.whl --force` fails outright with
 `Invalid wheel filename`, and plain `pip install` on the identical file
 fails the same way. There's no supported override; a stable-named `.whl`
 file can never be installed by that literal name. `scripts/install_latest.sh`
@@ -114,11 +114,11 @@ handles this — it reads the real name out of the wheel's own
 installs *that*:
 
 ```bash
-scripts/install_latest.sh                                    # local file (release/caligula-latest.whl)
-scripts/install_latest.sh https://your-host/caligula-latest.whl  # or a URL — downloads first
+scripts/install_latest.sh                                    # local file (release/aetius-latest.whl)
+scripts/install_latest.sh https://your-host/aetius-latest.whl  # or a URL — downloads first
 ```
 
-Verify any install (this one or a manual one) with `caligula --version`,
+Verify any install (this one or a manual one) with `aetius --version`,
 which prints the real installed version via `importlib.metadata`, not a
 hardcoded string — useful for confirming which build is actually running
 when the download link itself never changes.
@@ -127,7 +127,7 @@ Confirmed end-to-end for real (not just that `uv build` exits 0): ran
 `scripts/release.sh`, inspected the built wheel's `METADATA` to confirm
 `streamlit`/`plotly` are gated behind the `dashboard` extra, then ran
 `scripts/install_latest.sh` into a clean `pipx` state
-(`pipx uninstall caligula` first), confirmed `caligula --version` resolves
+(`pipx uninstall aetius` first), confirmed `aetius --version` resolves
 in a brand-new shell, and confirmed streamlit/pyarrow are genuinely absent
 from that installed venv's `site-packages`.
 
@@ -176,7 +176,7 @@ from that installed venv's `site-packages`.
 
 Internal regression-baseline tooling for developing this repo, run against
 the toy target system from a source checkout — not reachable from the
-shipped `caligula` command (see "Using the TUI" below).
+shipped `aetius` command (see "Using the TUI" below).
 
 ```bash
 .venv/bin/python -m experiments.cli list-presets
@@ -303,7 +303,7 @@ it automatically based on `AttackCase.injection_vector` — nothing in
 
 Needs the `dashboard` extra (`uv pip install -e ".[dashboard]"` — already
 included if you installed `.[dev,dashboard]` above); it's kept out of the
-base `caligula` install since nothing the command itself reaches needs
+base `aetius` install since nothing the command itself reaches needs
 streamlit/plotly (see pyproject.toml).
 
 ```bash
@@ -357,7 +357,7 @@ hasn't been run yet).
 ## Using the TUI
 
 ```bash
-caligula
+aetius
 # or, from a source checkout:
 .venv/bin/python -m tui.app
 ```

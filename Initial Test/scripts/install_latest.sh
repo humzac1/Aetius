@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Installs release/caligula-latest.whl (see scripts/release.sh) via pipx.
+# Installs release/aetius-latest.whl (see scripts/release.sh) via pipx.
 #
-# caligula-latest.whl is a stable *filename* for hosting/linking, but
+# aetius-latest.whl is a stable *filename* for hosting/linking, but
 # pip/pipx require an actual PEP 427 wheel filename
 # (name-version-pytag-abitag-platformtag.whl) to install anything from --
-# verified for real, not assumed: `pipx install .../caligula-latest.whl`
+# verified for real, not assumed: `pipx install .../aetius-latest.whl`
 # fails outright with "Invalid wheel filename" (plain `pip install` on the
 # same file fails identically, so this isn't a pipx quirk). This script
 # copies the stable file to a spec-compliant temporary filename -- read
@@ -12,14 +12,14 @@
 # can't drift from whatever version was actually built -- and installs
 # that instead.
 #
-# Usage: scripts/install_latest.sh [path-or-url-to-caligula-latest.whl]
-#   (defaults to release/caligula-latest.whl next to this script)
+# Usage: scripts/install_latest.sh [path-or-url-to-aetius-latest.whl]
+#   (defaults to release/aetius-latest.whl next to this script)
 set -euo pipefail
 
-SRC="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/release/caligula-latest.whl}"
+SRC="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/release/aetius-latest.whl}"
 
 if [[ "$SRC" == http://* || "$SRC" == https://* ]]; then
-    TMP_DOWNLOAD="$(mktemp -d)/caligula-latest.whl"
+    TMP_DOWNLOAD="$(mktemp -d)/aetius-latest.whl"
     echo "Downloading $SRC..."
     curl -fsSL "$SRC" -o "$TMP_DOWNLOAD"
     SRC="$TMP_DOWNLOAD"

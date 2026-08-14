@@ -220,7 +220,7 @@ class AnthropicStepScreen(_FormStepScreen):
             first_run=first_run,
             step_title="Set up credentials" if first_run else "Credentials",
             intro=(
-                "Caligula needs an Anthropic key to run attacks, and a trace source to pull real agent traces "
+                "Aetius needs an Anthropic key to run attacks, and a trace source to pull real agent traces "
                 "from. Values are validated against the real service, then saved locally -- never sent anywhere else."
                 if first_run
                 else None

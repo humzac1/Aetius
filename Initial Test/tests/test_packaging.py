@@ -1,8 +1,8 @@
-"""Regression coverage for the `caligula` console-script entry point
+"""Regression coverage for the `aetius` console-script entry point
 itself (pyproject.toml's [project.scripts]) — not just that tui.app.main
 is importable and callable, which would pass even if the packaging
 metadata were wrong (e.g. a typo in the entry-point target, or
-[project.scripts] missing entirely) and `caligula` resolved to "command
+[project.scripts] missing entirely) and `aetius` resolved to "command
 not found" in a real terminal after a real `pip install`, as happened
 before this test existed. These checks run against whatever environment
 pytest itself is running under, so they're only meaningful after that
@@ -20,21 +20,23 @@ import sys
 import sysconfig
 from pathlib import Path
 
+import pytest
+
 
 def _script_path() -> Path:
     script_dir = Path(sysconfig.get_path("scripts"))
-    name = "caligula.exe" if sys.platform == "win32" else "caligula"
+    name = "aetius.exe" if sys.platform == "win32" else "aetius"
     return script_dir / name
 
 
-def test_caligula_is_registered_as_a_console_script_entry_point():
+def test_aetius_is_registered_as_a_console_script_entry_point():
     entry_points = importlib.metadata.entry_points(group="console_scripts")
-    matches = [ep for ep in entry_points if ep.name == "caligula"]
-    assert matches, "no 'caligula' console_scripts entry point registered — check [project.scripts] in pyproject.toml"
+    matches = [ep for ep in entry_points if ep.name == "aetius"]
+    assert matches, "no 'aetius' console_scripts entry point registered — check [project.scripts] in pyproject.toml"
     assert matches[0].value == "tui.app:main"
 
 
-def test_caligula_script_file_exists_and_is_executable():
+def test_aetius_script_file_exists_and_is_executable():
     script_path = _script_path()
     assert script_path.exists(), (
         f"expected an installed console script at {script_path} — "
@@ -44,7 +46,7 @@ def test_caligula_script_file_exists_and_is_executable():
         assert os.access(script_path, os.X_OK), f"{script_path} exists but isn't executable"
 
 
-def test_caligula_version_flag_prints_the_real_installed_version():
+def test_aetius_version_flag_prints_the_real_installed_version():
     """Unlike the other subprocess test below, `--version` is expected to
     exit on its own (not be terminated by us) -- it must never fall
     through to launching the interactive TUI."""
@@ -57,11 +59,11 @@ def test_caligula_version_flag_prints_the_real_installed_version():
         timeout=10,
     )
     assert result.returncode == 0
-    expected_version = importlib.metadata.version("caligula")
-    assert result.stdout.strip() == f"caligula {expected_version}"
+    expected_version = importlib.metadata.version("aetius")
+    assert result.stdout.strip() == f"aetius {expected_version}"
 
 
-def test_caligula_script_actually_launches_a_process_not_command_not_found():
+def test_aetius_script_actually_launches_a_process_not_command_not_found():
     """The exact failure this reproduces: running the script by path
     (bypassing shell PATH lookup entirely) must start a real OS process.
     If the entry point were missing/misconfigured, this would raise
@@ -101,7 +103,7 @@ def test_wheel_does_not_ship_saved_configs():
     import zipfile
     from pathlib import Path
 
-    wheels = sorted((Path(__file__).parent.parent / "dist").glob("caligula-*.whl"))
+    wheels = sorted((Path(__file__).parent.parent / "dist").glob("aetius-*.whl"))
     if not wheels:
         pytest.skip("no built wheel in dist/ — run scripts/release.sh first")
 

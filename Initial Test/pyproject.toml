@@ -1,5 +1,5 @@
 [project]
-name = "caligula"
+name = "aetius"
 version = "0.1.0"
 description = "Agent security assurance: reconstructs a structural twin of a real agent system from Langfuse or Braintrust traces and runs a statistically sound attack/regression engine against it."
 requires-python = ">=3.11"
@@ -15,7 +15,7 @@ dependencies = [
     "pandas==2.3.3",
     "scipy==1.16.3",
     "statsmodels==0.14.5",
-    # Part 6 (tui, the shipped `caligula` command).
+    # Part 6 (tui, the shipped `aetius` command).
     "textual==8.2.8",
     # Ingestion (real trace-source project reconstruction, see ingestion/).
     "langfuse==4.14.2",
@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# dashboard/app.py only — nothing the `caligula` command itself reaches
+# dashboard/app.py only — nothing the `aetius` command itself reaches
 # imports streamlit/plotly (confirmed by grep), so this stays out of the
 # base install. It matters in practice: streamlit pulls in pyarrow, which
 # has no prebuilt wheel yet for newer Python versions (e.g. 3.14 at the
@@ -40,7 +40,7 @@ dev = [
 ]
 
 [project.scripts]
-caligula = "tui.app:main"
+aetius = "tui.app:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

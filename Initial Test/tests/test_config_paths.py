@@ -92,3 +92,63 @@ def test_migrate_is_idempotent_and_reports_nothing_the_second_time(monkeypatch, 
 def test_migrate_is_a_noop_when_there_is_nothing_legacy(monkeypatch, tmp_path: Path):
     _migrate_between(monkeypatch, tmp_path)  # neither directory exists
     assert paths.migrate_legacy_data() == []
+
+
+# --- the caligula -> aetius rename migration ------------------------------------
+
+
+def test_previous_appname_data_is_picked_up_on_fresh_launch(monkeypatch, tmp_path: Path):
+    """Simulates a machine with a real pre-rename install: a populated
+    caligula-named data dir (reconstructed configs, generated cases, trace
+    caches, credentials .env) and no aetius-named dir yet. A fresh launch
+    under the new name must copy everything forward — and never touch the
+    source, never overwrite anything already at the destination."""
+    old = tmp_path / "caligula"
+    new = tmp_path / "aetius"
+    (old / "configs").mkdir(parents=True)
+    (old / "configs" / "cfg_real.json").write_text('{"config_hash": "cfg_real"}')
+    (old / "generated_cases").mkdir()
+    (old / "generated_cases" / "cfg_real.json").write_text('{"entries": []}')
+    (old / "traces_braintrust").mkdir()
+    (old / "traces_braintrust" / "trace1.json").write_text("[]")
+    (old / ".env").write_text("ANTHROPIC_API_KEY=sk-real\n")
+
+    monkeypatch.setattr(paths, "_MIGRATIONS", ((old, new),))
+    migrated = paths.migrate_legacy_data()
+    assert migrated == [(old, new)]
+
+    # everything arrived
+    assert (new / "configs" / "cfg_real.json").read_text() == '{"config_hash": "cfg_real"}'
+    assert (new / "generated_cases" / "cfg_real.json").exists()
+    assert (new / "traces_braintrust" / "trace1.json").exists()
+    assert (new / ".env").read_text() == "ANTHROPIC_API_KEY=sk-real\n"
+    # the old copy is left fully intact — copy-only, never delete
+    assert (old / "configs" / "cfg_real.json").exists()
+    assert (old / ".env").exists()
+
+    # second launch: nothing new to do, and nothing gets overwritten
+    (new / "configs" / "cfg_real.json").write_text('{"config_hash": "cfg_real", "edited": true}')
+    assert paths.migrate_legacy_data() == []
+    assert "edited" in (new / "configs" / "cfg_real.json").read_text()
+
+
+def test_appname_migration_pairs_are_wired_into_the_real_migration_table():
+    # The rename migration must run through the same startup call as the
+    # pre-platformdirs one (tui.app.main -> migrate_legacy_data), so a
+    # fresh aetius launch picks up caligula data without any manual step.
+    sources = [src for src, _dest in paths._MIGRATIONS]
+    assert paths.LEGACY_APPNAME_CONFIG_DIR in sources
+    assert paths.APP_NAME == "aetius"
+    assert paths.LEGACY_APPNAME_DATA_DIR.name == "caligula"
+
+
+def test_legacy_data_dir_env_var_still_honored(monkeypatch):
+    # Existing setups exporting CALIGULA_DATA_DIR must keep working; the
+    # new AETIUS_DATA_DIR wins when both are set. Read-at-import means we
+    # exercise the resolution logic directly rather than reloading.
+    import os
+    assert paths.DATA_DIR_ENV_VAR == "AETIUS_DATA_DIR"
+    assert paths.LEGACY_DATA_DIR_ENV_VAR == "CALIGULA_DATA_DIR"
+    resolve = lambda env: env.get("AETIUS_DATA_DIR") or env.get("CALIGULA_DATA_DIR")
+    assert resolve({"CALIGULA_DATA_DIR": "/old"}) == "/old"
+    assert resolve({"AETIUS_DATA_DIR": "/new", "CALIGULA_DATA_DIR": "/old"}) == "/new"
