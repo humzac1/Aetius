@@ -42,3 +42,22 @@ async def wait_until(pilot, predicate: Callable[[], bool], *, tries: int = 200) 
             return
         await asyncio.sleep(0.05)
     raise AssertionError("condition never became true")
+
+
+async def keep_all_families(pilot, app) -> None:
+    """Advance past FamilyScopeScreen keeping every family selected — the
+    no-op scope. Tests about a later step use this so they exercise the
+    same case set they did before scoping existed; scoping's own behaviour
+    is covered in tests/test_tui_family_scope.py.
+
+    A no-op when the screen isn't showing: a single-family suite skips it."""
+    from textual.widgets import ListView
+
+    from tui.screens.wizard import FamilyScopeScreen
+
+    if not isinstance(app.screen, FamilyScopeScreen):
+        return
+    menu = app.screen.query_one("#family-scope-menu", ListView)
+    menu.index = len(app.screen.families)  # the trailing "Continue" row
+    await pilot.press("enter")
+    await pilot.pause()

@@ -1,8 +1,9 @@
 """Read-only dashboard over data/runs/ and the saved experiment reports.
 Never executes an experiment or the target system — every panel either
-reads a file that already exists on disk, or (Panels 3's supporting chart
-and Panel 5) evaluates a closed-form stats.power/stats.variance_reduction
-formula live, which needs no new target-system runs.
+reads a file that already exists on disk, or (Panel 3's supporting chart
+and Panel 5) evaluates the live method's closed-form ROPE power model
+(stats/hierarchical.py) / stats.variance_reduction live, which needs no
+new target-system runs.
 
 Run with: streamlit run dashboard/app.py
 """
@@ -123,7 +124,7 @@ def render_calibration_panel() -> None:
         st.subheader("Real-execution corroboration")
         st.caption(
             f"The `aa` preset: arm A and arm B both resolve to `{aa_report['arm_a_hash']}` "
-            f"(bit-identical config). Every row below should read 0.0pp / not significant."
+            f"(bit-identical config). Every row below should read 0.0pp / not flagged."
         )
         rows = flatten_family_rows(aa_report)
         table_rows = [
@@ -135,7 +136,7 @@ def render_calibration_panel() -> None:
                 "diff": f"{r['diff'] * 100:+.1f}pp",
                 "95% CI": f"[{r['ci_low'] * 100:.1f}, {r['ci_high'] * 100:.1f}]",
                 "q": f"{r['q_value']:.3f}",
-                "flagged": "SIGNIFICANT" if r["significant"] else "—",
+                "flagged": "FLAGGED" if r["significant"] else "—",
             }
             for r in rows
         ]
@@ -208,8 +209,10 @@ def render_comparison_panel() -> None:
         f"{report['n_cases']} cases x {report['n_runs_per_case']} runs/case/arm"
     )
     st.caption(
-        "🔴 significant regression (rate rose)  •  🟢 significant improvement (rate fell)  •  "
-        "⚪ not significant after BH correction"
+        "🔴 flagged regression (rate rose)  •  🟢 flagged improvement (rate fell)  •  "
+        "⚪ not flagged (BH-adjusted across families; reports scored by the live hierarchical "
+        "method additionally require the 95% credible interval to clear the ±1pt "
+        "practical-equivalence band)"
     )
 
     rows = flatten_family_rows(report)
@@ -239,7 +242,7 @@ def render_crn_panel() -> None:
 
     st.subheader("Real evidence: the CRN bug fix, before and after")
     st.caption(
-        "known_neutral and model_swap should show no significant families — their arms have "
+        "known_neutral and model_swap should show no flagged families — their arms have "
         "genuinely equal (or, for model_swap under the mock backend, not-actually-comparable) "
         "compliance probability. Before this project's mock_policy correctly shared random "
         "draws across arms (common random numbers), pure sampling noise flagged families "
@@ -292,12 +295,13 @@ def render_crn_panel() -> None:
     st.divider()
     st.subheader("General effect: required runs per case, with vs. without CRN")
     st.caption(
-        "Computed live from stats/variance_reduction.py + stats/power.py's cross-validated "
-        "formula (see Panel 5) — a synthetic illustration grounded in known_regression's "
-        "observed rates where available, not itself a saved experiment result."
+        "Computed live from stats/variance_reduction.py + the live method's ROPE power model "
+        "(stats/hierarchical.py, validated against the 800-trial simulation sweep — see Panel 5) "
+        "— a synthetic illustration grounded in known_regression's observed rates where "
+        "available, not itself a saved experiment result."
     )
 
-    from stats.power import required_runs_per_case
+    from stats.hierarchical import required_runs_for_rope_signal
     from stats.variance_reduction import measure_crn_variance_reduction
 
     baseline_rate, mde = 0.15, 0.10
@@ -312,7 +316,7 @@ def render_crn_panel() -> None:
     case_rates = {f"case_{i}": (baseline_rate, min(0.95, baseline_rate + mde)) for i in range(n_cases_demo)}
     crn_result = measure_crn_variance_reduction(case_rates, n_runs_per_case=15, n_sims=1000, seed=0)
 
-    n_no_vr = required_runs_per_case(baseline_rate, mde, n_cases_demo, power=0.8, alpha=0.05)
+    n_no_vr = required_runs_for_rope_signal(baseline_rate, mde, n_cases_demo, power=0.8, alpha=0.05)
     n_with_crn = max(1, round(n_no_vr * (1 - crn_result.variance_reduction_pct / 100)))
 
     col1, col2, col3 = st.columns(3)
@@ -410,9 +414,11 @@ def render_confidence_sequence_panel() -> None:
 def render_power_curve_panel() -> None:
     st.header("Power Curve")
     st.caption(
-        "Computed live via `stats.power.power_curve` — a closed-form formula, cross-validated "
-        "against statsmodels' independent two-proportion power calculation to within 0.4% "
-        "(see `tests/test_stats_power.py`). Not a saved experiment result — pure math, adjustable."
+        "Computed live via `stats.hierarchical.rope_minimum_detectable_effect` — the live "
+        "method's ROPE power model, verified conservative-or-close against every cell of the "
+        "800-trial validation sweep (see `tests/test_stats_hierarchical.py`). The floor at 1pt "
+        "is the practical-equivalence band: effects inside it are never flagged at any budget. "
+        "Not a saved experiment result — pure math, adjustable."
     )
 
     default_baseline = 0.15
@@ -426,10 +432,13 @@ def render_power_curve_panel() -> None:
     baseline_rate = col1.slider("Baseline rate", 0.01, 0.50, float(round(default_baseline, 2)), step=0.01)
     n_cases = col2.slider("Number of cases", 5, 100, 20, step=5)
 
-    from stats.power import power_curve
+    from stats.hierarchical import rope_minimum_detectable_effect
 
     runs_per_case_grid = [5, 10, 15, 20, 30, 40, 60, 80, 100]
-    curve = power_curve(n_cases, baseline_rate, runs_per_case_grid, power=0.8, alpha=0.05)
+    curve = [
+        (n, rope_minimum_detectable_effect(n_cases, n, baseline_rate, power=0.8, alpha=0.05))
+        for n in runs_per_case_grid
+    ]
 
     fig = go.Figure(
         go.Scatter(

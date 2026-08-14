@@ -21,12 +21,19 @@ from typing import Callable, Literal
 import numpy as np
 from statsmodels.stats.proportion import proportion_confint
 
+from stats.hierarchical import hierarchical_bayes_diff
 from stats.paired import cluster_bootstrap_diff, mcnemar_test, mixed_effects_diff
 from stats.types import CaseObservations, EffectEstimate, PairedCaseData
 
-Method = Literal["cluster_bootstrap", "mcnemar", "mixed_effects"]
+Method = Literal["hierarchical_bayes", "cluster_bootstrap", "mcnemar", "mixed_effects"]
 
 _METHODS: dict[Method, Callable[..., EffectEstimate]] = {
+    # For hierarchical_bayes this harness checks the direction-probability
+    # p-value's calibration. That is a real property worth watching (BH
+    # correction consumes it), but it is NOT the live signal rule — the
+    # ROPE decision's false-signal rate is validated separately in
+    # tests/test_stats_hierarchical.py against the measured shapes.
+    "hierarchical_bayes": hierarchical_bayes_diff,
     "cluster_bootstrap": cluster_bootstrap_diff,
     "mcnemar": mcnemar_test,
     "mixed_effects": mixed_effects_diff,

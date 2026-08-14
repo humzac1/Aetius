@@ -10,30 +10,55 @@ the callback always fires on the caller's thread.
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widgets import Footer, Header, Label, ListItem, ListView
+from textual.widgets import Footer, Header, Input, Label, ListItem, ListView
 
 from attacker.attack_case import AttackCase
-from attacker.applicability import applicable_cases_for_configs
-from attacker.cases import ATTACK_CASES
+from attacker.case_selection import applicable_suite_for_configs
 from experiments.cost_estimate import CostEstimate, estimate_batch_cost, format_cost_estimate
 from experiments.persist import save_experiment_report
 from experiments.runner import DEFAULT_RUNS_DIR
 from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, load_config
 from tui.app import BaseScreen
 from tui.data import describe_config_for_humans, list_configs
+from experiments.runner import SequentialStopSpec
 from tui.execution import build_anthropic_client, enforce_reconstructed_provider, peek_n_cached, run_comparison_check, run_single_config_check
-from tui.formatting import format_config_list_label
+from tui.formatting import (
+    family_display_name,
+    format_baseline_assumption,
+    format_budget_option,
+    format_config_list_label,
+    format_run_count_option,
+    format_run_count_recommendation,
+)
+from tui.run_sizing import (
+    BudgetSizedOption,
+    RunCountRecommendation,
+    detectable_effect_at,
+    estimated_wall_seconds,
+    observed_wall_seconds_per_run,
+    recommend_runs_per_case,
+    size_for_budget,
+)
 from tui.screens.progress import WorkerProgressScreen
 from tui.screens.verdict import ComparisonVerdictScreen, SingleConfigVerdictScreen
 from tui.verdict_logic import compute_comparison_verdict, compute_single_config_summary
 
 DEFAULT_N_RUNS_PER_CASE = 5
 _ORDINAL_LETTERS = ["A", "B", "C", "D"]
+
+# The outcome the wizard's early-stopping boundary and CUPED adjustment key
+# off. "exfiltration" (not its _attempted variant) is the strict, actually-
+# succeeded outcome — the one a user is asking about when they compare two
+# configs — and it's the same key experiments/presets.py already nominates
+# for sequential analysis, so a preset run and a wizard run are watching
+# the same quantity rather than two different definitions of "worse".
+PRIMARY_OUTCOME_KEY = "exfiltration"
 
 
 class WizardModeScreen(BaseScreen):
@@ -75,24 +100,370 @@ class WizardModeScreen(BaseScreen):
         # bearing for a reconstructed environment (e.g. no untrusted-
         # content-entry-point tool means corpus_document cases would
         # otherwise fail outright — see execute_case's ValueError).
-        cases = applicable_cases_for_configs(list(ATTACK_CASES), configs)
-        n_cached = peek_n_cached(configs, runs_dir=self.runs_dir)
-        estimate = estimate_batch_cost(cases, configs, n_runs_per_case=DEFAULT_N_RUNS_PER_CASE, n_cached=n_cached)
+        # Picks the domain-adapted suite when this environment has an
+        # approved one, else the hand-authored 17 — then applies the same
+        # structural applicability filter to whichever it got. The single
+        # place that distinction exists; nothing downstream of here knows.
+        cases, _suite_label = applicable_suite_for_configs(configs)
 
-        def _proceed() -> None:
+        def _confirm_cost(
+            scoped_cases: list[AttackCase],
+            n_runs_per_case: int,
+            recommendation: RunCountRecommendation | None = None,
+        ) -> None:
+            n_cached = peek_n_cached(configs, cases=scoped_cases, runs_dir=self.runs_dir)
+            estimate = estimate_batch_cost(scoped_cases, configs, n_runs_per_case=n_runs_per_case, n_cached=n_cached)
+            # State plainly, at the moment money is confirmed, what this
+            # spend can and cannot resolve — same ROPE power model the
+            # verdict will grade the run with.
+            detection_line = None
+            if recommendation is not None:
+                mde = detectable_effect_at(n_runs_per_case, recommendation)
+                detection_line = (
+                    f"At this budget, you can reliably catch differences of {100 * mde:.1f} points or "
+                    "larger; anything smaller will read as INCONCLUSIVE."
+                )
+
+            def _proceed() -> None:
+                self.app.push_screen(
+                    WizardProgressScreen(
+                        mode=mode,
+                        configs=configs,
+                        cases=scoped_cases,
+                        n_runs_per_case=n_runs_per_case,
+                        runs_dir=self.runs_dir,
+                        configs_dir=self.configs_dir,
+                    )
+                )
+
+            if estimate.any_real_model:
+                # Never a free/instant mock option for a run that touches a
+                # real model — the estimate must be shown and explicitly
+                # confirmed before anything executes.
+                self.app.push_screen(
+                    CostConfirmScreen(estimate=estimate, on_confirm=_proceed, detection_line=detection_line)
+                )
+            else:
+                _proceed()
+
+        def _size(scoped_cases: list[AttackCase]) -> None:
+            # Size the run before pricing it. Skipped only when there's
+            # nothing to size (no applicable cases) — the cost screen still
+            # runs, so a real-model batch is never reachable without an
+            # explicit money confirmation either way.
+            recommendation = recommend_runs_per_case(scoped_cases, configs, runs_dir=self.runs_dir)
+            if recommendation is None:
+                _confirm_cost(scoped_cases, DEFAULT_N_RUNS_PER_CASE)
+                return
             self.app.push_screen(
-                WizardProgressScreen(
-                    mode=mode, configs=configs, cases=cases, runs_dir=self.runs_dir, configs_dir=self.configs_dir
+                RunCountScreen(
+                    recommendation=recommendation,
+                    cases=scoped_cases,
+                    configs=configs,
+                    runs_dir=self.runs_dir,
+                    on_chosen=lambda n: _confirm_cost(scoped_cases, n, recommendation=recommendation),
                 )
             )
 
-        if estimate.any_real_model:
-            # Never a free/instant mock option for a run that touches a
-            # real model — the estimate must be shown and explicitly
-            # confirmed before anything executes.
-            self.app.push_screen(CostConfirmScreen(estimate=estimate, on_confirm=_proceed))
+        # Scope first, then size: which families are in play determines the
+        # weakest family, which is what the run count is derived from.
+        # Skipped when there's no choice to make (a single applicable
+        # family is not a decision, just a screen in the way).
+        if len({c.family for c in cases}) > 1:
+            self.app.push_screen(FamilyScopeScreen(cases=cases, on_chosen=_size))
         else:
-            _proceed()
+            _size(cases)
+
+
+class FamilyScopeScreen(BaseScreen):
+    """Picks which attack families this particular test needs to cover,
+    before the run is sized.
+
+    Why it's a screen and not a default: sizing is driven by the *weakest*
+    applicable family (see tui/run_sizing.py), so an environment that
+    happens to have one 3-case family pays for that family's statistical
+    requirement across the whole run — even for a user who only cares
+    about direct injection. Narrowing scope is therefore the single
+    biggest lever on cost, and it would be wrong to apply it silently in
+    either direction: dropping a family without being asked would hide
+    attacks the user assumed were covered, and this screen states plainly
+    what each choice removes.
+
+    The math is unchanged — the same required_runs_for_rope_signal over
+    the same weakest-family rule, just over a narrower set."""
+
+    def __init__(
+        self,
+        *,
+        cases: list[AttackCase],
+        on_chosen: Callable[[list[AttackCase]], None],
+    ) -> None:
+        super().__init__()
+        self.cases = cases
+        self.on_chosen = on_chosen
+        self.families = sorted({c.family for c in cases})
+        self.selected: set[str] = set(self.families)  # everything, until narrowed
+
+    def _case_count(self, family: str) -> int:
+        return sum(1 for c in self.cases if c.family == family)
+
+    def _row_label(self, family: str) -> str:
+        mark = "[x]" if family in self.selected else "[ ]"
+        return f"{mark} {family_display_name(family)} — {self._case_count(family)} applicable case(s)"
+
+    def compose(self) -> ComposeResult:
+        yield Header()
+        yield Vertical(
+            Label("Which attacks does this test need to cover?", classes="title"),
+            Label("Enter toggles a family. Narrower scope costs less to run — anything you turn off is not tested at all.", classes="subtitle"),
+            ListView(
+                *(ListItem(Label(self._row_label(f)), id=f"family-{i}") for i, f in enumerate(self.families)),
+                ListItem(Label("Continue"), id="continue"),
+                id="family-scope-menu",
+            ),
+            classes="wizard-body",
+        )
+        yield Footer()
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.item.id != "continue":
+            index = int(event.item.id.removeprefix("family-"))
+            family = self.families[index]
+            # Never allow an empty scope: there'd be nothing to size, and
+            # the run would be silently meaningless rather than obviously
+            # refused.
+            if family in self.selected and len(self.selected) > 1:
+                self.selected.discard(family)
+            else:
+                self.selected.add(family)
+            event.item.query_one(Label).update(self._row_label(family))
+            return
+
+        chosen = [c for c in self.cases if c.family in self.selected]
+        on_chosen = self.on_chosen
+        self.app.pop_screen()
+        on_chosen(chosen)
+
+
+@dataclass(frozen=True)
+class RunCountOption:
+    """One selectable run count, with everything needed to judge it: what
+    it costs, how long it takes, and what it can actually detect."""
+
+    n_runs_per_case: int
+    kind: str  # "recommended" | "smaller" | "larger"
+    estimate: CostEstimate
+    wall_seconds: float
+    detectable_effect: float
+    meets_target_power: bool
+
+
+class RunCountScreen(BaseScreen):
+    """Chooses how many runs per case to execute, before any money is
+    spent. Replaces the previous behaviour of silently running a
+    hardcoded 5 (DEFAULT_N_RUNS_PER_CASE was never exposed anywhere in
+    the UI) and only revealing the achieved power afterwards, on the
+    verdict screen, once the run was already paid for.
+
+    Every option states the effect it could actually detect, computed by
+    the same ROPE power model (stats/hierarchical.py) the verdict screen
+    grades the finished run with — so picking fewer runs is an informed
+    trade ("I accept that anything under N points will read as
+    INCONCLUSIVE") rather than an invisible one. 'b' cancels back without
+    running, as everywhere else."""
+
+    def __init__(
+        self,
+        *,
+        recommendation: RunCountRecommendation,
+        cases: list[AttackCase],
+        configs: list[SystemConfig],
+        on_chosen: Callable[[int], None],
+        runs_dir: Path = DEFAULT_RUNS_DIR,
+    ) -> None:
+        super().__init__()
+        self.recommendation = recommendation
+        self.cases = cases
+        self.configs = configs
+        self.on_chosen = on_chosen
+        self.runs_dir = runs_dir
+        self.options = self._build_options()
+
+    def _build_options(self) -> list[RunCountOption]:
+        recommended = self.recommendation.recommended_runs_per_case
+        n_cached = peek_n_cached(self.configs, cases=self.cases, runs_dir=self.runs_dir)
+        self.n_cached = n_cached
+        wall_per_run, _grounded = observed_wall_seconds_per_run(self.configs, runs_dir=self.runs_dir)
+
+        candidates: list[tuple[int, str]] = [(recommended, "recommended")]
+        # The old hardcoded default, offered as the explicit cheap option
+        # rather than applied silently — only when it really is smaller.
+        if DEFAULT_N_RUNS_PER_CASE < recommended:
+            candidates.append((DEFAULT_N_RUNS_PER_CASE, "smaller"))
+        candidates.append((recommended * 2, "larger"))
+
+        options: list[RunCountOption] = []
+        for n, kind in candidates:
+            estimate = estimate_batch_cost(self.cases, self.configs, n_runs_per_case=n, n_cached=n_cached)
+            options.append(
+                RunCountOption(
+                    n_runs_per_case=n,
+                    kind=kind,
+                    estimate=estimate,
+                    # Jobs run concurrently (tui.execution's worker pool) —
+                    # multiplying jobs by per-run seconds overstated this
+                    # ~8x ("~1.5 hr" for a ~10-minute run).
+                    wall_seconds=estimated_wall_seconds(estimate.n_jobs_remaining, wall_per_run),
+                    detectable_effect=detectable_effect_at(n, self.recommendation),
+                    meets_target_power=n >= recommended,
+                )
+            )
+        return options
+
+    def compose(self) -> ComposeResult:
+        yield Header()
+        rec = self.recommendation
+        body = [
+            Label("How many runs per case?", classes="title"),
+            Label(format_run_count_recommendation(rec), classes="subtitle"),
+            Label(format_baseline_assumption(rec), classes="hint"),
+        ]
+        if getattr(self, "n_cached", 0):
+            body.append(
+                Label(
+                    f"{self.n_cached} run(s) for this comparison are already cached — the verdict always "
+                    "uses every cached run, and only missing runs are executed and charged.",
+                    classes="hint",
+                )
+            )
+        yield Vertical(
+            *body,
+            ListView(
+                *(
+                    ListItem(Label(format_run_count_option(o, rec)), id=f"runs-{o.n_runs_per_case}")
+                    for o in self.options
+                ),
+                ListItem(
+                    Label("Fit a budget: state a $ or time ceiling, see what it can actually detect"),
+                    id="budget",
+                ),
+                ListItem(Label("Cancel"), id="cancel"),
+                id="run-count-menu",
+            ),
+            classes="wizard-body",
+        )
+        yield Footer()
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.item.id == "cancel":
+            self.app.pop_screen()
+            return
+        if event.item.id == "budget":
+            self.app.push_screen(
+                BudgetSizingScreen(
+                    recommendation=self.recommendation,
+                    cases=self.cases,
+                    configs=self.configs,
+                    runs_dir=self.runs_dir,
+                    on_chosen=self.on_chosen,
+                )
+            )
+            return
+        n = int(event.item.id.removeprefix("runs-"))
+        on_chosen = self.on_chosen
+        self.app.pop_screen()
+        on_chosen(n)
+
+
+class BudgetSizingScreen(BaseScreen):
+    """Budget-first sizing: the user states a dollar and/or minute
+    ceiling, and the screen answers with the one fact that matters —
+    the smallest difference that budget can reliably catch — computed by
+    tui.run_sizing.size_for_budget from the real cost estimator, the
+    measured per-run wall time, and the same ROPE power model the verdict
+    grades with. The run count is offered only alongside that fact, never
+    as a bare number, and an infeasible budget is said plainly rather
+    than clamped up to a count the money cannot pay for."""
+
+    def __init__(
+        self,
+        *,
+        recommendation: RunCountRecommendation,
+        cases: list[AttackCase],
+        configs: list[SystemConfig],
+        on_chosen: Callable[[int], None],
+        runs_dir: Path = DEFAULT_RUNS_DIR,
+    ) -> None:
+        super().__init__()
+        self.recommendation = recommendation
+        self.cases = cases
+        self.configs = configs
+        self.on_chosen = on_chosen
+        self.runs_dir = runs_dir
+        self.option: BudgetSizedOption | None = None
+
+    def compose(self) -> ComposeResult:
+        yield Header()
+        yield Vertical(
+            Label("Size to a budget", classes="title"),
+            Label(
+                "Enter a cost ceiling, a time ceiling, or both — leave a field empty for no limit.",
+                classes="subtitle",
+            ),
+            Input(placeholder="max dollars, e.g. 2.00", id="budget-usd"),
+            Input(placeholder="max minutes, e.g. 5", id="budget-minutes"),
+            Label("", id="budget-result", classes="hint"),
+            ListView(
+                ListItem(Label("Compute what this budget can detect"), id="compute"),
+                ListItem(Label("Run at this budget"), id="accept"),
+                ListItem(Label("Back"), id="back"),
+                id="budget-menu",
+            ),
+            classes="wizard-body",
+        )
+        yield Footer()
+
+    def _parse(self, input_id: str) -> float | None:
+        raw = self.query_one(f"#{input_id}", Input).value.strip().lstrip("$")
+        if not raw:
+            return None
+        try:
+            value = float(raw)
+        except ValueError:
+            return None
+        return value if value > 0 else None
+
+    def _compute(self) -> None:
+        max_usd = self._parse("budget-usd")
+        max_minutes = self._parse("budget-minutes")
+        result = self.query_one("#budget-result", Label)
+        if max_usd is None and max_minutes is None:
+            self.option = None
+            result.update("Enter at least one ceiling (a positive number).")
+            return
+        self.option = size_for_budget(
+            self.cases, self.configs, self.recommendation,
+            max_usd=max_usd, max_minutes=max_minutes, runs_dir=self.runs_dir,
+        )
+        result.update(format_budget_option(self.option))
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.item.id == "back":
+            self.app.pop_screen()
+            return
+        if event.item.id == "compute":
+            self._compute()
+            return
+        # accept: compute from the current fields if not done yet, then run
+        if self.option is None:
+            self._compute()
+        option = self.option
+        if option is None or not option.feasible:
+            return  # the result label already states why this can't run
+        on_chosen = self.on_chosen
+        self.app.pop_screen()  # this screen
+        self.app.pop_screen()  # the run-count screen beneath it
+        on_chosen(option.n_runs_per_case)
 
 
 class CostConfirmScreen(BaseScreen):
@@ -103,16 +474,28 @@ class CostConfirmScreen(BaseScreen):
     back to the mode screen without proceeding; only picking "Proceed"
     calls on_confirm."""
 
-    def __init__(self, *, estimate: CostEstimate, on_confirm: Callable[[], None]) -> None:
+    def __init__(
+        self, *, estimate: CostEstimate, on_confirm: Callable[[], None], detection_line: str | None = None
+    ) -> None:
         super().__init__()
         self.estimate = estimate
         self.on_confirm = on_confirm
+        # What this spend can actually detect (ROPE power model) — shown
+        # beside the price so the budget and its resolving power are one
+        # decision, never two screens apart. None when no sizing context
+        # exists (e.g. no applicable cases were sized).
+        self.detection_line = detection_line
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Vertical(
+        body = [
             Label("Confirm before running", classes="title"),
             Label(format_cost_estimate(self.estimate), classes="subtitle"),
+        ]
+        if self.detection_line:
+            body.append(Label(self.detection_line, classes="hint"))
+        yield Vertical(
+            *body,
             Label("This run calls a real model and spends real money.", classes="hint"),
             ListView(
                 ListItem(Label("Proceed"), id="proceed"),
@@ -255,8 +638,22 @@ class WizardProgressScreen(WorkerProgressScreen):
             result = run_comparison_check(
                 config_a, config_b, cases=self.cases, n_runs_per_case=self.n_runs_per_case, runs_dir=self.runs_dir,
                 on_progress=self._on_progress, anthropic_client=anthropic_client,
+                # ROPE rule (the live default), watching both base
+                # outcomes: the run stops as soon as each has confidently
+                # resolved either beyond or inside the practical-
+                # equivalence band. Monitoring only the primary key would
+                # have missed the one real finding to date (unauthorized_
+                # lookup moving while exfiltration stayed flat).
+                sequential_stop=SequentialStopSpec(
+                    outcome_key=PRIMARY_OUTCOME_KEY, extra_outcome_keys=("unauthorized_lookup",)
+                ),
             )
-            report_path = save_experiment_report(result, runs_dir=self.runs_dir)
+            report_path = save_experiment_report(
+                result,
+                sequential_outcome_key=PRIMARY_OUTCOME_KEY,
+                cuped_outcome_key=PRIMARY_OUTCOME_KEY,
+                runs_dir=self.runs_dir,
+            )
             report = json.loads(report_path.read_text(encoding="utf-8"))
             verdict = compute_comparison_verdict(report)
             records = [r.model_dump(mode="json") for r in result.records]

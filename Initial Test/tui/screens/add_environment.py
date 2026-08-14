@@ -39,7 +39,7 @@ import ingestion.braintrust_client as bt
 import ingestion.braintrust_reconstruct as bt_reconstruct
 import ingestion.langfuse_client as lf
 import ingestion.reconstruct as lf_reconstruct
-from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, save_config
+from target_system.config import DEFAULT_CONFIGS_DIR, load_config, save_config
 from tui.app import BaseScreen
 
 _NONE_GROUP_LABEL = "(no name tag)"
@@ -276,18 +276,28 @@ class AddEnvironmentGroupsScreen(BaseScreen):
         else:
             config = lf_reconstruct.reconstruct_from_cache(project_id=self.project_id, agent_name=name, traces_dir=self.traces_dir)
         config_hash = save_config(config, configs_dir=self.configs_dir)
-        self.app.push_screen(AddEnvironmentDoneScreen(config, config_hash))
+        self.app.push_screen(AddEnvironmentDoneScreen(config_hash, configs_dir=self.configs_dir))
 
 
 class AddEnvironmentDoneScreen(BaseScreen):
     """Confirms what got saved — trace count, tools, and any reconstruction
     warnings (e.g. multi-model drift) surfaced right here rather than left
-    for the verdict screen to be the first place fidelity caveats appear."""
+    for the verdict screen to be the first place fidelity caveats appear.
 
-    def __init__(self, config: SystemConfig, config_hash: str) -> None:
+    Takes a hash and re-reads the config off disk rather than taking the
+    in-memory object it was just handed. That's the whole point of this
+    screen: it used to render the reconstruction it was passed, so when
+    save_config skipped its write it cheerfully reported "Environment
+    saved — reconstructed from 200 trace(s)" while the file on disk held
+    a different, 100-trace reconstruction (confirmed against real user
+    data). Whatever this screen claims is now, by construction, what a
+    later run will actually load."""
+
+    def __init__(self, config_hash: str, *, configs_dir: Path = DEFAULT_CONFIGS_DIR) -> None:
         super().__init__()
-        self.config = config
         self.config_hash = config_hash
+        self.configs_dir = configs_dir
+        self.config = load_config(config_hash, configs_dir=configs_dir)
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -305,5 +315,32 @@ class AddEnvironmentDoneScreen(BaseScreen):
             others = ", ".join(f"{g.agent_name or _NONE_GROUP_LABEL} ({g.trace_count})" for g in provenance.other_groups_found)
             lines.append(Label(f"Other groups also found in this batch: {others}", classes="hint"))
         lines.append(Label("This environment is real-model-only — pick it from the wizard like any saved config.", classes="hint"))
-        yield Vertical(*lines, classes="wizard-body")
+        # The hand-authored suite is written in one domain's vocabulary and
+        # is semantically meaningless against an environment that doesn't
+        # share it — measured, not assumed: 770/770 zero-tool-call runs
+        # against a real e-commerce reconstruction. Offering generation
+        # here, at the moment the environment is created, is the natural
+        # point to fix that before any test is ever run against it.
+        lines.append(
+            Label(
+                "Attack cases are written for a different domain by default. Generate domain-adapted "
+                "cases for this environment to test it meaningfully.",
+                classes="hint",
+            )
+        )
+        yield Vertical(
+            *lines,
+            ListView(
+                ListItem(Label("Generate domain-adapted attack cases"), id="generate-cases"),
+                ListItem(Label("Not now"), id="skip"),
+                id="done-menu",
+            ),
+            classes="wizard-body",
+        )
         yield Footer()
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.item.id == "generate-cases":
+            from tui.screens.generated_cases import GenerateCasesScreen
+
+            self.app.push_screen(GenerateCasesScreen(config=self.config))

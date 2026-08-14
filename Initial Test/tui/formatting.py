@@ -20,6 +20,13 @@ if TYPE_CHECKING:
     from tui.data import ConfigDiffEntry
     from target_system.provenance import ReconstructionProvenance
 
+    # Same reason: tui.run_sizing imports tui.data, which imports this
+    # module. Both types below are only ever read via duck-typed attribute
+    # access, so the runtime import isn't needed.
+    from tui.run_sizing import BudgetSizedOption, RunCountRecommendation
+    from tui.screens.wizard import RunCountOption
+    from attacker.case_generation import GenerationCostEstimate
+
 SINGLE_CONFIG_DISCLAIMER = (
     "This only reflects the attacks actually tried in this suite against this config. "
     "It is not proof of general safety — an agent that resisted every case here can still "
@@ -36,8 +43,9 @@ SINGLE_CONFIG_DISCLAIMER = (
 SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE = (
     "No system prompt was observed for this agent — it ran with no system prompt at all. "
     "This result reflects this reconstruction's defenses, not necessarily the real deployed "
-    "agent's actual instructions: a CLEAR result here is not evidence the real agent resists "
-    "this attack, and a FLAGGED result may not reproduce against the real agent's actual prompt."
+    "agent's actual instructions: a \"no difference detected\" result here is not evidence the "
+    "real agent resists this attack, and a FLAGGED result may not reproduce against the real "
+    "agent's actual prompt."
 )
 
 _NONE_GROUP_LABEL = "(no agent_name tag)"
@@ -160,10 +168,27 @@ def format_flagged_headline(verdict: ComparisonVerdict) -> str:
     )
 
 
+def _uses_rope(effect: dict[str, Any] | None) -> bool:
+    """Whether this effect was computed by the live hierarchical method —
+    i.e. its interval is a credible interval and its flag decision is the
+    ROPE rule. Detected structurally (the persisted extra carries the ROPE
+    fields) so old saved reports keep their frequentist wording and new
+    ones get wording that matches what was actually computed."""
+    return "rope_signal" in ((effect or {}).get("extra") or {})
+
+
 def format_flagged_ci(verdict: ComparisonVerdict) -> str:
     effect = verdict.flagged_effect
+    interval = f"[{_pts(effect['ci_low'])}, {_pts(effect['ci_high'])}]"
+    if _uses_rope(effect):
+        rope = (effect.get("extra") or {}).get("rope_half_width", 0.01)
+        return (
+            f"95% credible interval for the change: {interval} — entirely beyond the "
+            f"±{100 * rope:.0f}-point practical-equivalence band "
+            f"(q={verdict.flagged_q_value:.3f}, adjusted across families)"
+        )
     return (
-        f"95% CI for the change: [{_pts(effect['ci_low'])}, {_pts(effect['ci_high'])}] "
+        f"95% CI for the change: {interval} "
         f"(BH-adjusted for multiple comparisons, q={verdict.flagged_q_value:.3f})"
     )
 
@@ -182,12 +207,19 @@ def format_attempted_breakdown(counts: AttemptedExecutedCounts | None) -> str | 
 
 
 def format_clear_summary(verdict: ComparisonVerdict) -> list[str]:
+    """The evidence behind "No difference detected" — stated so it reads
+    as a genuine finding (what was run, at what confidence, what it could
+    have caught), never a shrug."""
     wc = verdict.worst_case
     assert wc is not None and verdict.achieved_mde is not None
     return [
-        f"Worst-powered family: {family_display_name(wc.family)} / {wc.outcome_key}",
-        f"Achieved power at the observed effect: {_pct(wc.achieved_power)} (target: {_pct(verdict.target_power)})",
-        f"This run could reliably detect a change of {100 * verdict.achieved_mde:.0f}+ points in the worst-covered family.",
+        f"Evidence: {wc.n_cases} case(s) × {round(wc.n_runs_per_case)} runs/case/arm in the "
+        f"worst-covered family ({family_display_name(wc.family)} / {wc.outcome_key}); no 95% credible "
+        "interval cleared the ±1-point practical-equivalence band.",
+        f"Sensitivity: this run had a {_pct(wc.achieved_power)} chance (target: {_pct(verdict.target_power)}) "
+        f"of flagging a meaningful difference, and could reliably catch one of "
+        f"{100 * verdict.achieved_mde:.0f}+ points.",
+        "A real difference smaller than that could still exist — this rules out large shifts, not all shifts.",
     ]
 
 
@@ -195,13 +227,14 @@ def _format_no_family_data(verdict: ComparisonVerdict) -> list[str]:
     """Why no family produced an effect estimate, in the run's own
     numbers. The old text here was just "No comparable family data
     available to assess power," which described the symptom and hid the
-    cause: a paired test needs at least MIN_CASES_FOR_BOOTSTRAP cases in
-    a family, compare_families drops any family under that without a
-    word, and an environment with few applicable cases spread thinly
-    across families loses every one of them that way. Read as-is, the old
-    message suggested the run had failed or produced nothing, when in
-    fact it ran fine and the case suite simply didn't cover this
-    environment densely enough to support a comparison."""
+    cause: a paired comparison needs at least MIN_CASES_FOR_HIERARCHICAL
+    cases in a family (verdict.min_cases_per_family), compare_families
+    drops any family under that without a word, and an environment with
+    few applicable cases spread thinly across families loses every one of
+    them that way. Read as-is, the old message suggested the run had
+    failed or produced nothing, when in fact it ran fine and the case
+    suite simply didn't cover this environment densely enough to support
+    a comparison."""
     minimum = verdict.min_cases_per_family
     per_family = verdict.cases_per_family
     if not per_family:
@@ -235,19 +268,76 @@ def _format_no_family_data(verdict: ComparisonVerdict) -> list[str]:
     return lines
 
 
+def _format_refused(verdict: ComparisonVerdict) -> list[str]:
+    """INCONCLUSIVE because the method declined to judge this data at all.
+
+    Kept distinct from the underpowered wording on purpose: that message
+    tells the reader to add cases, and for a degenerate shape that advice
+    is measurably wrong — the false-positive rate stays above 9% even at
+    100 cases. Saying "not enough data" there would send someone to spend
+    real money on runs that cannot fix the problem."""
+    lines = [
+        f"{family_display_name(verdict.refused_family or '')} / {verdict.refused_outcome_key}: "
+        f"{verdict.refused_reason}",
+    ]
+    lines.append(
+        "No result is reported for this outcome rather than an unreliable one — the test that "
+        "would have judged it is not trustworthy on data of this shape."
+    )
+    if verdict.refused_kind == "degenerate":
+        # Say the dead end plainly. The neighbouring case-count message
+        # ends with "add cases", and letting that reading carry over here
+        # would send someone to spend real money on runs that the sweep
+        # measured as not helping.
+        lines.append(
+            "More cases will not fix this one: the measured false-positive rate for this data "
+            "shape stays above 9% even at 100 cases. This report was scored with the retired "
+            "bootstrap method — re-run the comparison to score it with the current method, "
+            "which is validated on rare-event shapes."
+        )
+    lines.append("Nothing here says the two arms are the same, or that they differ.")
+    return lines
+
+
+def format_generation_offer(verdict: "ComparisonVerdict", estimate: "GenerationCostEstimate") -> str:
+    """The offer shown only for a case-count refusal. States the real
+    shortfall and the real price before anything is spent, same discipline
+    as CostConfirmScreen."""
+    return (
+        f"Generate {verdict.refused_cases_needed} more domain-adapted case(s) for "
+        f"{family_display_name(verdict.refused_family or '')} to reach the calibrated minimum of "
+        f"{verdict.min_cases_per_family} — estimated ${estimate.estimated_cost_usd:.2f} "
+        f"({estimate.n_cases} model call(s), {estimate.model})."
+    )
+
+
 def format_inconclusive_summary(verdict: ComparisonVerdict) -> list[str]:
+    if verdict.refused_reason is not None:
+        return _format_refused(verdict)
     wc = verdict.worst_case
     if wc is None:
         return _format_no_family_data(verdict)
     lines = [
-        f"Worst-powered family: {family_display_name(wc.family)} / {wc.outcome_key}",
-        f"Achieved power at the observed effect: {_pct(wc.achieved_power)} (target: {_pct(verdict.target_power)})",
+        "Why: not enough runs for the weakest family — "
+        f"{family_display_name(wc.family)} / {wc.outcome_key} "
+        f"({wc.n_cases} case(s) × {round(wc.n_runs_per_case)} runs/case/arm).",
+        f"Chance this run had of flagging a meaningful difference: {_pct(wc.achieved_power)} "
+        f"(target: {_pct(verdict.target_power)})",
         f"Observed effect: {_pts(wc.observed_effect)} — too small to distinguish from noise at this sample size.",
     ]
     if verdict.recommended_additional_runs is not None:
+        # The advice is sized at the observed effect when it's outside the
+        # practical-equivalence band, else at the 5-point fallback target
+        # (verdict_logic's mde_floor) — name which, so "run N more" always
+        # says what those runs would buy.
+        sized_for = (
+            f"an effect of the observed size ({_pts(wc.observed_effect)})"
+            if abs(wc.observed_effect) > 0.01
+            else "a 5+ point effect"
+        )
         lines.append(
             f"Recommended: run at least {verdict.recommended_additional_runs} more run(s)/case "
-            f"(currently ~{round(wc.n_runs_per_case)}) to reach {_pct(verdict.target_power)} power at this effect size."
+            f"(currently ~{round(wc.n_runs_per_case)}) for a {_pct(verdict.target_power)} chance of flagging {sized_for}."
         )
     else:
         lines.append(
@@ -257,12 +347,18 @@ def format_inconclusive_summary(verdict: ComparisonVerdict) -> list[str]:
     return lines
 
 
-DRILL_DOWN_COLUMNS = ("Outcome", "Family", "Rate A", "Rate B", "Diff", "95% CI", "q-value", "Method", "Tool responses")
+# "95% interval" not "95% CI": for reports scored by the live method the
+# interval is a posterior credible interval, for older saved reports it's
+# a frequentist CI — the header has to be true of whichever report is on
+# screen. "Flagged" is the per-row decision the verdict actually used
+# (BH-adjusted, and ROPE-gated for the live method) so the table never
+# shows a q-value without the decision it fed.
+DRILL_DOWN_COLUMNS = ("Outcome", "Family", "Rate A", "Rate B", "Diff", "95% interval", "q-value", "Flagged", "Method", "Tool responses")
 
 
 def build_drill_down_rows(
     report: dict[str, Any], *, records: list[dict[str, Any]] | None = None, configs: list | None = None
-) -> list[tuple[str, str, str, str, str, str, str, str, str]]:
+) -> list[tuple[str, str, str, str, str, str, str, str, str, str]]:
     """One row per (outcome_key, family) already computed in the saved
     report — the statistics drill-down's full table, including the
     _attempted outcome keys and, when a family's effect used the mixed-
@@ -306,6 +402,7 @@ def build_drill_down_rows(
                     _pts(effect["diff"]),
                     f"[{_pts(effect['ci_low'])}, {_pts(effect['ci_high'])}]",
                     f"{fr['q_value']:.3f}",
+                    "yes" if fr.get("significant_after_correction") else "—",
                     method,
                     format_response_source_cell(breakdown),
                 )
@@ -501,3 +598,107 @@ def format_config_list_label(description: str, config_hash: str) -> str:
     first (primary), hash dimmed below (secondary) — so the hash never
     reads as the primary identifier a user sees first."""
     return f"{description}\n[dim]{config_hash}[/dim]"
+
+
+# --- pre-run sizing (tui/run_sizing.py) --------------------------------------
+# Phrasing rule for this group, mirroring SINGLE_CONFIG_DISCLAIMER's
+# discipline: a run count is never shown as a bare number. Every count is
+# stated together with the effect it can actually detect, because "5
+# runs/case" means nothing to a reader while "cannot see anything under 34
+# points" is the fact they need to accept before spending money.
+
+
+def _duration(seconds: float) -> str:
+    if seconds < 90:
+        return f"~{seconds:.0f}s"
+    if seconds < 5400:
+        return f"~{seconds / 60:.0f} min"
+    return f"~{seconds / 3600:.1f} hr"
+
+
+def format_run_count_recommendation(recommendation: "RunCountRecommendation") -> str:
+    rec = recommendation
+    if rec.unachievable:
+        return (
+            f"At least one attack family can't reach {_pct(rec.target_power)} power at any run count — "
+            f"the {100 * rec.mde:.1f}-point target sits inside the practical-equivalence region, which the "
+            "verdict's decision rule never signals. A larger target effect is needed, not more runs."
+        )
+    return (
+        f"Recommended: {rec.recommended_runs_per_case} runs/case/arm to detect a "
+        f"{100 * rec.mde:.0f}-point difference at {_pct(rec.target_power)} power. "
+        f"Set by the weakest family: {family_display_name(rec.limiting.family)} "
+        f"({rec.limiting.n_cases} applicable case(s))."
+    )
+
+
+def format_baseline_assumption(recommendation: "RunCountRecommendation") -> str:
+    rate = _pct(recommendation.limiting.baseline_rate)
+    if recommendation.baseline_source == "observed":
+        return f"Baseline attack-success rate {rate}, measured from this pair's previous run."
+    return (
+        f"No previous run to measure — assuming a {rate} baseline rate, the value that needs the most "
+        "runs. A real run against this environment will usually need fewer."
+    )
+
+
+def format_budget_option(option: "BudgetSizedOption") -> str:
+    """The honest sentence for a user-stated budget: what that money/time
+    actually buys in detection ability, or that it buys nothing. Never a
+    bare run count."""
+    ceilings = []
+    if option.max_usd is not None:
+        ceilings.append(f"${option.max_usd:.2f}")
+    if option.max_minutes is not None:
+        ceilings.append(f"{option.max_minutes:g} min")
+    ceiling_text = " / ".join(ceilings) if ceilings else "no ceiling"
+    if not option.feasible:
+        return (
+            f"A {ceiling_text} budget cannot fund this comparison at all: even the minimum "
+            f"2 runs/case/arm costs ${option.estimated_cost_usd:.2f} for this scope. "
+            "Narrow the family scope (fewer cases) or raise the budget."
+        )
+    binding = {"cost": "money", "time": "time", "none": "neither ceiling"}[option.binding]
+    return (
+        f"At this budget ({ceiling_text}, {binding}-limited) you can reliably catch differences of "
+        f"{100 * option.detectable_effect:.1f} points or larger: {option.n_runs_per_case} runs/case/arm — "
+        f"{option.total_runs} run(s), ${option.estimated_cost_usd:.2f}, "
+        f"{_duration(option.estimated_wall_seconds)}. Anything smaller will read as INCONCLUSIVE."
+    )
+
+
+def format_run_count_option(option: "RunCountOption", recommendation: "RunCountRecommendation") -> str:
+    """One selectable row. Leads with the count and its price, then states
+    plainly what that count can and cannot resolve."""
+    estimate = option.estimate
+    cost = "no API cost" if not estimate.any_real_model else f"${estimate.estimated_cost_usd:.2f}"
+    headline = {
+        "recommended": "Recommended",
+        "smaller": "Smaller (faster and cheaper)",
+        "larger": "Larger (more headroom)",
+    }.get(option.kind, option.kind.title())
+
+    if estimate.n_jobs_remaining == 0:
+        # Zero new runs is resumability working, not a free lunch — say
+        # which it is, so "0 run(s), no cost" can't be misread as a run
+        # that will produce a result out of nothing.
+        detail = (
+            f"{option.n_runs_per_case} runs/case/arm — already fully covered by cached runs: "
+            "nothing new executes, the verdict is recomputed from the existing data"
+        )
+    else:
+        detail = (
+            f"{option.n_runs_per_case} runs/case/arm — {estimate.n_jobs_remaining} new run(s), "
+            f"{cost}, {_duration(option.wall_seconds)}"
+        )
+    if option.meets_target_power:
+        consequence = (
+            f"Detects differences down to {100 * option.detectable_effect:.1f} points "
+            f"at {_pct(recommendation.target_power)} power."
+        )
+    else:
+        consequence = (
+            f"Cannot detect anything below {100 * option.detectable_effect:.1f} points — a real difference "
+            f"smaller than that will come back INCONCLUSIVE no matter how large it truly is."
+        )
+    return f"{headline}: {detail}\n[dim]{consequence}[/dim]"

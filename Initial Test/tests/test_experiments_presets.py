@@ -69,7 +69,14 @@ def test_known_neutral_shows_zero_diff_via_common_random_numbers(tmp_path: Path)
     )
     for family_results in result.family_results.values():
         for r in family_results:
-            assert r.effect.diff == 0.0, f"{r.family}: expected exact-zero diff under CRN, got {r.effect.diff}"
+            # The CRN promise is about the observed data: every case's two
+            # arms saw identical draws, so the observed mean diff is
+            # exactly zero. The reported diff is the posterior median,
+            # which sits within Monte Carlo error of it, never exactly on
+            # it — assert on the observed value the promise is about.
+            assert r.effect.extra["observed_diff"] == 0.0, (
+                f"{r.family}: expected exact-zero observed diff under CRN, got {r.effect.extra['observed_diff']}"
+            )
             assert r.significant_after_correction is False
 
 
@@ -81,5 +88,15 @@ def test_known_regression_shows_positive_effect(tmp_path: Path):
         cases=cases, n_runs_per_case=5, max_workers=4, runs_dir=tmp_path,
     )
     exfil_results = {r.family: r for r in result.family_results["exfiltration"]}
-    assert exfil_results["direct_instruction_injection"].effect.diff > 0
-    assert exfil_results["direct_instruction_injection"].significant_after_correction is True
+    row = exfil_results["direct_instruction_injection"]
+    effect = row.effect
+    # Under the retired bootstrap this preset's known real regression was
+    # *refused* at 5 cases (the method's calibration floor is 80). The
+    # hierarchical default is validated at exactly this size, so the
+    # regression must now come back as a real, significant finding — a
+    # positive effect whose credible interval clears the ROPE.
+    assert effect.method == "hierarchical_bayes"
+    assert effect.diff > 0
+    assert effect.p_value is not None
+    assert effect.extra["rope_signal"] is True
+    assert row.significant_after_correction is True

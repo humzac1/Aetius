@@ -28,7 +28,7 @@ from attacker.cases import ATTACK_CASES
 from attacker.executor import execute_case
 from experiments.mock_policy import build_mock_scripts
 from config.credentials import ensure_env_loaded
-from experiments.runner import DEFAULT_RUNS_DIR, CacheIndex, ExperimentResult, run_experiment
+from experiments.runner import DEFAULT_RUNS_DIR, CacheIndex, ExperimentResult, SequentialStopSpec, run_experiment, suite_digest
 from target_system.config import ModelConfig, SystemConfig, compute_config_hash, save_config
 from target_system.logging_schema import RunRecord, append_run_record
 from tui.data import single_config_run_path
@@ -54,12 +54,44 @@ def build_anthropic_client() -> Any:
     return anthropic.Anthropic()
 
 
-def comparison_experiment_name(hash_a: str, hash_b: str) -> str:
+def comparison_experiment_name(
+    hash_a: str,
+    hash_b: str,
+    *,
+    cases: list[AttackCase] | None = None,
+    runs_dir: Path = DEFAULT_RUNS_DIR,
+) -> str:
     """Deterministic name for an ad hoc (wizard- or menu-driven, not
     preset) two-arm comparison, so re-running the same pair of config
     hashes resumes the same cached JSONL rather than minting a new file
-    every time."""
-    return f"adhoc_{hash_a}_{hash_b}"
+    every time.
+
+    The two config hashes alone were not enough. Comparing the same arms
+    under a different case suite resumed the previous suite's file and the
+    report then averaged both suites together — a real corruption, see
+    experiments/runner.assert_case_suite_matches. Passing `cases` scopes
+    the name to the suite as well, so a different suite gets a different
+    file instead of contaminating one.
+
+    Callers that pass `cases` keep the unsuffixed name when the existing
+    file already holds exactly this suite. That's purely backward
+    compatibility: runs recorded before suite-aware naming existed stay
+    resumable rather than being orphaned mid-experiment, and it can't
+    reintroduce mixing because it only ever reuses a file whose case ids
+    already match."""
+    base = f"adhoc_{hash_a}_{hash_b}"
+    if cases is None:
+        return base
+
+    incoming = {c.id for c in cases}
+    legacy_path = runs_dir / f"{base}.jsonl"
+    if legacy_path.exists():
+        existing = {r.case_id for r in CacheIndex(legacy_path).records}
+        if not existing or existing == incoming:
+            return base
+    elif not incoming:
+        return base
+    return f"{base}__{suite_digest(incoming)}"
 
 
 def enforce_reconstructed_provider(config: SystemConfig) -> SystemConfig:
@@ -76,17 +108,25 @@ def enforce_reconstructed_provider(config: SystemConfig) -> SystemConfig:
     return config.model_copy(update={"model": ModelConfig(provider="anthropic", model_name=config.model.model_name)})
 
 
-def peek_n_cached(configs: list[SystemConfig], *, runs_dir: Path = DEFAULT_RUNS_DIR) -> int:
+def peek_n_cached(
+    configs: list[SystemConfig], *, cases: list[AttackCase] | None = None, runs_dir: Path = DEFAULT_RUNS_DIR
+) -> int:
     """How many records already sit in the JSONL this run would append to,
     without executing anything — the same file run_single_config_check
     (len(configs) == 1) or run_comparison_check (len(configs) == 2) would
     write to. Used to ground a pre-execution cost estimate in what's
     actually left to run, not the full batch (see
-    experiments/cost_estimate.py's n_cached parameter)."""
+    experiments/cost_estimate.py's n_cached parameter).
+
+    `cases` matters for the same reason it does when naming the run: a
+    different case suite resolves to a different file, so a cost estimate
+    that ignored it would quote the wrong "already cached" count."""
     if len(configs) == 1:
         path = single_config_run_path(compute_config_hash(configs[0]), runs_dir=runs_dir)
     elif len(configs) == 2:
-        name = comparison_experiment_name(compute_config_hash(configs[0]), compute_config_hash(configs[1]))
+        name = comparison_experiment_name(
+            compute_config_hash(configs[0]), compute_config_hash(configs[1]), cases=cases, runs_dir=runs_dir
+        )
         path = runs_dir / f"{name}.jsonl"
     else:
         raise ValueError(f"expected 1 or 2 configs, got {len(configs)}")
@@ -103,12 +143,18 @@ def run_comparison_check(
     runs_dir: Path = DEFAULT_RUNS_DIR,
     on_progress: Callable[[int, int], None] | None = None,
     anthropic_client: Any = None,
+    sequential_stop: SequentialStopSpec | None = None,
 ) -> ExperimentResult:
     """Thin pass-through to experiments.runner.run_experiment — the name
     is the only thing this function adds. run_experiment itself rejects a
     reconstructed config (provenance is not None) under provider="mock",
     so that guard doesn't need to be duplicated here."""
-    name = comparison_experiment_name(compute_config_hash(config_a), compute_config_hash(config_b))
+    # Resolve the default here rather than letting run_experiment do it,
+    # so the name is derived from the same suite that actually runs.
+    cases = list(cases) if cases is not None else list(ATTACK_CASES)
+    name = comparison_experiment_name(
+        compute_config_hash(config_a), compute_config_hash(config_b), cases=cases, runs_dir=runs_dir
+    )
     return run_experiment(
         config_a,
         config_b,
@@ -119,6 +165,7 @@ def run_comparison_check(
         runs_dir=runs_dir,
         on_progress=on_progress,
         anthropic_client=anthropic_client,
+        sequential_stop=sequential_stop,
     )
 
 

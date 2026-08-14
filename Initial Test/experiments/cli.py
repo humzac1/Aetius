@@ -79,7 +79,15 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--experiment-name", help="Output file stem under data/runs/. Defaults to the preset name.")
     p_run.add_argument("--runs-per-case", type=int, default=5)
     p_run.add_argument("--max-workers", type=int, default=8)
-    p_run.add_argument("--method", choices=["cluster_bootstrap", "mcnemar", "mixed_effects"], default="cluster_bootstrap")
+    # hierarchical_bayes is the only method the product path uses; the
+    # frequentist choices remain here as this harness's escape hatch for
+    # regression comparisons, same retired-but-testable status as the toy
+    # presets this same subcommand can still run.
+    p_run.add_argument(
+        "--method",
+        choices=["hierarchical_bayes", "cluster_bootstrap", "mcnemar", "mixed_effects"],
+        default="hierarchical_bayes",
+    )
     p_run.add_argument("--alpha", type=float, default=0.05)
     p_run.add_argument("--verbose", action="store_true")
     p_run.set_defaults(func=_cmd_run)

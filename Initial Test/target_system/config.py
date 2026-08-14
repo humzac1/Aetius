@@ -17,11 +17,12 @@ Design choices that matter downstream:
   - `label` is intentionally excluded from the hash: it's a human note, not
     part of the experimental condition. Two configs with different labels
     but identical resolved content are the same condition and must collide.
-  - `provenance` (target_system/provenance.py) is excluded from the hash for
-    the same reason: it's set by ingestion/reconstruct.py to describe where
-    a reconstructed config came from (trace count, project, warnings), not
-    part of what the config resolves to. None for every hand-authored
-    (toy system) config.
+  - `provenance` (target_system/provenance.py) is *mostly* excluded from the
+    hash: it's set by ingestion/reconstruct.py to describe where a
+    reconstructed config came from, not part of what the config resolves to.
+    None for every hand-authored (toy system) config. The exception is the
+    part of it that genuinely is the environment's content — see
+    _provenance_identity below for why excluding it wholesale was a bug.
 """
 
 from __future__ import annotations
@@ -122,8 +123,58 @@ class SystemConfig(BaseModel):
         return [a for a in self.agents if a.role != "supervisor"]
 
 
+# The fields of ReconstructionProvenance that are the reconstructed
+# environment's *content* rather than a note about where it came from.
+# tool_profiles is the substantive one: it holds the observed argument
+# profiles, response key sets and example (arguments, response) pairs that
+# the replay executor actually answers tool calls from, so two pulls with
+# different tool_profiles are different environments no matter how alike
+# the rest of the config looks. trace_count rides along as the cheap,
+# human-legible summary of how much evidence sits behind them.
+#
+# Everything else stays out, deliberately:
+#   - extraction_date is wall-clock time, not data. Folding it in would give
+#     every re-pull a fresh identity and destroy dedupe outright.
+#   - the avg_* cost/token figures are floats derived from the same traces
+#     tool_profiles already covers — redundant discrimination in exchange
+#     for a float-repr stability risk across platforms.
+#   - warnings and other_groups_found describe the batch around this group,
+#     not this environment.
+_PROVENANCE_IDENTITY_FIELDS = {"project_id", "source_agent_name", "trace_count", "tool_profiles"}
+
+
+def _provenance_identity(provenance: ReconstructionProvenance) -> str:
+    """Digest of the trace-derived content of a reconstructed config.
+
+    Exists because excluding provenance wholesale from the hash was a
+    silent data-loss bug, confirmed in real user data: everything a
+    reconstruction learns from its traces lands in provenance, so for a
+    Langfuse-sourced config — where system_prompt is the fixed
+    "unavailable" placeholder — the hashed content was only the model
+    name, the agent name/role, the sorted tool-name list and default
+    security settings. Re-pulling the same agent with 100 more traces
+    changed none of that, so the second reconstruction hashed to the same
+    cfg_* id, save_config's `if not path.exists()` skipped the write, and
+    the richer pull was discarded while the UI reported it saved.
+
+    Deterministic across identical pulls: the cached trace ids are loaded
+    in sorted order (langfuse_client.load_cached_trace_ids), so the
+    capped sample_values/example_calls are drawn in a stable order, and
+    sort_keys makes the dict ordering irrelevant. Two pulls that saw the
+    same trace data therefore still dedupe to one file."""
+    material = provenance.model_dump(mode="json", include=_PROVENANCE_IDENTITY_FIELDS)
+    return hashlib.sha256(json.dumps(material, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
 def _canonical_json(config: SystemConfig) -> str:
     data = config.model_dump(mode="json", exclude={"label", "provenance"})
+    if config.provenance is not None:
+        # Added only for reconstructed configs, so every hand-authored (toy
+        # system) config keeps the exact hash it had before this key
+        # existed — old cfg_* ids in existing run records stay resolvable.
+        # The dunder name can't collide with a SystemConfig field: pydantic
+        # treats leading-underscore names as private attrs, not fields.
+        data["__provenance__"] = _provenance_identity(config.provenance)
     return json.dumps(data, sort_keys=True, separators=(",", ":"))
 
 
@@ -132,15 +183,42 @@ def compute_config_hash(config: SystemConfig) -> str:
     return f"cfg_{digest[:12]}"
 
 
+class ConfigHashCollisionError(RuntimeError):
+    """Two configs with different hashed content landed on the same cfg_*
+    id — a real 48-bit digest collision (or a corrupt/unreadable file at
+    that path). Raised rather than resolved because both outcomes
+    available here are wrong: overwriting discards a config earlier runs
+    were scored against, and skipping the write is the exact silent
+    no-op this module was fixed to stop doing."""
+
+
 def save_config(config: SystemConfig, configs_dir: Path = DEFAULT_CONFIGS_DIR) -> str:
     """Persist the resolved config, keyed by its content hash. Idempotent:
-    writing the same config twice is a no-op after the first write."""
+    writing the same config twice is a no-op after the first write.
+
+    "The same config" means the same *hashed* content, which is what makes
+    the no-op safe to take: an existing file is left alone only after its
+    canonical form is confirmed byte-identical to what this call would
+    write. Fields outside the hash (label, extraction_date, the cost
+    averages) may differ between the two and the first write still wins —
+    that's the same "different label, same condition" collapse the hash
+    has always intended. Anything else raises rather than silently
+    keeping the stale file."""
     config_hash = compute_config_hash(config)
     configs_dir.mkdir(parents=True, exist_ok=True)
     path = configs_dir / f"{config_hash}.json"
-    if not path.exists():
-        payload = {"config_hash": config_hash, **config.model_dump(mode="json")}
-        path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+    if path.exists():
+        try:
+            existing = load_config(config_hash, configs_dir=configs_dir)
+        except Exception as exc:  # unparseable, or written under an older schema
+            raise ConfigHashCollisionError(f"{path} exists but could not be read back for comparison: {exc}") from exc
+        if _canonical_json(existing) != _canonical_json(config):
+            raise ConfigHashCollisionError(
+                f"{path} already holds a config with different hashed content under the same id {config_hash!r}"
+            )
+        return config_hash
+    payload = {"config_hash": config_hash, **config.model_dump(mode="json")}
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
     return config_hash
 
 

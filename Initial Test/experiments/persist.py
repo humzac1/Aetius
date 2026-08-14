@@ -18,7 +18,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from experiments.report import compute_sequential_analysis
+from experiments.report import compute_cuped_analysis, compute_sequential_analysis
 from experiments.runner import DEFAULT_RUNS_DIR, ExperimentResult
 from target_system.logging_schema import RunRecord
 
@@ -30,8 +30,8 @@ def report_path(experiment_name: str, runs_dir: Path = DEFAULT_RUNS_DIR) -> Path
 def cases_per_family(records: list[RunRecord]) -> dict[str, int]:
     """How many distinct cases this run actually has records for, per
     family. Saved into the report because family_results alone can't
-    answer it: a family whose case count is under stats.paired's
-    MIN_CASES_FOR_BOOTSTRAP produces no FamilyResult at all
+    answer it: a family whose case count is under stats.hierarchical's
+    MIN_CASES_FOR_HIERARCHICAL produces no FamilyResult at all
     (compare_families swallows the ValueError), so by the time a verdict
     is computed the evidence for *why* there's nothing to report is
     exactly the thing that got dropped. Counted off the raw records
@@ -48,6 +48,7 @@ def save_experiment_report(
     result: ExperimentResult,
     *,
     sequential_outcome_key: str | None = None,
+    cuped_outcome_key: str | None = None,
     tau: float = 0.1,
     runs_dir: Path = DEFAULT_RUNS_DIR,
 ) -> Path:
@@ -69,6 +70,14 @@ def save_experiment_report(
             for outcome_key, results in result.family_results.items()
         },
         "sequential_analysis": None,
+        # What early stopping actually did during execution, if it was
+        # enabled — distinct from "sequential_analysis" above, which is the
+        # post-hoc read of the same confidence sequence over whatever data
+        # exists. A report where these disagree would mean the run was
+        # stopped on a boundary the saved analysis can't reproduce, so both
+        # are written rather than collapsing them into one field.
+        "sequential_stop": dataclasses.asdict(result.sequential_stop) if result.sequential_stop else None,
+        "cuped": None,
     }
 
     if sequential_outcome_key is not None:
@@ -77,6 +86,14 @@ def save_experiment_report(
             payload["sequential_analysis"] = {
                 "outcome_key": sequential_outcome_key,
                 **dataclasses.asdict(cs),
+            }
+
+    if cuped_outcome_key is not None:
+        cuped = compute_cuped_analysis(result, cuped_outcome_key, runs_dir=runs_dir)
+        if cuped is not None:
+            payload["cuped"] = {
+                "outcome_key": cuped_outcome_key,
+                **{k: v for k, v in dataclasses.asdict(cuped).items() if k != "adjusted_values"},
             }
 
     path = report_path(result.name, runs_dir)

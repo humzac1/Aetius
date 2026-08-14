@@ -60,6 +60,12 @@ _data_dir_override = os.environ.get(DATA_DIR_ENV_VAR)
 DATA_DIR = Path(_data_dir_override).expanduser() if _data_dir_override else Path(user_data_dir(APP_NAME))
 CONFIGS_DIR = DATA_DIR / "configs"
 RUNS_DIR = DATA_DIR / "runs"
+# Domain-adapted attack cases, one file per reconstructed environment keyed
+# by its config hash (attacker/case_generation.py). Generated once per
+# environment and reused forever after: paired comparisons need both arms
+# to face identical cases, and repeated tests over time need to stay
+# comparable, so regenerating per run would silently break both.
+GENERATED_CASES_DIR = DATA_DIR / "generated_cases"
 TRACES_DIR = DATA_DIR / "traces"  # Langfuse
 TRACES_BRAINTRUST_DIR = DATA_DIR / "traces_braintrust"
 

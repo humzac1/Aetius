@@ -28,17 +28,24 @@ def test_cluster_bootstrap_degenerate_identical_arms_not_flagged_significant():
         for i in range(5)
     ]
     result = cluster_bootstrap_diff(data, seed=1, n_boot=500)
+    # Every case has an identical arm_a/arm_b, so 100% of per-case diffs are
+    # exactly zero — the degeneracy guard now refuses this outright, which
+    # subsumes the original bug (BCa reporting p=0.0 on a literal 0.0pp
+    # difference) rather than merely special-casing it.
     assert result.diff == 0.0
-    assert result.ci_low == 0.0
-    assert result.ci_high == 0.0
-    assert result.p_value == 1.0
-    assert result.extra.get("degenerate_zero_variance") is True
+    assert result.p_value is None
+    assert result.extra.get("refused") is True
+    assert result.extra.get("zero_diff_fraction") == 1.0
+    assert "any case count" in result.fallback_reason
 
 
 def test_cluster_bootstrap_degenerate_certain_nonzero_diff_is_flagged():
+    # No zero diffs at all (every case differs by a certain -1.0), so the
+    # degeneracy guard does not apply — but the case-count floor does, so
+    # this is run at it to exercise the underlying zero-variance path.
     data = [
         PairedCaseData(f"c{i}", "fam", CaseObservations(f"c{i}", "fam", (1, 1, 1)), CaseObservations(f"c{i}", "fam", (0, 0, 0)))
-        for i in range(5)
+        for i in range(80)
     ]
     result = cluster_bootstrap_diff(data, seed=1, n_boot=500)
     assert result.diff == -1.0
@@ -48,7 +55,9 @@ def test_cluster_bootstrap_degenerate_certain_nonzero_diff_is_flagged():
 
 def test_cluster_bootstrap_recovers_known_effect():
     rng = np.random.default_rng(42)
-    data = _make_paired_data(rng, n_cases=25, n_per_case=25, effect=0.10)
+    # 80 cases: the calibrated floor (see stats/paired.MIN_CASES_FOR_BOOTSTRAP).
+    # Below it the method now declines rather than returning a p-value.
+    data = _make_paired_data(rng, n_cases=80, n_per_case=25, effect=0.10)
     result = cluster_bootstrap_diff(data, seed=1, n_boot=2000)
     assert 0.06 < result.diff < 0.16
     assert result.ci_low > 0  # excludes zero — the known effect should be detected
@@ -57,7 +66,7 @@ def test_cluster_bootstrap_recovers_known_effect():
 
 def test_cluster_bootstrap_null_ci_usually_contains_zero():
     rng = np.random.default_rng(3)
-    data = _make_paired_data(rng, n_cases=25, n_per_case=25, effect=0.0)
+    data = _make_paired_data(rng, n_cases=80, n_per_case=25, effect=0.0)
     result = cluster_bootstrap_diff(data, seed=1, n_boot=2000)
     assert result.ci_low < 0 < result.ci_high
 

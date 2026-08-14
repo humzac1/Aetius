@@ -80,8 +80,13 @@ def test_comparison_experiment_name_is_deterministic_and_order_sensitive():
 def test_run_comparison_check_delegates_to_run_experiment(tmp_path):
     config_a = baseline_config(label="on", defensive_instruction=True)
     config_b = baseline_config(label="off", defensive_instruction=False)
-    result = run_comparison_check(config_a, config_b, cases=_mock_cases(2), n_runs_per_case=2, runs_dir=tmp_path)
-    expected_name = comparison_experiment_name(compute_config_hash(config_a), compute_config_hash(config_b))
+    cases = _mock_cases(2)
+    result = run_comparison_check(config_a, config_b, cases=cases, n_runs_per_case=2, runs_dir=tmp_path)
+    # the name is scoped to the case suite as well as the two arms, so a
+    # different suite can't resume — and dilute — this file
+    expected_name = comparison_experiment_name(
+        compute_config_hash(config_a), compute_config_hash(config_b), cases=cases, runs_dir=tmp_path
+    )
     assert result.name == expected_name
     assert result.n_executed == 8  # 2 cases x 2 runs x 2 arms
     assert set(result.family_results.keys()) == {
@@ -172,5 +177,6 @@ def test_peek_n_cached_single_config_matches_actual_run(tmp_path):
 def test_peek_n_cached_comparison_matches_actual_run(tmp_path):
     config_a = baseline_config(label="peek-a")
     config_b = baseline_config(label="peek-b")
-    run_comparison_check(config_a, config_b, cases=_mock_cases(2), n_runs_per_case=1, runs_dir=tmp_path)
-    assert peek_n_cached([config_a, config_b], runs_dir=tmp_path) == 4
+    cases = _mock_cases(2)
+    run_comparison_check(config_a, config_b, cases=cases, n_runs_per_case=1, runs_dir=tmp_path)
+    assert peek_n_cached([config_a, config_b], cases=cases, runs_dir=tmp_path) == 4

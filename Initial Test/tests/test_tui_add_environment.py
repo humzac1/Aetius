@@ -346,6 +346,37 @@ def test_selecting_group_with_spaces_in_name_reconstructs_and_saves(tmp_path):
     run_async(scenario)
 
 
+def test_done_screen_reports_what_is_on_disk_not_what_was_reconstructed(tmp_path):
+    """Regression: this screen used to render the in-memory reconstruction
+    it was handed, so a save that didn't write reported the unsaved
+    config's numbers as if they'd been persisted. It now takes only a
+    hash — mutating the saved file behind it must change what it says."""
+    from target_system.config import load_config, save_config
+    from ingestion.reconstruct import reconstruct_from_cache
+
+    _write_trace(tmp_path, "proj-1", "a1", agent_name="Invoice Generation Assistant", observations=[_TOOL_CALL_OBS])
+    config = reconstruct_from_cache(project_id="proj-1", agent_name="Invoice Generation Assistant", traces_dir=tmp_path)
+    config_hash = save_config(config, configs_dir=tmp_path)
+    assert config.provenance.trace_count == 1
+
+    saved = json.loads((tmp_path / f"{config_hash}.json").read_text(encoding="utf-8"))
+    saved["provenance"]["trace_count"] = 9999
+    (tmp_path / f"{config_hash}.json").write_text(json.dumps(saved), encoding="utf-8")
+
+    async def scenario():
+        app = HarnessApp()
+        async with app.run_test() as pilot:
+            app.push_screen(AddEnvironmentDoneScreen(config_hash, configs_dir=tmp_path))
+            await pilot.pause()
+            assert app.screen.config.provenance.trace_count == 9999
+            assert load_config(config_hash, configs_dir=tmp_path).provenance.trace_count == 9999
+            rendered = " ".join(str(label.render()) for label in app.screen.query(Label))
+            assert "9999 trace(s)" in rendered
+            assert "1 trace(s)" not in rendered
+
+    run_async(scenario)
+
+
 def test_done_screen_surfaces_other_groups_found(tmp_path):
     _write_trace(tmp_path, "proj-1", "a1", agent_name="Invoice Generation Assistant", observations=[_TOOL_CALL_OBS])
     _write_trace(tmp_path, "proj-1", "b1", agent_name="HR Onboarding Assistant")

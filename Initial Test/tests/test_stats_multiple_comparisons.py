@@ -24,7 +24,7 @@ def test_compare_families_flags_only_the_regressed_family():
     rng = np.random.default_rng(11)
     data = []
     for fam, effect in [("regressed", 0.15), ("null_a", 0.0), ("null_b", 0.0)]:
-        for i in range(15):
+        for i in range(80):  # the calibrated floor for cluster_bootstrap
             p_a = rng.uniform(0.05, 0.2)
             p_b = min(0.95, p_a + effect)
             a = tuple(int(x) for x in rng.binomial(1, p_a, 25))

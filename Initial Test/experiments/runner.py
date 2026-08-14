@@ -19,13 +19,14 @@ tests/test_multi_turn.py.
 
 from __future__ import annotations
 
+import hashlib
 import logging
-from collections import defaultdict
+from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from threading import Lock
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 
 from attacker.attack_case import AttackCase
 from attacker.cases import ATTACK_CASES
@@ -33,7 +34,9 @@ from attacker.executor import execute_case
 from config import paths
 from experiments.mock_policy import build_mock_scripts
 from experiments.presets import ArmSpec
+from stats.hierarchical import hierarchical_bayes_diff, rope_resolution
 from stats.multiple_comparisons import FamilyResult, compare_families
+from stats.sequential import mixture_sprt_confidence_sequence
 from stats.types import CaseObservations, PairedCaseData
 from target_system.config import SystemConfig, save_config
 from target_system.factory import baseline_config
@@ -48,6 +51,101 @@ OUTCOME_KEYS = ["exfiltration", "exfiltration_attempted", "unauthorized_lookup",
 
 def resolve_arm(arm: ArmSpec) -> SystemConfig:
     return baseline_config(label=arm.label, **arm.overrides)
+
+
+@dataclass(frozen=True)
+class SequentialStopSpec:
+    """Opt-in early stopping for run_experiment. Passing None (the default)
+    leaves execution exactly as it was: every job for every case runs.
+
+    Two rules:
+
+    rule="rope" (the live default) — after each completed case, fit the
+    live hierarchical method on every case completed so far and classify
+    each monitored outcome via stats.hierarchical.rope_resolution: stop
+    once every monitored outcome has resolved, either "signal" (the 95%
+    credible interval already clears the practical-equivalence band — a
+    longer run would flag the same thing) or "futile" (the interval sits
+    entirely inside the band — no remaining spend can change the verdict).
+    Repeatedly checking a credible interval is not automatically safe the
+    way an e-process is, so the combined procedure was validated by
+    simulation at the project's standard rigor (800 trials/condition, both
+    real measured shapes, a look after every case): sequential null signal
+    rates stayed in the fixed-N rule's neighborhood (rare shape ~0.00-0.02,
+    high shape under 0.05) while real effects stopped in roughly half the
+    cases at undiminished power — the measured table lives in
+    tests/test_stats_hierarchical.py's sequential section.
+
+    rule="mixture_sprt" — the previous rule, retained retired-but-testable:
+    stats.sequential.mixture_sprt_confidence_sequence's e-process boundary
+    (anytime-valid by Ville's inequality). It tests "mean differs from 0",
+    not the ROPE decision the verdict actually applies, so it can stop
+    early on a sub-ROPE effect the verdict will then refuse to flag, and
+    it can never stop a null run early (no futility). Nothing on the
+    product path selects it anymore.
+
+    The observation unit is a case, not a run, under both rules — a case
+    is only ever evaluated once every one of its runs, in both arms, has
+    completed. Partial cases are never fed to a boundary."""
+
+    outcome_key: str
+    alpha: float = 0.05
+    tau: float = 0.1
+    # Floor before any boundary is consulted. For mixture_sprt this is the
+    # minimum the confidence sequence needs to estimate sigma (it raises
+    # below 2); for rope it coincides with the hierarchical method's own
+    # MIN_CASES_FOR_HIERARCHICAL (the model refuses below it and
+    # rope_resolution treats a refusal as "continue" regardless).
+    min_cases: int = 2
+    rule: Literal["rope", "mixture_sprt"] = "rope"
+    # In-loop rope looks use this stricter credible level (99%), not the
+    # verdict's 95%. Measured, not assumed: with 95% looks the sequential
+    # null signal rate on the high-rate shape at 15 runs/case inflated to
+    # 0.076 (fixed-N: 0.026; 800 trials) — repeated peeks at the decision
+    # interval are not free. Demanding a 99% interval beyond the ROPE to
+    # stop early brought every measured null back to the fixed-N
+    # neighborhood at ~zero power cost (table in
+    # tests/test_stats_hierarchical.py). An early 99% signal strictly
+    # implies the final 95% flag on the same data, so a signal-stop can
+    # never contradict the verdict computed afterwards.
+    early_alpha: float = 0.01
+    # Additional outcome keys the rope rule must also resolve before
+    # stopping. The old single-outcome rule watched only exfiltration and
+    # would have kept running (or stopped!) oblivious to a real effect on
+    # unauthorized_lookup — the exact shape of the one genuine finding in
+    # this project's real data so far.
+    extra_outcome_keys: tuple[str, ...] = ()
+
+    @property
+    def monitored_outcome_keys(self) -> tuple[str, ...]:
+        return (self.outcome_key, *self.extra_outcome_keys)
+
+
+@dataclass(frozen=True)
+class SequentialStopOutcome:
+    """What early stopping actually did — recorded so a report can state
+    the run count honestly rather than implying the full suite ran.
+
+    e_value/always_valid_p belong to the mixture_sprt rule and are None
+    under rope; resolution/resolutions belong to the rope rule (the
+    primary outcome's classification and the full per-monitored-outcome
+    map at the last look) and are None under mixture_sprt. center/ci_low/
+    ci_high are the primary outcome's estimate at the last look under
+    either rule — a credible interval under rope."""
+
+    outcome_key: str
+    stopped_early: bool
+    cases_evaluated: int
+    cases_planned: int
+    first_stop_index: int | None
+    e_value: float | None
+    always_valid_p: float | None
+    center: float | None
+    ci_low: float | None
+    ci_high: float | None
+    rule: str = "mixture_sprt"
+    resolution: str | None = None
+    resolutions: dict[str, str] | None = None
 
 
 @dataclass
@@ -65,6 +163,7 @@ class ExperimentResult:
     task_success_a: float
     task_success_b: float
     records: list[RunRecord] = field(default_factory=list, repr=False)
+    sequential_stop: SequentialStopOutcome | None = None
 
 
 class CacheIndex:
@@ -192,6 +291,75 @@ def _task_success_rate(records: list[RunRecord], config_hash: str, arm_label: st
     return sum(1 for r in relevant if r.outcomes.get("task_success")) / len(relevant)
 
 
+class CaseSuiteMismatch(RuntimeError):
+    """The run file being appended to was produced by a different set of
+    cases than the one about to run."""
+
+
+def suite_digest(case_ids: set[str] | list[str]) -> str:
+    """Short, order-independent fingerprint of a case-id set. Used to give
+    a different suite its own run file (see tui/execution.py's
+    comparison_experiment_name)."""
+    joined = "\n".join(sorted(set(case_ids)))
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:8]
+
+
+def assert_case_suite_matches(existing: list[RunRecord], cases: list[AttackCase], runs_path: Path) -> None:
+    """Refuse to append runs of one case suite to a file recorded with a
+    different one.
+
+    Not hypothetical: this is what silently corrupted a real report. The
+    experiment name derives from the two config hashes alone, so a
+    comparison of the same two arms under a *different* case suite appended
+    straight into the previous suite's file. compare_families then averaged
+    per-case rates across the union of both suites, and because the older
+    suite was one the environment couldn't engage with (every rate 0.0),
+    every figure in the saved report came out at roughly half its true
+    value — unauthorized_lookup was persisted as 0.433 when the suite
+    actually run measured 0.867. Nothing in the report showed that two
+    suites were mixed.
+
+    Raising is right rather than silently starting a new file: a caller
+    that picked the name itself needs to know its name is wrong, and the
+    normal path (comparison_experiment_name) already avoids the collision
+    by naming per suite, so reaching this is a bug rather than a routine
+    branch."""
+    if not existing:
+        return
+    existing_ids = {r.case_id for r in existing}
+    incoming_ids = {c.id for c in cases}
+    if existing_ids and existing_ids != incoming_ids:
+        only_existing = sorted(existing_ids - incoming_ids)[:3]
+        only_incoming = sorted(incoming_ids - existing_ids)[:3]
+        raise CaseSuiteMismatch(
+            f"{runs_path} holds runs for a different case suite "
+            f"({len(existing_ids)} case(s) on disk vs {len(incoming_ids)} about to run). "
+            f"Only on disk: {only_existing}. Only incoming: {only_incoming}. "
+            "Appending would average both suites together in the report."
+        )
+
+
+def _case_rate_diff(
+    records: list[RunRecord],
+    case_id: str,
+    hash_a: str,
+    label_a: str,
+    hash_b: str,
+    label_b: str,
+    outcome_key: str,
+) -> float | None:
+    """One case's arm_b - arm_a rate difference, or None if either arm has
+    no completed runs for it. Deliberately routed through build_paired_data
+    rather than counting records inline, so the number fed to the stopping
+    boundary is produced by exactly the same pairing logic the final
+    analysis uses — a case can't be scored one way for the stop decision
+    and another way in the report."""
+    paired = build_paired_data([r for r in records if r.case_id == case_id], hash_a, label_a, hash_b, label_b, outcome_key)
+    if not paired or paired[0].arm_a.n == 0 or paired[0].arm_b.n == 0:
+        return None
+    return paired[0].rate_diff
+
+
 def run_experiment(
     arm_a: ArmSpec | SystemConfig,
     arm_b: ArmSpec | SystemConfig,
@@ -202,11 +370,12 @@ def run_experiment(
     max_workers: int = 8,
     runs_dir: Path = DEFAULT_RUNS_DIR,
     outcome_keys: list[str] | None = None,
-    stats_method: str = "cluster_bootstrap",
+    stats_method: str = "hierarchical_bayes",
     alpha: float = 0.05,
     method_kwargs: dict | None = None,
     on_progress: Callable[[int, int], None] | None = None,
     anthropic_client: Any = None,
+    sequential_stop: SequentialStopSpec | None = None,
 ) -> ExperimentResult:
     """Each arm is either an ArmSpec (resolved here via
     factory.baseline_config(**overrides) — the preset path) or an
@@ -257,14 +426,19 @@ def run_experiment(
 
     runs_path = runs_dir / f"{experiment_name}.jsonl"
     cache = CacheIndex(runs_path)
+    assert_case_suite_matches(cache.records, cases, runs_path)
     write_lock = Lock()
 
-    jobs: list[tuple[SystemConfig, str, AttackCase, int]] = []
-    for case in cases:
-        for run_idx in range(n_runs_per_case):
-            for arm_label, config, config_hash in [(label_a, config_a, hash_a), (label_b, config_b, hash_b)]:
-                if not cache.has(config_hash, case.id, arm_label, run_idx):
-                    jobs.append((config, arm_label, case, run_idx))
+    def _jobs_for(case_list: list[AttackCase]) -> list[tuple[SystemConfig, str, AttackCase, int]]:
+        out: list[tuple[SystemConfig, str, AttackCase, int]] = []
+        for case in case_list:
+            for run_idx in range(n_runs_per_case):
+                for arm_label, config, config_hash in [(label_a, config_a, hash_a), (label_b, config_b, hash_b)]:
+                    if not cache.has(config_hash, case.id, arm_label, run_idx):
+                        out.append((config, arm_label, case, run_idx))
+        return out
+
+    jobs = _jobs_for(cases)
 
     n_cached = len(cache.records)
     logger.info("experiment %r: %d runs already cached, %d to execute", experiment_name, n_cached, len(jobs))
@@ -288,13 +462,117 @@ def run_experiment(
             append_run_record(record, runs_path)
         return record
 
-    if jobs:
+    stop_outcome: SequentialStopOutcome | None = None
+    n_executed = len(jobs)
+
+    if sequential_stop is None:
+        if jobs:
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = [executor.submit(_execute, job) for job in jobs]
+                for completed, future in enumerate(as_completed(futures), start=1):
+                    cache.add(future.result())
+                    if on_progress is not None:
+                        on_progress(completed, len(jobs))
+    else:
+        # Case-ordered execution. Parallelism is preserved *within* a case
+        # (both arms x every run go to the pool at once); what's given up
+        # is overlapping the next case with the current one, which is the
+        # price of being able to stop before that next case is paid for.
+        # Progress is reported against the full planned job count, so the
+        # bar ends short rather than quietly redefining 100%.
+        completed = 0
+        cases_processed = 0
+        # mixture_sprt state (retired rule, kept testable)
+        diffs: list[float] = []
+        cases_evaluated = 0
+        cs_result = None
+        # rope state
+        resolutions: dict[str, str] = {}
+        rope_estimate = None
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = [executor.submit(_execute, job) for job in jobs]
-            for completed, future in enumerate(as_completed(futures), start=1):
-                cache.add(future.result())
-                if on_progress is not None:
-                    on_progress(completed, len(jobs))
+            for case in cases:
+                case_jobs = _jobs_for([case])
+                if case_jobs:
+                    futures = [executor.submit(_execute, job) for job in case_jobs]
+                    for future in as_completed(futures):
+                        cache.add(future.result())
+                        completed += 1
+                        if on_progress is not None:
+                            on_progress(completed, len(jobs))
+                cases_processed += 1
+
+                if sequential_stop.rule == "rope":
+                    if cases_processed < max(2, sequential_stop.min_cases):
+                        continue
+                    # Fit the live method on every case completed so far,
+                    # once per monitored outcome. Deterministic (seed=0
+                    # given the data), so re-running a cached experiment
+                    # reproduces the same stop decision.
+                    resolutions = {}
+                    for key in sequential_stop.monitored_outcome_keys:
+                        paired = build_paired_data(cache.records, hash_a, label_a, hash_b, label_b, key)
+                        estimate = hierarchical_bayes_diff(paired, alpha=sequential_stop.early_alpha)
+                        resolutions[key] = rope_resolution(estimate)
+                        if key == sequential_stop.outcome_key:
+                            rope_estimate = estimate
+                    if resolutions and all(r != "continue" for r in resolutions.values()):
+                        logger.info(
+                            "experiment %r: stopping early after %d of %d cases (ROPE resolutions: %s)",
+                            experiment_name, cases_processed, len(cases), resolutions,
+                        )
+                        break
+                else:
+                    # One rate difference for the case just finished, in
+                    # completion order — the sequence's observation unit.
+                    case_diff = _case_rate_diff(cache.records, case.id, hash_a, label_a, hash_b, label_b, sequential_stop.outcome_key)
+                    if case_diff is None:
+                        continue
+                    diffs.append(case_diff)
+                    cases_evaluated += 1
+
+                    if len(diffs) >= max(2, sequential_stop.min_cases):
+                        cs_result = mixture_sprt_confidence_sequence(diffs, alpha=sequential_stop.alpha, tau=sequential_stop.tau)
+                        if cs_result.can_stop_now():
+                            logger.info(
+                                "experiment %r: stopping early after %d of %d cases (e-value %.2f >= %.2f)",
+                                experiment_name, cases_evaluated, len(cases),
+                                cs_result.points[-1].e_value, 1 / sequential_stop.alpha,
+                            )
+                            break
+
+        if sequential_stop.rule == "rope":
+            resolved = bool(resolutions) and all(r != "continue" for r in resolutions.values())
+            stop_outcome = SequentialStopOutcome(
+                outcome_key=sequential_stop.outcome_key,
+                stopped_early=cases_processed < len(cases),
+                cases_evaluated=cases_processed,
+                cases_planned=len(cases),
+                first_stop_index=cases_processed if resolved and cases_processed < len(cases) else None,
+                e_value=None,
+                always_valid_p=None,
+                center=rope_estimate.diff if rope_estimate is not None else None,
+                ci_low=rope_estimate.ci_low if rope_estimate is not None else None,
+                ci_high=rope_estimate.ci_high if rope_estimate is not None else None,
+                rule="rope",
+                resolution=resolutions.get(sequential_stop.outcome_key),
+                resolutions=dict(resolutions) if resolutions else None,
+            )
+        else:
+            last = cs_result.points[-1] if cs_result is not None and cs_result.points else None
+            stop_outcome = SequentialStopOutcome(
+                outcome_key=sequential_stop.outcome_key,
+                stopped_early=cases_evaluated < len(cases),
+                cases_evaluated=cases_evaluated,
+                cases_planned=len(cases),
+                first_stop_index=cs_result.first_stop_index if cs_result is not None else None,
+                e_value=last.e_value if last else None,
+                always_valid_p=last.always_valid_p if last else None,
+                center=last.center if last else None,
+                ci_low=last.ci_low if last else None,
+                ci_high=last.ci_high if last else None,
+                rule="mixture_sprt",
+            )
+        n_executed = completed
 
     family_results: dict[str, list[FamilyResult]] = {}
     for outcome_key in outcome_keys:
@@ -310,11 +588,21 @@ def run_experiment(
         arm_a_hash=hash_a,
         arm_b_hash=hash_b,
         n_cases=len(cases),
-        n_runs_per_case=n_runs_per_case,
+        # The runs/case the statistics actually consumed, not the number
+        # requested. They differ on a resumed/over-complete cache: a
+        # comparison cached at 77 runs/case re-requested at 5 executes
+        # nothing new but computes over all 77 — a report that then said
+        # "5 runs/case" would misdescribe its own evidence (a real report
+        # did exactly that before this line).
+        n_runs_per_case=max(
+            [n_runs_per_case]
+            + list(Counter((r.case_id, r.arm) for r in cache.records).values())
+        ),
         n_cached=n_cached,
-        n_executed=len(jobs),
+        n_executed=n_executed,
         family_results=family_results,
         task_success_a=_task_success_rate(cache.records, hash_a, label_a),
         task_success_b=_task_success_rate(cache.records, hash_b, label_b),
         records=cache.records,
+        sequential_stop=stop_outcome,
     )

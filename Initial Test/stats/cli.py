@@ -80,7 +80,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_aa.add_argument("--min-base-rate", type=float, default=0.05)
     p_aa.add_argument("--max-base-rate", type=float, default=0.35)
     p_aa.add_argument("--runs-per-case", type=int, default=20)
-    p_aa.add_argument("--method", choices=["cluster_bootstrap", "mcnemar", "mixed_effects"], default="cluster_bootstrap")
+    p_aa.add_argument(
+        "--method",
+        choices=["hierarchical_bayes", "cluster_bootstrap", "mcnemar", "mixed_effects"],
+        default="hierarchical_bayes",
+    )
     p_aa.add_argument("--n-boot", type=int, default=2000, help="bootstrap replicates per trial (cluster_bootstrap only)")
     p_aa.add_argument("--trials", type=int, default=500, help="number of simulated A/A experiments")
     p_aa.add_argument("--alpha", type=float, default=0.05)

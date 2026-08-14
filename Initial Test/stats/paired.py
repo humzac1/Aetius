@@ -16,6 +16,8 @@ probability-scale difference) so reporting.py can treat them uniformly.
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
+from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -61,13 +63,129 @@ def _bca_z_to_percentile(z0: float, a: float, z: float) -> float:
     return float(norm.cdf(adjusted))
 
 
-# Resampling cases needs at least two of them to resample. Named (rather
-# than a bare `2` inline) because it's the threshold a whole family gets
-# silently dropped at -- compare_families swallows the ValueError below --
-# so tui/verdict_logic.py imports this to explain *why* a verdict has no
-# family data, instead of the number being restated from memory somewhere
-# it can drift out of sync with this guard.
-MIN_CASES_FOR_BOOTSTRAP = 2
+# Resampling cases needs at least two of them to resample at all. Below
+# this the input isn't a sample, so the function raises rather than
+# returning an annotated non-result.
+MIN_CASES_TO_RESAMPLE = 2
+
+# The case count at which this method's false-positive rate actually
+# reaches nominal alpha, measured rather than assumed. A full A/A sweep
+# (800 trials/cell, alpha=0.05, 77 runs/case, production n_boot) over the
+# per-case rate vectors observed in a real reconstructed environment:
+#
+#   n_cases:        5      10     20     30     40     50     60     70     80     100
+#   high-rate:    0.230  0.168  0.121  0.118  0.078  0.078  0.080  0.073  0.055* 0.065*
+#   rare-event:   0.425  0.349  0.211  0.186  0.154  0.119  0.124  0.120  0.093  0.106
+#   (* Wilson CI contains 0.05)
+#
+# 80 is where the high-rate shape first reaches nominal and stays there.
+# The previous value was 2, which licensed the method at any size and
+# produced a real false FLAGGED on an A/A run of 5 cases.
+#
+# The rare-event shape never reaches nominal anywhere in 5..100 — that is
+# what DEGENERATE_ZERO_DIFF_FRACTION below exists to catch, because no
+# case count fixes it.
+MIN_CASES_FOR_BOOTSTRAP = 80
+
+# Fraction of per-case differences that are *exactly* zero, above which
+# the bootstrap is refused outright regardless of case count.
+#
+# Rare-event outcomes put most cases at an identical zero difference, and
+# the BCa p-value then collapses: with the statistic pinned at the
+# boundary of its support, nearly every resample lands on the same side of
+# the null, p0 -> 1, and the p-value goes to 0.0 no matter how tiny the
+# observed effect. That is the mechanism behind the real false FLAGGED
+# (an A/A run reporting q=0.000 on a 0.26-point difference).
+#
+# 0.7 is measured, not chosen for roundness. Over 400 simulated null runs
+# per point at each of n=5..100, the zero-fraction distributions of the
+# two real shapes do not overlap there:
+#
+#   rare-event shape:  min 0.800 at every case count  -> guard fires 100%
+#   high-rate shape:   95th pct 0.600 (n=5), 0.380 (n=80)
+#                      -> guard fires 0.3% at n=5, 0.0% at n>=10
+#
+# The two real observed vectors from that A/A run sit either side of it:
+# exfiltration 0.800 (fires), unauthorized_lookup 0.200 (does not).
+DEGENERATE_ZERO_DIFF_FRACTION = 0.7
+
+
+def zero_diff_fraction(data: list[PairedCaseData]) -> float:
+    """Share of usable cases whose two arms produced exactly the same
+    rate. 0.0 for an empty input — nothing to be degenerate about."""
+    usable = _usable(data)
+    if not usable:
+        return 0.0
+    return sum(1 for d in usable if d.rate_diff == 0.0) / len(usable)
+
+
+RefusalKind = Literal["insufficient_cases", "degenerate"]
+
+
+@dataclass(frozen=True)
+class BootstrapRefusal:
+    """Why cluster_bootstrap must not be trusted on a given dataset.
+
+    `kind` is the field consumers branch on. The two refusals have
+    opposite remedies — one is fixed by adding cases and the other
+    provably is not — so anything offering the user a next step has to
+    distinguish them by structure, never by matching on `reason`, which is
+    display text and free to be reworded."""
+
+    kind: RefusalKind
+    reason: str
+    n_cases: int
+    # How many more cases would clear the floor. Only meaningful for
+    # "insufficient_cases"; None for "degenerate", because no number of
+    # cases resolves that one.
+    cases_needed: int | None = None
+
+    def as_extra(self) -> dict:
+        """The shape stored on EffectEstimate.extra, so the refusal
+        survives into a saved report rather than living only on the
+        in-memory verdict."""
+        return {
+            "refused": True,
+            "refusal_kind": self.kind,
+            "refusal_reason": self.reason,
+            "refusal_n_cases": self.n_cases,
+            "refusal_cases_needed": self.cases_needed,
+        }
+
+
+def bootstrap_refusal(data: list[PairedCaseData]) -> BootstrapRefusal | None:
+    """The refusal that applies to this data, or None if the bootstrap can
+    be trusted on it.
+
+    Degeneracy is checked first and deliberately: it is not a small-sample
+    problem, so reporting a case-count shortfall for it would tell the
+    reader to add cases, which measurably does not help (the rare-event
+    shape sits at 0.106 FPR even at 100 cases)."""
+    usable = _usable(data)
+    n_cases = len(usable)
+    fraction = zero_diff_fraction(usable)
+    if fraction >= DEGENERATE_ZERO_DIFF_FRACTION:
+        return BootstrapRefusal(
+            kind="degenerate",
+            reason=(
+                f"{fraction:.0%} of cases show an exactly-zero difference — this outcome's data is too "
+                "sparse for reliable bootstrap inference at any case count, not just this one "
+                "(measured: false-positive rate stays above 9% even at 100 cases)"
+            ),
+            n_cases=n_cases,
+            cases_needed=None,
+        )
+    if n_cases < MIN_CASES_FOR_BOOTSTRAP:
+        return BootstrapRefusal(
+            kind="insufficient_cases",
+            reason=(
+                f"insufficient case count for reliable inference at this shape: {n_cases} cases, "
+                f"method requires {MIN_CASES_FOR_BOOTSTRAP}"
+            ),
+            n_cases=n_cases,
+            cases_needed=MIN_CASES_FOR_BOOTSTRAP - n_cases,
+        )
+    return None
 
 
 def cluster_bootstrap_diff(
@@ -113,9 +231,34 @@ def cluster_bootstrap_diff(
     and falls back below 5 cases for the same reason).
     """
     usable = _usable(data)
-    if len(usable) < MIN_CASES_FOR_BOOTSTRAP:
+    if len(usable) < MIN_CASES_TO_RESAMPLE:
         raise ValueError(
-            f"cluster_bootstrap_diff needs at least {MIN_CASES_FOR_BOOTSTRAP} cases with data in both arms"
+            f"cluster_bootstrap_diff needs at least {MIN_CASES_TO_RESAMPLE} cases with data in both arms"
+        )
+
+    # Refused shapes still report their descriptive numbers — rates and the
+    # observed difference are real and worth showing — but carry no
+    # p_value, so nothing downstream can call them significant. The reason
+    # travels with the estimate so the verdict layer can say which of the
+    # two guards fired rather than inventing an explanation.
+    refusal = bootstrap_refusal(usable)
+    if refusal is not None:
+        point = paired_rate_diff(usable)
+        return EffectEstimate(
+            method="cluster_bootstrap",
+            rate_a=case_rate([d.arm_a for d in usable]),
+            rate_b=case_rate([d.arm_b for d in usable]),
+            diff=point,
+            ci_low=float("nan"),
+            ci_high=float("nan"),
+            alpha=alpha,
+            p_value=None,
+            n_cases=len(usable),
+            n_runs_a=sum(d.arm_a.n for d in usable),
+            n_runs_b=sum(d.arm_b.n for d in usable),
+            used_fallback=True,
+            fallback_reason=refusal.reason,
+            extra={**refusal.as_extra(), "zero_diff_fraction": zero_diff_fraction(usable)},
         )
 
     rng = np.random.default_rng(seed)

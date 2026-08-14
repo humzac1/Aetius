@@ -5,9 +5,29 @@ from target_system.factory import baseline_config
 from target_system.provenance import ReconstructionProvenance, ToolBehaviorProfile
 from tui.app import HarnessApp
 from tui.screens.verdict import ComparisonVerdictScreen, SingleConfigVerdictScreen
-from tui.screens.wizard import CostConfirmScreen, ConfigPickerScreen, WizardModeScreen, WizardProgressScreen
-from tests.tui_test_support import run_async
+from tui.screens.wizard import (
+    ConfigPickerScreen,
+    CostConfirmScreen,
+    RunCountScreen,
+    WizardModeScreen,
+    WizardProgressScreen,
+)
+from tests.tui_test_support import keep_all_families, run_async
 from tests.tui_test_support import wait_until as _wait_until
+
+
+async def _choose_run_count(pilot, app, n_runs_per_case):
+    """Advance past the run-count sizing screen by explicitly picking a
+    count. Tests that are about the *cost* step pick the small option so
+    they stay as cheap as they were before sizing existed — the sizing
+    screen's own behaviour is covered in test_tui_run_sizing.py."""
+    await keep_all_families(pilot, app)
+    screen = app.screen
+    assert isinstance(screen, RunCountScreen), f"expected RunCountScreen, got {type(screen).__name__}"
+    index = next(i for i, o in enumerate(screen.options) if o.n_runs_per_case == n_runs_per_case)
+    screen.query_one("#run-count-menu", ListView).index = index
+    await pilot.press("enter")
+    await pilot.pause()
 
 
 def _reconstructed_config(label, *, provider="anthropic"):
@@ -213,6 +233,7 @@ def test_mock_config_start_skips_cost_confirm(tmp_path):
             await pilot.pause()
             screen._start([baseline_config(label="mock-only")])
             await pilot.pause()
+            await _choose_run_count(pilot, app, 5)
             assert not isinstance(app.screen, CostConfirmScreen)
             await _wait_until(pilot, lambda: isinstance(app.screen, SingleConfigVerdictScreen))
             # regression: applicable_cases_for_configs previously looked only
@@ -232,6 +253,7 @@ def test_reconstructed_config_start_shows_cost_confirm_with_estimate(tmp_path):
             await pilot.pause()
             screen._start([_reconstructed_config("recon")])
             await pilot.pause()
+            await _choose_run_count(pilot, app, 5)
             assert isinstance(app.screen, CostConfirmScreen)
             text = str(app.screen.query_one(".subtitle", Label).render())
             assert "estimated cost $" in text
@@ -248,6 +270,7 @@ def test_reconstructed_config_forced_to_anthropic_even_if_saved_as_mock(tmp_path
             await pilot.pause()
             screen._start([_reconstructed_config("recon", provider="mock")])
             await pilot.pause()
+            await _choose_run_count(pilot, app, 5)
             # forced to anthropic -> any_real_model=True -> cost confirm shown,
             # not silently routed to the (blocked) mock backend
             assert isinstance(app.screen, CostConfirmScreen)
@@ -265,6 +288,7 @@ def test_cost_confirm_cancel_returns_to_wizard_mode_without_running(tmp_path):
             await pilot.pause()
             screen._start([_reconstructed_config("recon")])
             await pilot.pause()
+            await _choose_run_count(pilot, app, 5)
             assert isinstance(app.screen, CostConfirmScreen)
             await pilot.press("down")  # "Cancel"
             await pilot.press("enter")
@@ -304,6 +328,7 @@ def test_cost_confirm_proceed_runs_against_reconstructed_config(tmp_path, monkey
             await pilot.pause()
             screen._start([_reconstructed_config("recon")])
             await pilot.pause()
+            await _choose_run_count(pilot, app, 5)
             assert isinstance(app.screen, CostConfirmScreen)
             await pilot.press("enter")  # "Proceed" (first item, already highlighted)
             await _wait_until(pilot, lambda: isinstance(app.screen, SingleConfigVerdictScreen))

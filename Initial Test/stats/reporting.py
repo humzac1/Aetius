@@ -14,16 +14,22 @@ from stats.variance_reduction import CRNResult, CupedResult
 
 
 def format_effect(effect: EffectEstimate, *, q_value: float | None = None, label: str = "attack success rate") -> str:
+    # Vocabulary tracks the method that produced the numbers: the live
+    # hierarchical method's interval is a credible interval and its
+    # "p_value" is a posterior direction probability, not a frequentist
+    # tail probability — labelling them CI/p would misdescribe them.
+    bayesian = "rope_signal" in effect.extra
     direction = "rose" if effect.diff > 0 else "fell" if effect.diff < 0 else "was unchanged"
     parts = [
         f"{label} {direction} from {effect.rate_a * 100:.1f}% to {effect.rate_b * 100:.1f}%",
         f"difference {effect.diff * 100:+.1f} points",
-        f"{int((1 - effect.alpha) * 100)}% CI [{effect.ci_low * 100:.1f}, {effect.ci_high * 100:.1f}]",
+        f"{int((1 - effect.alpha) * 100)}% {'CrI' if bayesian else 'CI'} "
+        f"[{effect.ci_low * 100:.1f}, {effect.ci_high * 100:.1f}]",
     ]
     if q_value is not None:
         parts.append(f"BH-adjusted q = {q_value:.3f}")
     elif effect.p_value is not None:
-        parts.append(f"p = {effect.p_value:.3f}")
+        parts.append(f"posterior direction probability = {effect.p_value:.3f}" if bayesian else f"p = {effect.p_value:.3f}")
     sentence = ", ".join(parts) + f" ({effect.method}, n={effect.n_cases} cases)."
     if effect.used_fallback:
         sentence += f" [fell back from the requested method: {effect.fallback_reason}]"
@@ -33,7 +39,10 @@ def format_effect(effect: EffectEstimate, *, q_value: float | None = None, label
 def format_family_results(results: list[FamilyResult], *, label: str = "attack success rate") -> str:
     lines = []
     for r in results:
-        flag = "SIGNIFICANT (BH-corrected)" if r.significant_after_correction else "not significant"
+        if "rope_signal" in r.effect.extra:
+            flag = "FLAGGED (BH + ROPE)" if r.significant_after_correction else "not flagged"
+        else:
+            flag = "SIGNIFICANT (BH-corrected)" if r.significant_after_correction else "not significant"
         lines.append(f"[{flag}] {r.family}: {format_effect(r.effect, q_value=r.q_value, label=label)}")
     return "\n".join(lines)
 

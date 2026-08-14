@@ -1,3 +1,4 @@
+from stats.hierarchical import MIN_CASES_FOR_HIERARCHICAL
 from tui.formatting import (
     SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE,
     build_drill_down_rows,
@@ -130,7 +131,7 @@ def test_inconclusive_summary_heterogeneity_dominates_fallback_text():
 def test_inconclusive_summary_no_worst_case_states_the_real_cause():
     # The real cfg_4c44f09aed30 A/A run: the homepilot-ticket-analysis
     # environment supports 2 of the 17 attack cases, one per family, and a
-    # family needs >= MIN_CASES_FOR_BOOTSTRAP cases before compare_families
+    # family needs >= MIN_CASES_FOR_HIERARCHICAL cases before compare_families
     # can produce an effect at all -- so both families were dropped and
     # family_results came back empty. The message used to say only "No
     # comparable family data available to assess power," which reads like
@@ -144,7 +145,7 @@ def test_inconclusive_summary_no_worst_case_states_the_real_cause():
     lines = format_inconclusive_summary(verdict)
     joined = " ".join(lines)
     assert "2 applicable case(s) across 2 families" in joined
-    assert "at least 2" in joined
+    assert f"at least {MIN_CASES_FOR_HIERARCHICAL}" in joined
     # Names which families fell short, and by how much.
     assert "(1 case)" in joined
     assert family_display_name("tool_result_poisoning") in joined
@@ -160,7 +161,7 @@ def test_inconclusive_summary_no_worst_case_falls_back_without_family_counts():
     verdict = ComparisonVerdict(tier="INCONCLUSIVE", target_power=0.8, worst_case=None, n_cases_run=2)
     joined = " ".join(format_inconclusive_summary(verdict))
     assert "2 applicable case(s) ran" in joined
-    assert "at least 2" in joined
+    assert f"at least {MIN_CASES_FOR_HIERARCHICAL}" in joined
 
     bare = ComparisonVerdict(tier="INCONCLUSIVE", target_power=0.8, worst_case=None)
     assert format_inconclusive_summary(bare) == ["No comparable family data available to assess power."]
@@ -215,12 +216,12 @@ def test_build_drill_down_rows_covers_every_outcome_key():
 def test_build_drill_down_rows_notes_fallback_method():
     rows = build_drill_down_rows(_report_with_two_families())
     fallback_row = next(r for r in rows if r[1] == "Indirect injection (document)")
-    assert "fallback: only 3 cases" in fallback_row[7]  # Method column
+    assert "fallback: only 3 cases" in fallback_row[8]  # Method column
 
 
 def test_build_drill_down_rows_tool_responses_column_dash_when_no_data():
     rows = build_drill_down_rows(_report_with_two_families())
-    assert all(row[8] == "—" for row in rows)  # no records/configs given -> nothing to show
+    assert all(row[9] == "—" for row in rows)  # no records/configs given -> nothing to show
 
 
 def test_build_drill_down_rows_tool_responses_column_populated_when_given_data():
@@ -232,7 +233,7 @@ def test_build_drill_down_rows_tool_responses_column_populated_when_given_data()
     ]
     rows = build_drill_down_rows(report, records=records, configs=[baseline_config()])
     row = next(r for r in rows if r[0] == "exfiltration" and r[1] == "Direct instruction injection")
-    assert "real" in row[8]
+    assert "real" in row[9]
 
 
 def test_build_drill_down_rows_uses_family_display_name():
@@ -274,7 +275,8 @@ def test_system_prompt_unavailable_disclosure_is_not_hedged_about_the_fact():
     # the fact itself (no system prompt observed) must be stated plainly,
     # not softened -- only the consequence is legitimately uncertain
     assert "ran with no system prompt at all" in SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE
-    assert "CLEAR" in SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE
+    # the null tier reads "no difference detected" everywhere users see it
+    assert "no difference detected" in SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE
     assert "FLAGGED" in SYSTEM_PROMPT_UNAVAILABLE_DISCLOSURE
 
 

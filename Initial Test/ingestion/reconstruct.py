@@ -15,13 +15,30 @@ picks which group's traces get reconstructed via reconstruct_system_config().
 Only pull_traces() (langfuse_client.py) ever talks to the API again, and
 only when explicitly asked for a fresh/larger batch.
 
-system_prompt is never fabricated: confirmed live (see the Part 1 report)
-that this project's traces don't carry system-prompt text anywhere
-(GENERATION.input message roles are only ever user/assistant,
-model_parameters is empty, no metadata field carries it). Every
-reconstructed AgentSpec gets system_prompt_source="unavailable" and an
-explicit placeholder string — never invented behavioral text standing in
-for it.
+system_prompt is never fabricated, and is now never assumed absent
+either. The original version of this module hardcoded
+system_prompt_source="unavailable" for every reconstruction, on the
+strength of a live check against this project's first real batch (the
+49-trace Invoice/HR pull, whose GENERATION.input message roles really are
+only ever user/assistant). Baking that finding in as a constant rather
+than a check made it a permanent property of the reconstructor: a later
+project whose traces *do* carry the text — confirmed against the
+320-trace "E-Commerce Order Support" batch, where all 2126 generations
+carry a role="system" message of 2298-4080 chars — was still reported as
+having "run with no system prompt at all". _extract_system_prompt() now
+looks, per agent, and only falls back to the placeholder when nothing is
+there. Same discipline as ingestion/braintrust_reconstruct.py, which had
+the working version of this all along.
+
+Multi-agent decomposition was the same mistake twice. The single
+role="supervisor" AgentSpec was justified by "every trace this project has
+produced shows a flat observation hierarchy under one root span" — true of
+the 49-trace batch, false of any nested instrumentation. Traces that carry
+per-observation metadata["agent"] (and AGENT-typed spans with
+metadata["agent_role"] / ["tools_available"]) are now partitioned into one
+AgentSpec per observed agent, each with its own prompt, role and tool
+grant. Traces without that signal keep the single-agent shape exactly as
+before, so the original batch reconstructs unchanged.
 """
 
 from __future__ import annotations
@@ -181,6 +198,207 @@ def _build_model_config(traces: list[dict[str, Any]], *, warnings: list[str]) ->
     return ModelConfig(provider="anthropic", model_name=dominant_model, temperature=None)
 
 
+def _message_text(content: Any) -> str | None:
+    """Text of one chat message. A system prompt is a plain string in most
+    instrumentations, but Anthropic-style block lists ([{"type": "text", ...}])
+    are accepted too — reading one of those as absent is exactly the failure this
+    module already made once."""
+    if isinstance(content, str):
+        return content if content.strip() else None
+    if isinstance(content, list):
+        parts = [
+            block["text"]
+            for block in content
+            if isinstance(block, dict) and isinstance(block.get("text"), str) and block["text"].strip()
+        ]
+        return "\n".join(parts) or None
+    return None
+
+
+def _generation_messages(obs: dict[str, Any]) -> list[Any]:
+    """Both observed input shapes: a bare message list, or {"messages": [...]}."""
+    input_ = obs.get("input")
+    if isinstance(input_, list):
+        return input_
+    if isinstance(input_, dict) and isinstance(input_.get("messages"), list):
+        return input_["messages"]
+    return []
+
+
+def _extract_system_prompt(
+    observations: list[dict[str, Any]], *, warnings: list[str], agent_label: str
+) -> tuple[str, str]:
+    """(system_prompt, system_prompt_source) for one agent's observations.
+
+    Takes the most frequently observed system message rather than the first one:
+    a batch can span a prompt edit, and the dominant text is the better single
+    answer for a config that has to pick one. Any drift is surfaced as a warning
+    instead of being silently resolved, because a batch straddling two prompt
+    versions is a fact about the evidence the caller should see.
+    """
+    seen: Counter[str] = Counter()
+    for obs in observations:
+        if obs.get("type") != "GENERATION" or obs.get("name") == JUDGE_OBSERVATION_NAME:
+            continue
+        for message in _generation_messages(obs):
+            if isinstance(message, dict) and message.get("role") == "system":
+                text = _message_text(message.get("content"))
+                if text:
+                    seen[text] += 1
+                break
+    if not seen:
+        return UNAVAILABLE_SYSTEM_PROMPT, "unavailable"
+    if len(seen) > 1:
+        lengths = ", ".join(f"{len(text)} chars (x{count})" for text, count in seen.most_common())
+        warnings.append(
+            f"agent {agent_label!r}: {len(seen)} distinct system prompts observed across this "
+            f"batch — {lengths}; using the most common. The batch may straddle a prompt edit."
+        )
+    return seen.most_common(1)[0][0], "observed"
+
+
+@dataclass(frozen=True)
+class _AgentEvidence:
+    """Everything one observed agent's own observations support."""
+
+    name: str
+    observed_role: str | None
+    tools: list[str]
+    n_traces: int
+    observations: list[dict[str, Any]]
+
+
+def _partition_by_agent(traces: list[dict[str, Any]]) -> list[_AgentEvidence]:
+    """One evidence bundle per distinct metadata["agent"], ordered by how many
+    traces the agent appears in (descending). Returns [] when the traces carry no
+    per-agent signal at all, which is the caller's cue to keep the flat
+    single-agent shape rather than invent a decomposition."""
+    observations_by_agent: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    trace_indexes: dict[str, set[int]] = defaultdict(set)
+    roles: dict[str, Counter[str]] = defaultdict(Counter)
+    granted: dict[str, set[str]] = defaultdict(set)
+
+    for index, trace in enumerate(traces):
+        for obs in trace.get("observations") or []:
+            if obs.get("name") == JUDGE_OBSERVATION_NAME:
+                continue
+            metadata = obs.get("metadata")
+            if not isinstance(metadata, dict):
+                continue
+            agent = metadata.get("agent")
+            if not isinstance(agent, str) or not agent.strip():
+                continue
+            observations_by_agent[agent].append(obs)
+            trace_indexes[agent].add(index)
+            role = metadata.get("agent_role")
+            if isinstance(role, str) and role.strip():
+                roles[agent][role] += 1
+            for tool_name in metadata.get("tools_available") or []:
+                if isinstance(tool_name, str) and tool_name.strip():
+                    granted[agent].add(tool_name)
+
+    evidence: list[_AgentEvidence] = []
+    for agent, observations in observations_by_agent.items():
+        called = {
+            extracted[0]
+            for obs in observations
+            if (extracted := _extract_tool_call(obs)) is not None
+        }
+        # Grant ∪ use: tools_available is a real observed declaration, so a
+        # granted-but-never-called tool is evidence, not a guess. A tool called
+        # without appearing in any grant still counts — the call is the stronger
+        # signal of the two.
+        evidence.append(
+            _AgentEvidence(
+                name=agent,
+                observed_role=roles[agent].most_common(1)[0][0] if roles[agent] else None,
+                tools=sorted(called | granted[agent]),
+                n_traces=len(trace_indexes[agent]),
+                observations=observations,
+            )
+        )
+    return sorted(evidence, key=lambda e: (-e.n_traces, e.name))
+
+
+def _slug(value: str) -> str:
+    return "".join(char if char.isalnum() else "-" for char in value.lower()).strip("-")
+
+
+def _build_agent_specs(evidence: list[_AgentEvidence], *, warnings: list[str]) -> list[AgentSpec]:
+    """One AgentSpec per observed agent.
+
+    Two structural constraints from target_system/config.py and orchestration.py
+    have to be satisfied, and neither is guaranteed by trace data:
+
+      - SystemConfig.supervisor() raises unless exactly one agent has
+        role == "supervisor", and members() is everything else. So a batch whose
+        agents report no supervisor role needs one designated.
+      - orchestration._build_member_agent sets Agent(id=spec.role), so two
+        members sharing a role (three "specialist"s, say) would collide on id.
+        Shared roles are disambiguated with the agent's own name.
+
+    Both adjustments are recorded as warnings; neither invents behavioral text.
+    """
+    supervisors = [item for item in evidence if (item.observed_role or "").lower() == "supervisor"]
+    if supervisors:
+        supervisor_name = supervisors[0].name
+        if len(supervisors) > 1:
+            others = ", ".join(repr(item.name) for item in supervisors[1:])
+            warnings.append(
+                f"{len(supervisors)} agents reported role 'supervisor'; {supervisor_name!r} "
+                f"(seen in the most traces) is the reconstructed supervisor and {others} were "
+                f"re-labelled as members, since config.members() excludes every 'supervisor'."
+            )
+    else:
+        supervisor_name = evidence[0].name
+        observed = ", ".join(f"{item.name}={item.observed_role or 'unknown'}" for item in evidence)
+        warnings.append(
+            f"no agent reported role 'supervisor'; {supervisor_name!r} (seen in "
+            f"{evidence[0].n_traces} trace(s), more than any other agent) was designated "
+            f"supervisor so the reconstructed team has a root. Observed roles: {observed}."
+        )
+
+    role_counts = Counter(
+        (item.observed_role or "agent").lower() for item in evidence if item.name != supervisor_name
+    )
+    disambiguated: list[str] = []
+
+    specs: list[AgentSpec] = []
+    for item in evidence:
+        if item.name == supervisor_name:
+            role = "supervisor"
+        else:
+            base = (item.observed_role or "agent").lower()
+            if base == "supervisor":
+                base = "member"
+            if role_counts[base] > 1:
+                role = f"{base}-{_slug(item.name)}"
+                disambiguated.append(f"{item.name!r} -> role {role!r}")
+            else:
+                role = base
+        prompt, source = _extract_system_prompt(
+            item.observations, warnings=warnings, agent_label=item.name
+        )
+        specs.append(
+            AgentSpec(
+                role=role,
+                name=item.name,
+                system_prompt=prompt,
+                system_prompt_source=source,
+                tools=item.tools,
+            )
+        )
+
+    if disambiguated:
+        warnings.append(
+            "shared observed roles were suffixed with the agent name to keep member ids "
+            "distinct: " + "; ".join(disambiguated)
+        )
+
+    specs.sort(key=lambda spec: (spec.role != "supervisor", spec.name))
+    return specs
+
+
 @dataclass(frozen=True)
 class _CostStats:
     avg_generations_per_trace: float | None
@@ -242,27 +460,58 @@ def reconstruct_system_config(
     other_groups_found: list[GroupSummary] | None = None,
 ) -> SystemConfig:
     """Builds a SystemConfig from one group's traces (see group_traces).
-    Single AgentSpec, role="supervisor": every trace this project has
-    produced (both real groups) shows a flat observation hierarchy under
-    one root span, with metadata["agent_name"] as the only role-identity
-    signal available — there's no evidence in this data of a multi-agent
-    decomposition to reconstruct, so this doesn't guess one. role is set
-    to "supervisor" (not, say, "agent") purely for compatibility with
-    existing plumbing (SystemConfig.supervisor(), orchestration.build_team)
-    that Part 4 will wire a reconstructed config through — it doesn't
-    imply a supervisor/subordinate structure was observed."""
+
+    Agent shape follows the evidence rather than a fixed assumption. When the
+    observations carry per-agent identity (metadata["agent"]), each observed
+    agent becomes its own AgentSpec with the prompt, role and tool grant its own
+    observations support — that is the multi-agent structure the source system
+    really ran, and collapsing it loses both the topology and four of the five
+    prompts.
+
+    When there is no such signal — a flat hierarchy with metadata["agent_name"]
+    as the only identity key, which is what the original 49-trace batch looks
+    like — the single-AgentSpec shape is kept unchanged, including role
+    "supervisor" for compatibility with SystemConfig.supervisor() and
+    orchestration.build_team. That role still doesn't imply a
+    supervisor/subordinate structure was observed. The one thing that changed for
+    the flat case is that its system prompt is now extracted if present instead
+    of assumed absent."""
     warnings: list[str] = []
     tool_profiles = _build_tool_profiles(traces)
     model = _build_model_config(traces, warnings=warnings)
     cost_stats = _build_cost_stats(traces)
 
-    agent = AgentSpec(
-        role="supervisor",
-        name=source_agent_name or "reconstructed-agent",
-        system_prompt=UNAVAILABLE_SYSTEM_PROMPT,
-        system_prompt_source="unavailable",
-        tools=sorted(tool_profiles.keys()),
-    )
+    evidence = _partition_by_agent(traces)
+    if evidence:
+        # Any per-agent identity at all is enough to prefer this path, including
+        # a single agent: its own observed name, role and tool grant are better
+        # evidence than the group name and the union of every tool called.
+        agents = _build_agent_specs(evidence, warnings=warnings)
+    else:
+        # Flat (or single-agent) traces: unchanged shape, but look for the prompt
+        # rather than declaring it unavailable.
+        all_observations = [obs for trace in traces for obs in (trace.get("observations") or [])]
+        prompt, prompt_source = _extract_system_prompt(
+            all_observations,
+            warnings=warnings,
+            agent_label=source_agent_name or "reconstructed-agent",
+        )
+        agents = [
+            AgentSpec(
+                role="supervisor",
+                name=source_agent_name or "reconstructed-agent",
+                system_prompt=prompt,
+                system_prompt_source=prompt_source,
+                tools=sorted(tool_profiles.keys()),
+            )
+        ]
+
+    # A missing prompt deliberately does NOT add a warning here: AgentSpec
+    # carries system_prompt_source="unavailable" structurally and the verdict
+    # layer already surfaces that inline, so warning as well would add noise to
+    # every reconstruction of a batch that never had the text -- the normal case
+    # for flat traces, not an anomaly. Warnings stay for things nothing else
+    # records: model drift, prompt drift, and the role adjustments above.
 
     provenance = ReconstructionProvenance(
         project_id=project_id,
@@ -283,7 +532,7 @@ def reconstruct_system_config(
     return SystemConfig(
         label=label,
         model=model,
-        agents=[agent],
+        agents=agents,
         security=SecurityConfig(),
         defensive_instruction=False,
         provenance=provenance,

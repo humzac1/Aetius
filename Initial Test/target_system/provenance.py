@@ -1,9 +1,13 @@
 """Types describing a config reconstructed from real Langfuse traces rather
 than hand-authored — SystemConfig.provenance (see config.py) is an optional
 instance of ReconstructionProvenance, None for every hand-authored (toy
-system) config. Deliberately excluded from compute_config_hash: provenance
+system) config. Mostly excluded from compute_config_hash: provenance
 describes where a config came from, not what it resolves to, same
-reasoning as label already being excluded.
+reasoning as label already being excluded. The exception is the subset
+config._provenance_identity folds in (project_id, source_agent_name,
+trace_count, tool_profiles) — that part is the reconstructed
+environment's actual content, and leaving it out of the hash let two
+different pulls of the same agent collide on one cfg_* id.
 
 Lives in target_system/, not ingestion/, because SystemConfig (the shared
 schema every downstream module — experiments/, attacker/, tui/ — already

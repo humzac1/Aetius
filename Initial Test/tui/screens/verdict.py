@@ -1,9 +1,9 @@
 """Verdict screens: single-config check results and the three comparison
 tiers (FLAGGED/CLEAR/INCONCLUSIVE), plus the statistics drill-down every
 comparison verdict can open with 's'. All numbers come from
-tui/verdict_logic.py (which calls stats/power.py live) and are phrased by
-tui/formatting.py — this module only lays out widgets, it never computes a
-tier or formats a number itself.
+tui/verdict_logic.py (which calls stats/hierarchical.py's ROPE power
+model live) and are phrased by tui/formatting.py — this module only lays
+out widgets, it never computes a tier or formats a number itself.
 """
 
 from __future__ import annotations
@@ -14,8 +14,11 @@ from typing import Any
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical
-from textual.widgets import DataTable, Footer, Header, Label, Static
+from textual.widgets import DataTable, Footer, Header, Label, ListItem, ListView, Static
 
+from attacker.case_generation import estimate_generation_cost, plan_variants
+from attacker.case_store import load_generated_cases
+from attacker.cases import ATTACK_CASES
 from target_system.config import DEFAULT_CONFIGS_DIR, SystemConfig, compute_config_hash, load_config
 from tui.app import BaseScreen
 from tui.dashboard_link import open_dashboard_for_run
@@ -31,6 +34,7 @@ from tui.formatting import (
     format_flagged_ci,
     format_flagged_headline,
     format_flagged_synthetic_evidence_note,
+    format_generation_offer,
     format_inconclusive_summary,
     format_other_flagged_note,
     format_other_groups_found_note,
@@ -45,6 +49,18 @@ from tui.verdict_logic import (
     compute_overall_response_source_breakdown,
     compute_response_source_breakdown,
 )
+
+
+def _variant_of(case_id: str) -> int:
+    """Variant index encoded in a generated case id ({template}__{hash} or
+    {template}__{hash}__v{k}). 0 for the first batch, which carries no
+    suffix. Used to continue numbering rather than colliding with ids
+    already on disk — a reused id would silently merge two different
+    cases in the paired statistics."""
+    tail = case_id.rsplit("__", 1)[-1]
+    if tail.startswith("v") and tail[1:].isdigit():
+        return int(tail[1:])
+    return 0
 
 
 def _try_load_config(config_hash: str, *, configs_dir: Path) -> SystemConfig | None:
@@ -208,7 +224,10 @@ class ComparisonVerdictScreen(BaseScreen):
             yield Label(other_note, classes="subtitle")
 
     def _compose_clear(self) -> ComposeResult:
-        yield Label("✅ CLEAR — no effect found, and this run had the power to see one", classes="tier-clear")
+        # Internally the tier stays "CLEAR"; every place a person reads it
+        # says what was actually established: no difference was detected,
+        # by a run with the power to have detected one.
+        yield Label("✅ No difference detected — and this run had the power to see one", classes="tier-clear")
         for line in format_clear_summary(self.verdict):
             yield Label(line)
 
@@ -216,6 +235,53 @@ class ComparisonVerdictScreen(BaseScreen):
         yield Label("❓ INCONCLUSIVE — not enough data to tell", classes="tier-inconclusive")
         for line in format_inconclusive_summary(self.verdict):
             yield Label(line)
+        yield from self._compose_generation_offer()
+
+    def _compose_generation_offer(self) -> ComposeResult:
+        """Offered only when generating cases would actually resolve the
+        refusal. `can_generate_more_cases` is a structured check on the
+        refusal kind, never a match on the message text — a degenerate
+        refusal must never reach this, because no case count fixes it and
+        the offer would be a promise the measured sweep contradicts."""
+        if not self.verdict.can_generate_more_cases:
+            return
+        config = _try_load_config(self.report.get("arm_a_hash", ""), configs_dir=self.configs_dir)
+        if config is None or config.provenance is None:
+            # Generation is domain-adaptation for a reconstructed
+            # environment; there's nothing to adapt to for a toy config.
+            return
+
+        templates = [c for c in ATTACK_CASES if c.family == self.verdict.refused_family]
+        if not templates:
+            return
+        estimate = estimate_generation_cost(templates, config, self.verdict.refused_cases_needed)
+        yield Label(format_generation_offer(self.verdict, estimate), classes="hint")
+        yield ListView(
+            ListItem(Label(f"Generate {self.verdict.refused_cases_needed} more case(s)"), id="generate-more"),
+            ListItem(Label("Not now"), id="skip-generation"),
+            id="generation-offer-menu",
+        )
+
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+        if event.item.id != "generate-more":
+            return
+        config = _try_load_config(self.report.get("arm_a_hash", ""), configs_dir=self.configs_dir)
+        if config is None:
+            return
+        from tui.screens.generated_cases import GenerateCasesScreen
+
+        templates = [c for c in ATTACK_CASES if c.family == self.verdict.refused_family]
+        existing = load_generated_cases(compute_config_hash(config))
+        start_variant = 1 + max(
+            (_variant_of(e.case.id) for e in existing.entries), default=0
+        ) if existing else 0
+        self.app.push_screen(
+            GenerateCasesScreen(
+                config=config,
+                plan=plan_variants(templates, self.verdict.refused_cases_needed, start_variant=start_variant),
+                append_to_existing=True,
+            )
+        )
 
     def action_show_statistics(self) -> None:
         self.app.push_screen(
@@ -235,10 +301,12 @@ class ComparisonVerdictScreen(BaseScreen):
 
 
 class StatisticsDrillDownScreen(BaseScreen):
-    """Every family's effect size, CI, and BH q-value, straight from the
-    saved report — the non-default 's' destination every verdict screen
-    can reach, and a hotkey to open the real dashboard instead of
-    reimplementing any of its charts here."""
+    """Every family's effect size, interval (credible for the live
+    method, frequentist CI for older saved reports), BH-adjusted q, and
+    the per-row flag decision, straight from the saved report — the
+    non-default 's' destination every verdict screen can reach, and a
+    hotkey to open the real dashboard instead of reimplementing any of
+    its charts here."""
 
     BINDINGS = BaseScreen.BINDINGS + [Binding("d", "open_dashboard", "Open dashboard")]
 
