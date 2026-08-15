@@ -1,9 +1,34 @@
+# Credentials — never commit real API keys / trace-source secrets.
 .env
+*.env
+.env.*
+
+# Python
 __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
-data/runs/*
-!data/runs/.gitkeep
+
+# Build / release artifacts
 dist/
 release/
+
+# Real-data directories. These hold run output and data pulled from real
+# trace sources (Langfuse / Braintrust), plus configs reconstructed from
+# that data. None of it is a source or package resource — the running tool
+# reads from the platformdirs user data dir, not from here (see
+# config/paths.py). Keep the folder structure via .gitkeep, ignore contents.
+data/runs/*
+!data/runs/.gitkeep
+data/traces/*
+!data/traces/.gitkeep
+data/traces_braintrust/*
+!data/traces_braintrust/.gitkeep
+
+# Saved SystemConfigs, including ones reconstructed from real customer
+# traces. Regenerated at runtime and already excluded from the built wheel.
+target_system/configs/*
+!target_system/configs/.gitkeep
+
+# Run records, wherever they land.
+*.jsonl
