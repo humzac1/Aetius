@@ -61,4 +61,13 @@ packages = ["target_system", "attacker", "stats", "experiments", "dashboard", "t
 # traces). Excluded so a build can never redistribute local run output
 # again. target_system/corpus/ and policy.yaml stay in -- those are
 # genuine read-only package resources the toy system needs at runtime.
-exclude = ["target_system/configs"]
+# Defensive additions after a full data-location audit (2026-08-14): no
+# .env (credentials) or .jsonl (run records) can ever be a legitimate
+# package resource here — the shipped resources are corpus *.md and
+# policy.yaml only — so exclude them wherever they might appear inside a
+# packaged directory, closing the same incident class as configs/ for
+# any future in-package write path. data/, tests/, dist/, release/ are
+# already structurally outside the packages list; the wheel-content test
+# (tests/test_packaging.py) pins the whole property by inspecting a real
+# built wheel.
+exclude = ["target_system/configs", "**/.env", "**/*.jsonl"]

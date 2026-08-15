@@ -110,6 +110,22 @@ def test_wheel_does_not_ship_saved_configs():
     with zipfile.ZipFile(wheels[-1]) as wheel:
         names = wheel.namelist()
     assert not [n for n in names if n.startswith("target_system/configs/")]
+
+    # Full data-exclusion property (2026-08-14 audit): the wheel carries
+    # source plus exactly two kinds of read-only resource — corpus *.md
+    # and policy.yaml. Nothing from the repo's data locations (data/,
+    # .env credentials, *.jsonl run records, reports, tests, built
+    # artifacts) may ever appear, from any directory.
+    assert not [n for n in names if n.startswith(("data/", "tests/", "dist/", "release/", "scripts/"))]
+    assert not [n for n in names if n.endswith((".jsonl", ".env"))]
+    assert not [n for n in names if n.endswith(".json") and ".dist-info" not in n]
+    resources = [n for n in names if not n.endswith(".py") and ".dist-info" not in n]
+    unexpected = [
+        n for n in resources
+        if not (n.startswith("target_system/corpus/") and n.endswith(".md")) and n != "target_system/policy.yaml"
+    ]
+    assert not unexpected, f"unexpected non-source files in wheel: {unexpected}"
+
     # ...while the genuine read-only package resources are still shipped.
     assert "target_system/policy.yaml" in names
     assert any(n.startswith("target_system/corpus/") for n in names)
