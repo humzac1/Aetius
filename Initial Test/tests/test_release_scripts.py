@@ -18,6 +18,7 @@ from __future__ import annotations
 import os
 import stat
 import subprocess
+import sys
 import zipfile
 from pathlib import Path
 
@@ -84,11 +85,12 @@ def test_install_latest_derives_a_real_wheel_filename_and_invokes_pipx_with_it(t
     assert result.returncode == 0, result.stderr
 
     assert calls_file.exists(), "the stubbed pipx was never invoked"
-    call_args = calls_file.read_text(encoding="utf-8").strip().split(" ")
-    assert call_args[0] == "install"
-    assert call_args[-1] == "--force"
-    installed_path = Path(call_args[1])
-    assert installed_path.name == "aetius-9.9.9-py3-none-any.whl"
+    calls = [line.split(" ") for line in calls_file.read_text(encoding="utf-8").strip().splitlines()]
+    # the hardened script probes usability first ("pipx --version"), then installs
+    assert calls[0] == ["--version"]
+    install_call = next(c for c in calls if c[0] == "install")
+    assert install_call[-1] == "--force"
+    assert Path(install_call[1]).name == "aetius-9.9.9-py3-none-any.whl"
 
 
 def test_install_latest_errors_clearly_when_source_file_missing(tmp_path):
@@ -100,3 +102,110 @@ def test_install_latest_errors_clearly_when_source_file_missing(tmp_path):
     )
     assert result.returncode != 0
     assert "not found" in result.stderr.lower()
+
+
+# --- install_latest.sh on machines without a working pipx / old Python ----------
+#
+# The real reported failure: a machine with no pipx at all, where the old
+# script died with a bare "pipx: command not found". Verified end-to-end
+# against a genuinely bare environment (fresh HOME, PATH without pipx,
+# real pip install --user bootstrap); these tests pin each branch with a
+# delegating fake python3 so the suite needs no network.
+
+
+def _make_fake_python3(bin_dir: Path, calls_file: Path, state_dir: Path, *, version_ok: bool = True, has_pip: bool = True) -> None:
+    """A python3 that delegates to the real interpreter except for the
+    version gate and `-m pip` / `-m pipx`, which are simulated: pipx is
+    'not installed' until a recorded `pip install --user pipx` happens."""
+    bin_dir.mkdir(parents=True, exist_ok=True)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    real = sys.executable
+    fake = bin_dir / "python3"
+    fake.write_text(
+        "#!/usr/bin/env bash\n"
+        f'CALLS="{calls_file}"; STATE="{state_dir}"; REAL="{real}"\n'
+        'if [ "$1" = "-c" ]; then\n'
+        '  case "$2" in\n'
+        '    *"%d.%d.%d"*) echo "3.9.6"; exit 0;;\n'
+        f'    *version_info*) exit {0 if version_ok else 1};;\n'
+        "  esac\n"
+        '  exec "$REAL" "$@"\n'
+        "fi\n"
+        'if [ "$1" = "-m" ]; then\n'
+        '  mod="$2"; shift 2\n'
+        '  echo "-m $mod $*" >> "$CALLS"\n'
+        '  if [ "$mod" = "pipx" ]; then\n'
+        '    if [ ! -f "$STATE/pipx_installed" ]; then exit 1; fi\n'
+        '    if [ "$1" = "environment" ]; then echo "/fake/pipx/bin"; fi\n'
+        "    exit 0\n"
+        "  fi\n"
+        '  if [ "$mod" = "pip" ]; then\n'
+        f'    {"" if has_pip else "exit 1"}\n'
+        '    if [ "$1" = "install" ]; then touch "$STATE/pipx_installed"; fi\n'
+        "    exit 0\n"
+        "  fi\n"
+        "fi\n"
+        'exec "$REAL" "$@"\n',
+        encoding="utf-8",
+    )
+    fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
+
+
+def _bare_env(bin_dir: Path) -> dict:
+    return {"PATH": f"{bin_dir}:/usr/bin:/bin", "HOME": str(bin_dir.parent / "home")}
+
+
+def _run_install(tmp_path: Path, env: dict, wheel: Path):
+    script = Path(__file__).parent.parent / "scripts" / "install_latest.sh"
+    return subprocess.run(
+        ["bash", str(script), str(wheel)], env=env, capture_output=True, text=True, timeout=120
+    )
+
+
+def _stable_wheel(tmp_path: Path) -> Path:
+    wheel = tmp_path / "aetius-latest.whl"
+    with zipfile.ZipFile(wheel, "w") as z:
+        z.writestr("aetius-9.9.9.dist-info/METADATA", "Metadata-Version: 2.1\nName: aetius\nVersion: 9.9.9\n")
+        z.writestr("aetius-9.9.9.dist-info/WHEEL", "Wheel-Version: 1.0\nTag: py3-none-any\n")
+    return wheel
+
+
+def test_install_refuses_old_python_before_doing_anything(tmp_path):
+    calls = tmp_path / "calls.txt"
+    _make_fake_python3(tmp_path / "bin", calls, tmp_path / "state", version_ok=False)
+    result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
+    assert result.returncode == 1
+    assert "requires Python 3.11+" in result.stderr
+    assert "3.9.6" in result.stderr  # names the actual version found
+    assert "Nothing was installed" in result.stderr
+    assert not calls.exists()  # stopped before any pip/pipx attempt
+
+
+def test_install_bootstraps_pipx_when_missing_and_completes_in_same_run(tmp_path):
+    calls = tmp_path / "calls.txt"
+    _make_fake_python3(tmp_path / "bin", calls, tmp_path / "state")
+    result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
+    assert result.returncode == 0, result.stderr
+    logged = calls.read_text()
+    assert "-m pip install --user pipx" in logged
+    # the install proceeds via `python3 -m pipx` in the SAME run — no
+    # shell restart between bootstrap and install
+    assert "-m pipx install" in logged and "aetius-9.9.9-py3-none-any.whl" in logged
+    assert "no shell restart needed" in result.stdout
+
+
+def test_install_fails_actionably_when_pip_itself_is_missing(tmp_path):
+    calls = tmp_path / "calls.txt"
+    _make_fake_python3(tmp_path / "bin", calls, tmp_path / "state", has_pip=False)
+    result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
+    assert result.returncode == 1
+    assert "python3 has no pip" in result.stderr
+    assert "ensurepip" in result.stderr and "python3-pip" in result.stderr  # exact commands, both platforms
+
+
+def test_script_min_python_matches_the_wheel_requires_python():
+    # The gate must be the wheel's own claim, not a hand-maintained guess.
+    script = (Path(__file__).parent.parent / "scripts" / "install_latest.sh").read_text()
+    pyproject = (Path(__file__).parent.parent / "pyproject.toml").read_text()
+    assert 'MIN_PYTHON_MINOR=11' in script
+    assert 'requires-python = ">=3.11"' in pyproject
