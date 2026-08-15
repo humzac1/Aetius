@@ -113,13 +113,14 @@ def test_install_latest_errors_clearly_when_source_file_missing(tmp_path):
 # delegating fake python3 so the suite needs no network.
 
 
-def _make_fake_python3(bin_dir: Path, calls_file: Path, state_dir: Path, *, version_ok: bool = True, has_pip: bool = True) -> None:
+def _make_fake_python3(bin_dir: Path, calls_file: Path, state_dir: Path, *, version_ok: bool = True, has_pip: bool = True, pep668: bool = False) -> None:
     """A python3 that delegates to the real interpreter except for the
     version gate and `-m pip` / `-m pipx`, which are simulated: pipx is
     'not installed' until a recorded `pip install --user pipx` happens."""
     bin_dir.mkdir(parents=True, exist_ok=True)
     state_dir.mkdir(parents=True, exist_ok=True)
     real = sys.executable
+    pip_install_action = 'cat "$STATE/pep668.txt" >&2; exit 1' if pep668 else 'touch "$STATE/pipx_installed"'
     fake = bin_dir / "python3"
     fake.write_text(
         "#!/usr/bin/env bash\n"
@@ -141,7 +142,7 @@ def _make_fake_python3(bin_dir: Path, calls_file: Path, state_dir: Path, *, vers
         "  fi\n"
         '  if [ "$mod" = "pip" ]; then\n'
         f'    {"" if has_pip else "exit 1"}\n'
-        '    if [ "$1" = "install" ]; then touch "$STATE/pipx_installed"; fi\n'
+        '    if [ "$1" = "install" ]; then ' + pip_install_action + '; fi\n'
         "    exit 0\n"
         "  fi\n"
         "fi\n"
@@ -149,6 +150,8 @@ def _make_fake_python3(bin_dir: Path, calls_file: Path, state_dir: Path, *, vers
         encoding="utf-8",
     )
     fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
+    if pep668:
+        (state_dir / "pep668.txt").write_text(_PEP668_TEXT, encoding="utf-8")
 
 
 def _bare_env(bin_dir: Path) -> dict:
@@ -199,7 +202,7 @@ def test_install_fails_actionably_when_pip_itself_is_missing(tmp_path):
     _make_fake_python3(tmp_path / "bin", calls, tmp_path / "state", has_pip=False)
     result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
     assert result.returncode == 1
-    assert "python3 has no pip" in result.stderr
+    assert "python3 has no working pip" in result.stderr
     assert "ensurepip" in result.stderr and "python3-pip" in result.stderr  # exact commands, both platforms
 
 
@@ -209,3 +212,77 @@ def test_script_min_python_matches_the_wheel_requires_python():
     pyproject = (Path(__file__).parent.parent / "pyproject.toml").read_text()
     assert 'MIN_PYTHON_MINOR=11' in script
     assert 'requires-python = ">=3.11"' in pyproject
+
+
+# --- Homebrew / PEP 668 (externally-managed-environment) ------------------------
+#
+# The second real reported failure: a Homebrew Python enforces PEP 668,
+# so the pip bootstrap is a guaranteed refusal there. With brew present
+# the script must go straight to `brew install pipx` and never touch
+# pip; without brew, a PEP 668 refusal must produce the venv-based fix,
+# and the script must never run --break-system-packages itself.
+
+_PEP668_TEXT = (
+    "error: externally-managed-environment\n\n"
+    "\u00d7 This environment is externally managed\n"
+    "\u2570\u2500> To install Python packages system-wide, try brew install xyz.\n"
+    "    If you wish to install a Python application, it may be easiest to use\n"
+    "    pipx install xyz or create a virtual environment.\n"
+    "    Note: you can pass --break-system-packages to override this, at the risk\n"
+    "    of breaking your Python installation.\n"
+)
+
+
+def _make_fake_brew(bin_dir: Path, prefix: Path, brew_calls: Path, pipx_calls: Path) -> None:
+    """brew that records calls; `install pipx` materializes a working fake
+    pipx under the fake prefix's bin (NOT on PATH — the script must find
+    it via `brew --prefix`)."""
+    (prefix / "bin").mkdir(parents=True, exist_ok=True)
+    fake_pipx = prefix / "bin" / "pipx"
+    fake_pipx.write_text(
+        "#!/usr/bin/env bash\n"
+        f'echo "$@" >> "{pipx_calls}"\n'
+        'if [ "$1" = "--version" ]; then echo "1.7.1"; fi\n'
+        "exit 0\n",
+        encoding="utf-8",
+    )
+    brew = bin_dir / "brew"
+    brew.write_text(
+        "#!/usr/bin/env bash\n"
+        f'echo "$@" >> "{brew_calls}"\n'
+        f'if [ "$1" = "--prefix" ]; then echo "{prefix}"; exit 0; fi\n'
+        'if [ "$1" = "install" ] && [ "$2" = "pipx" ]; then\n'
+        f'  chmod +x "{fake_pipx}"\n'
+        "  exit 0\n"
+        "fi\n"
+        "exit 0\n",
+        encoding="utf-8",
+    )
+    brew.chmod(brew.stat().st_mode | stat.S_IEXEC)
+
+
+def test_with_homebrew_present_pipx_comes_from_brew_never_pip(tmp_path):
+    py_calls, brew_calls, pipx_calls = tmp_path / "py.txt", tmp_path / "brew.txt", tmp_path / "pipx.txt"
+    _make_fake_python3(tmp_path / "bin", py_calls, tmp_path / "state")
+    _make_fake_brew(tmp_path / "bin", tmp_path / "brew-prefix", brew_calls, pipx_calls)
+    result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
+    assert result.returncode == 0, result.stderr
+    assert "install pipx" in brew_calls.read_text()
+    # the brew-prefix pipx (not on PATH) did the install
+    logged = pipx_calls.read_text()
+    assert "install" in logged and "aetius-9.9.9-py3-none-any.whl" in logged
+    # pip was never attempted — that path is a guaranteed PEP 668 failure on brew Pythons
+    py_logged = py_calls.read_text() if py_calls.exists() else ""
+    assert "-m pip install" not in py_logged
+
+
+def test_pep668_refusal_gets_venv_guidance_and_never_break_system_packages(tmp_path):
+    py_calls = tmp_path / "py.txt"
+    _make_fake_python3(tmp_path / "bin", py_calls, tmp_path / "state", pep668=True)
+    result = _run_install(tmp_path, _bare_env(tmp_path / "bin"), _stable_wheel(tmp_path))
+    assert result.returncode == 1
+    assert "externally-managed-environment" in result.stderr
+    assert "-m venv" in result.stderr and "bin/pip install pipx" in result.stderr
+    assert "never run it for you" in result.stderr  # --break-system-packages stays manual
+    # and the script itself never executed pip with the override flag
+    assert "--break-system-packages" not in py_calls.read_text()

@@ -11,11 +11,19 @@
 #      failure would otherwise surface as a confusing pip resolution
 #      error long after this script has done half its work.
 #   2. pipx must be USABLE, not merely present: `pipx --version` has to
-#      actually run. If there's no working pipx, install it with
-#      `python3 -m pip install --user pipx` and then invoke it as
-#      `python3 -m pipx ...` for the rest of this run — module form works
-#      immediately regardless of PATH, so the install completes in THIS
-#      shell with no restart needed.
+#      actually run. If there's no working pipx and Homebrew exists,
+#      `brew install pipx` comes FIRST — Homebrew Pythons enforce PEP 668
+#      (externally-managed-environment), so `pip install --user pipx`
+#      against them is a guaranteed failure (a real reported one), and
+#      brew is Homebrew's own recommended way to get pipx. Only without
+#      Homebrew does the pip bootstrap run: `python3 -m pip install
+#      --user pipx`, then `python3 -m pipx ...` for the rest of this run
+#      — module form works immediately regardless of PATH, so the
+#      install completes in THIS shell with no restart needed. If pip
+#      itself refuses with the PEP 668 error on a non-Homebrew system,
+#      the script stops with the safe venv-based fix spelled out; it
+#      never runs --break-system-packages on your behalf — overriding an
+#      OS package manager's protection is an informed manual choice.
 #   3. PATH is handled explicitly at the end: `pipx ensurepath` for
 #      future shells, plus a check whether `aetius` resolves right now —
 #      and if it doesn't, the exact one-line export to run, never a
@@ -101,28 +109,73 @@ if command -v pipx >/dev/null 2>&1 && pipx --version >/dev/null 2>&1; then
 elif "$PYTHON" -m pipx --version >/dev/null 2>&1; then
     # installed as a module but not on PATH — perfectly usable this way
     PIPX=("$PYTHON" -m pipx)
+elif command -v brew >/dev/null 2>&1; then
+    # Homebrew first, and INSTEAD of pip — brew-managed Pythons enforce
+    # PEP 668, so the pip bootstrap below is a guaranteed
+    # "externally-managed-environment" failure there (a real reported
+    # one). brew install pipx is Homebrew's own recommended path.
+    echo "pipx not found — installing it via Homebrew (brew install pipx)..."
+    PIPX_READY=0
+    if brew install pipx; then
+        if command -v pipx >/dev/null 2>&1 && pipx --version >/dev/null 2>&1; then
+            PIPX=(pipx); PIPX_READY=1
+        else
+            # brew succeeded but its bin dir isn't on this shell's PATH —
+            # use the absolute path so this run still completes.
+            BREW_PIPX="$(brew --prefix)/bin/pipx"
+            if [ -x "$BREW_PIPX" ] && "$BREW_PIPX" --version >/dev/null 2>&1; then
+                PIPX=("$BREW_PIPX"); PIPX_READY=1
+            fi
+        fi
+    fi
+    if [ "$PIPX_READY" -ne 1 ]; then
+        die "Homebrew is present but 'brew install pipx' did not produce a working pipx." \
+            "Run these yourself, then re-run this script:" \
+            "  brew install pipx" \
+            "  brew link --overwrite pipx" \
+            "(the pip-based fallback is deliberately not attempted here: Homebrew Pythons" \
+            "refuse it with PEP 668's externally-managed-environment error.)"
+    fi
+    echo "pipx ready via Homebrew; continuing."
 else
     echo "pipx not found — installing it now ($PYTHON -m pip install --user pipx)..."
     if ! "$PYTHON" -m pip --version >/dev/null 2>&1; then
-        die "python3 has no pip, so pipx cannot be installed automatically." \
+        die "python3 has no working pip, so pipx cannot be installed automatically." \
             "Fix pip first, then re-run this script:" \
             "  Debian/Ubuntu: sudo apt install python3-pip" \
             "  most systems:  $PYTHON -m ensurepip --upgrade" \
+            "Or sidestep pip entirely with a virtual environment:" \
+            "  $PYTHON -m venv \$HOME/.aetius-bootstrap-venv" \
+            "  \$HOME/.aetius-bootstrap-venv/bin/pip install pipx" \
+            "  export PATH=\"\$HOME/.aetius-bootstrap-venv/bin:\$PATH\"" \
             "(pip is Python's own package installer; pipx builds on it.)"
     fi
-    if ! "$PYTHON" -m pip install --user pipx; then
+    PIP_LOG="$TMP_DIR/pip-install-pipx.log"
+    if ! "$PYTHON" -m pip install --user pipx >"$PIP_LOG" 2>&1; then
+        cat "$PIP_LOG" >&2
+        if grep -qi "externally-managed-environment" "$PIP_LOG"; then
+            die "this Python refuses pip installs into its environment (PEP 668, externally-managed-environment — see pip's message above)." \
+                "The safe fix is the one pip's own message points at — install pipx in its own" \
+                "virtual environment, then re-run this script:" \
+                "  $PYTHON -m venv \$HOME/.aetius-bootstrap-venv" \
+                "  \$HOME/.aetius-bootstrap-venv/bin/pip install pipx" \
+                "  export PATH=\"\$HOME/.aetius-bootstrap-venv/bin:\$PATH\"" \
+                "(pip's --break-system-packages flag would also work, but overriding your OS" \
+                "package manager's protection is a choice to make yourself — this script will" \
+                "never run it for you.)"
+        fi
         die "automatic pipx install failed (see pip's output above)." \
             "Install pipx yourself, then re-run this script:" \
-            "  macOS:         brew install pipx" \
             "  Debian/Ubuntu: sudo apt install pipx" \
             "  any platform:  $PYTHON -m pip install --user pipx" \
             "pipx is what keeps aetius in its own isolated environment instead of" \
             "polluting (or being broken by) your system Python packages."
     fi
+    cat "$PIP_LOG"
     if ! "$PYTHON" -m pipx --version >/dev/null 2>&1; then
         die "pipx was installed but '$PYTHON -m pipx --version' still fails — something is wrong with this Python environment." \
             "Try installing pipx via your package manager instead, then re-run this script:" \
-            "  macOS: brew install pipx    Debian/Ubuntu: sudo apt install pipx"
+            "  Debian/Ubuntu: sudo apt install pipx    macOS: brew install pipx"
     fi
     PIPX=("$PYTHON" -m pipx)
     echo "pipx installed; continuing with '$PYTHON -m pipx' (no shell restart needed for this run)."
